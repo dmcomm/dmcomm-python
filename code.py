@@ -1,10 +1,12 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
+import board
 import usb_cdc
 
 import dmcomm
 
 controller = dmcomm.Controller()
+controller.register(dmcomm.ProngOutput(board.GP19, board.GP21))
 usb_cdc.console.timeout = 1
 
 while True:

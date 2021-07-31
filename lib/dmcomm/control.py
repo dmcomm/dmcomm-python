@@ -1,10 +1,13 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
+from . import dmio
+
 class Controller:
 	def __init__(self):
-		pass
+		self._prong_output = None
 	def register(self, io_object):
-		pass
+		if isinstance(io_object, dmio.ProngOutput):
+			self._prong_output = io_object
 	def execute(self, command):
 		parts = command.strip().upper().split("-")
 		if len(parts[0]) >= 2:
@@ -22,4 +25,9 @@ class Controller:
 		elif turn not in "012":
 			raise ValueError("turn=" + turn)
 
+		if op in ["V", "X", "Y"]:
+			if self._prong_output is None:
+				raise ValueError("no prong output registered")
+			self._prong_output.enable(True)
+			self._prong_output.disable()
 		return("...")
