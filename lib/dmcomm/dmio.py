@@ -35,3 +35,5 @@ class ProngOutput:
 				item.deinit()
 		self._state_machine = None
 		self._out_weak_pull = None
+	def send(self, data):
+		self._state_machine.write(data)
