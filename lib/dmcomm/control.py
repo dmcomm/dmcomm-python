@@ -1,10 +1,16 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
+import time
+
+from . import misc
 from . import pins
 
 class Controller:
 	def __init__(self):
 		self._protocol = None
+		self._turn = None
+		self._data_to_send = []
+		self._results = []
 		self._communicator = None
 		self._encoder = None
 		self._prong_output = None
@@ -14,6 +20,8 @@ class Controller:
 	def register(self, io_object):
 		if isinstance(io_object, pins.ProngOutput):
 			self._prong_output = io_object
+		if isinstance(io_object, pins.ProngInput):
+			self._prong_input = io_object
 		#...
 		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
 			from . import prongs
@@ -37,16 +45,31 @@ class Controller:
 		elif turn not in "012":
 			raise ValueError("turn=" + turn)
 		self._protocol = op
+		self._turn = int(turn)
+		self._data_to_send = parts[1:]
+		return f"{op}{turn}-[{len(self._data_to_send)} packets]"
 	def communicate(self):
-		if self._protocol is None:
-			raise ValueError("no protocol set")
-		self.prepare(None)
-		#...
+		if self._protocol is not None:
+			self.prepare(self._protocol)
+			if self._turn in [0, 2]:
+				if self.receive(3000) is None:
+					return
+			if self._turn == 0:
+				while True:
+					if self.receive(misc.WAIT_REPLY) is None:
+						return
+			else:
+				for item in self._data_to_send:
+					if self.send_code_segment(item) is None:
+						break
+					if self.receive(misc.WAIT_REPLY) is None:
+						break
+			if self._turn == 1:
+				time.sleep(5)
+		else:
+			time.sleep(3)
 	def prepare(self, protocol):
-		if protocol is None:
-			protocol = self._protocol
-		self._protocol = None
-		#TODO disable everything?
+		self.disable()
 		if protocol in ["V", "X", "Y"]:
 			if self._prong_output is None:
 				raise ValueError("no prong output registered")
@@ -59,4 +82,19 @@ class Controller:
 		self._protocol = protocol
 		self._communicator.enable(protocol)
 		self._encoder.reset()
-
+		self._results = []
+	def send_code_segment(self, text):
+		(sent_data, sent_desc) = self._encoder.send_code_segment(text)
+		self._results.append(sent_desc)
+		return sent_data
+	def receive(self, timeout_ms):
+		(received_data, received_desc) = self._encoder.receive(timeout_ms)
+		self._results.append(received_desc)
+		return received_data
+	def disable(self):
+		self._protocol = None
+		if self._communicator is not None:
+			self._communicator.disable()
+			self._communicator = None
+	def result(self):
+		return " ".join(self._results)

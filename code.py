@@ -24,3 +24,7 @@ while True:
 			print(result)
 		except (ValueError, NotImplementedError) as e:
 			print(repr(e))
+	controller.communicate()
+	result = controller.result()
+	if result != "":
+		print(result)
