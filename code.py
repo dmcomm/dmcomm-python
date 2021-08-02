@@ -7,6 +7,7 @@ import dmcomm
 
 controller = dmcomm.Controller()
 controller.register(dmcomm.ProngOutput(board.GP19, board.GP21))
+controller.register(dmcomm.ProngInput(board.GP26))
 usb_cdc.console.timeout = 1
 
 while True:

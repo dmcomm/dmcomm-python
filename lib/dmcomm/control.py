@@ -1,6 +1,6 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-from . import dmio
+from . import pins
 
 class Controller:
 	def __init__(self):
@@ -12,7 +12,7 @@ class Controller:
 		self._prong_comm = None
 		self._prong_encoder = None
 	def register(self, io_object):
-		if isinstance(io_object, dmio.ProngOutput):
+		if isinstance(io_object, pins.ProngOutput):
 			self._prong_output = io_object
 		#...
 		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
