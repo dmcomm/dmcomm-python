@@ -1,5 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
+from . import misc
+
 class Encoder16:
 	def __init__(self, communicator):
 		self._communicator = communicator
@@ -16,7 +18,7 @@ class Encoder16:
 		try:
 			bits = int(text, 16)
 		except:
-			return (None, "s:?")
+			raise misc.CommandError("not hex number: " + text)
 		return self.send_bits(bits)
 	def receive(self, timeout_ms):
 		#TODO

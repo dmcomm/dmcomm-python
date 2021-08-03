@@ -1,6 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import board
+import time
 import usb_cdc
 
 import dmcomm
@@ -22,9 +23,21 @@ while True:
 		try:
 			result = controller.execute(serial_str)
 			print(result)
-		except (ValueError, NotImplementedError) as e:
+		except (dmcomm.CommandError, NotImplementedError) as e:
 			print(repr(e))
-	controller.communicate()
+		time.sleep(1)
+	error = ""
+	result_end = "\n"
+	done_time = False
+	try:
+		done_time = controller.communicate()
+	except (dmcomm.CommandError, dmcomm.ReceiveError, NotImplementedError) as e:
+		error = repr(e)
+		result_end = " "
 	result = controller.result()
 	if result != "":
-		print(result)
+		print(result, end=result_end)
+	if error != "":
+		print(error)
+	if not done_time:
+		time.sleep(5)

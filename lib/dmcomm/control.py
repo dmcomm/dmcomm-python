@@ -1,7 +1,6 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-import time
-
+from .misc import CommandError
 from . import misc
 from . import pins
 
@@ -41,9 +40,9 @@ class Controller:
 		elif op == "T":
 			raise NotImplementedError("test")
 		elif op not in ["V", "X", "Y", "!DL", "!FL", "!IC"]:
-			raise ValueError("op=" + op)
+			raise CommandError("op=" + op)
 		elif turn not in "012":
-			raise ValueError("turn=" + turn)
+			raise CommandError("turn=" + turn)
 		self._protocol = op
 		self._turn = int(turn)
 		self._data_to_send = parts[1:]
@@ -53,28 +52,25 @@ class Controller:
 			self.prepare(self._protocol)
 			if self._turn in [0, 2]:
 				if self.receive(3000) is None:
-					return
+					return True
 			if self._turn == 0:
 				while True:
 					if self.receive(misc.WAIT_REPLY) is None:
-						return
+						return False
 			else:
 				for item in self._data_to_send:
 					if self.send_code_segment(item) is None:
 						break
 					if self.receive(misc.WAIT_REPLY) is None:
 						break
-			if self._turn == 1:
-				time.sleep(5)
-		else:
-			time.sleep(3)
+			return False
 	def prepare(self, protocol):
 		self.disable()
 		if protocol in ["V", "X", "Y"]:
 			if self._prong_output is None:
-				raise ValueError("no prong output registered")
+				raise CommandError("no prong output registered")
 			if self._prong_input is None:
-				raise ValueError("no prong input registered")
+				raise CommandError("no prong input registered")
 			self._communicator = self._prong_comm
 			self._encoder = self._prong_encoder
 		else:
@@ -82,7 +78,6 @@ class Controller:
 		self._protocol = protocol
 		self._communicator.enable(protocol)
 		self._encoder.reset()
-		self._results = []
 	def send_code_segment(self, text):
 		(sent_data, sent_desc) = self._encoder.send_code_segment(text)
 		self._results.append(sent_desc)
@@ -93,6 +88,7 @@ class Controller:
 		return received_data
 	def disable(self):
 		self._protocol = None
+		self._results = []
 		if self._communicator is not None:
 			self._communicator.disable()
 			self._communicator = None

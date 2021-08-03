@@ -5,6 +5,9 @@ import supervisor
 WAIT_FOREVER = -2
 WAIT_REPLY = -1
 
+class CommandError(ValueError):
+	pass
+
 class ReceiveError(Exception):
 	pass
 
