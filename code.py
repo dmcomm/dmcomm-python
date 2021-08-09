@@ -1,14 +1,26 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import board
+import digitalio
 import time
 import usb_cdc
 
 import dmcomm
 
+pins_extra_power = [board.GP11, board.GP13, board.GP18]
+outputs_extra_power = []
+for pin in pins_extra_power:
+	output = digitalio.DigitalInOut(pin)
+	output.direction = digitalio.Direction.OUTPUT
+	output.value = True
+	outputs_extra_power.append(output)
+
 controller = dmcomm.Controller()
 controller.register(dmcomm.ProngOutput(board.GP19, board.GP21))
 controller.register(dmcomm.ProngInput(board.GP26))
+controller.register(dmcomm.InfraredOutput(board.GP16))
+controller.register(dmcomm.InfraredInputModulated(board.GP17))
+controller.register(dmcomm.InfraredInputRaw(board.GP14))
 usb_cdc.console.timeout = 1
 
 while True:

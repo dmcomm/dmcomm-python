@@ -13,7 +13,7 @@ class Encoder16:
 		#TODO
 		self._communicator.send(bits)
 		return (bits, "s:zzzz")
-	def send_code_segment(self, text):
+	def send_hex(self, text):
 		#TODO
 		try:
 			bits = int(text, 16)

@@ -14,19 +14,31 @@ class Controller:
 		self._encoder = None
 		self._prong_output = None
 		self._prong_input = None
+		self._ir_output = None
+		self._ir_input_modulated = None
+		self._ir_input_raw = None
 		self._prong_comm = None
 		self._prong_encoder = None
+		self._modulated_comm = None
 	def register(self, io_object):
 		if isinstance(io_object, pins.ProngOutput):
 			self._prong_output = io_object
 		if isinstance(io_object, pins.ProngInput):
 			self._prong_input = io_object
-		#...
+		if isinstance(io_object, pins.InfraredOutput):
+			self._ir_output = io_object
+		if isinstance(io_object, pins.InfraredInputModulated):
+			self._ir_input_modulated = io_object
+		if isinstance(io_object, pins.InfraredInputRaw):
+			self._ir_input_raw = io_object
 		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
 			from . import prongs
 			self._prong_comm = prongs.ProngCommunicator(self._prong_output, self._prong_input)
 			from . import encoder16
 			self._prong_encoder = encoder16.Encoder16(self._prong_comm)
+		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
+			from . import modulated
+			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
 	def execute(self, command):
 		parts = command.strip().upper().split("-")
 		if len(parts[0]) >= 2:
@@ -51,17 +63,17 @@ class Controller:
 		if self._protocol is not None:
 			self.prepare(self._protocol)
 			if self._turn in [0, 2]:
-				if self.receive(3000) is None:
+				if not self._received(3000):
 					return True
 			if self._turn == 0:
 				while True:
-					if self.receive(misc.WAIT_REPLY) is None:
+					if not self._received(misc.WAIT_REPLY):
 						return False
 			else:
 				for item in self._data_to_send:
-					if self.send_code_segment(item) is None:
+					if self.send_hex(item) is None:
 						break
-					if self.receive(misc.WAIT_REPLY) is None:
+					if not self._received(misc.WAIT_REPLY):
 						break
 			return False
 	def prepare(self, protocol):
@@ -73,19 +85,31 @@ class Controller:
 				raise CommandError("no prong input registered")
 			self._communicator = self._prong_comm
 			self._encoder = self._prong_encoder
+		elif protocol in ["!DL", "!FL"]:
+			if self._ir_output is None:
+				raise CommandError("no infrared output registered")
+			if self._ir_input_modulated is None:
+				raise CommandError("no modulated infrared input registered")
+			self._communicator = self._modulated_comm
+			self._encoder = self._modulated_comm
 		else:
 			raise NotImplementedError("protocol=" + protocol)
 		self._protocol = protocol
 		self._communicator.enable(protocol)
 		self._encoder.reset()
-	def send_code_segment(self, text):
-		(sent_data, sent_desc) = self._encoder.send_code_segment(text)
+	def send_hex(self, text):
+		(sent_data, sent_desc) = self._encoder.send_hex(text)
 		self._results.append(sent_desc)
 		return sent_data
 	def receive(self, timeout_ms):
 		(received_data, received_desc) = self._encoder.receive(timeout_ms)
 		self._results.append(received_desc)
 		return received_data
+	def _received(self, timeout_ms):
+		received_data = self.receive(timeout_ms)
+		if received_data is None or received_data == []:
+			return False
+		return True
 	def disable(self):
 		self._protocol = None
 		self._results = []

@@ -9,3 +9,15 @@ class ProngOutput:
 class ProngInput:
 	def __init__(self, pin_input):
 		self.pin_input = pin_input
+
+class InfraredOutput:
+	def __init__(self, pin_output):
+		self.pin_output = pin_output
+
+class InfraredInputModulated:
+	def __init__(self, pin_input):
+		self.pin_input = pin_input
+
+class InfraredInputRaw:
+	def __init__(self, pin_input):
+		self.pin_input = pin_input

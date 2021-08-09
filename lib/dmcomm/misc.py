@@ -34,3 +34,25 @@ def wait_for_length_2(obj, target, start_timeout_ms, dur_timeout_ms):
 	if not wait_for_length(obj, 1, start_timeout_ms):
 		return False
 	return wait_for_length(obj, target, dur_timeout_ms)
+
+def wait_for_length_no_more(obj, start_timeout_ms, dur_timeout_ms, no_more_timeout_ms):
+	if not wait_for_length(obj, 1, start_timeout_ms):
+		return False
+	prev_length = len(obj)
+	start_ticks_ms = supervisor.ticks_ms()
+	prev_ticks_ms = start_ticks_ms
+	while True:
+		now_length = len(obj)
+		now_ticks_ms = supervisor.ticks_ms()
+		if now_length != prev_length:
+			prev_length = now_length
+			prev_ticks_ms = now_ticks_ms
+		if ticks_diff(now_ticks_ms, prev_ticks_ms) > no_more_timeout_ms:
+			return True
+		if ticks_diff(now_ticks_ms, start_ticks_ms) > dur_timeout_ms:
+			return True #cut it off before it was done, but not worrying about that for now
+
+def pop_pulse(pulses, empty_error_code):
+	if len(pulses) == 0:
+		raise ReceiveError(str(empty_error_code))
+	return pulses.popleft()
