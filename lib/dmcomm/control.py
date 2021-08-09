@@ -71,8 +71,7 @@ class Controller:
 						return False
 			else:
 				for item in self._data_to_send:
-					if self.send_hex(item) is None:
-						break
+					self.send_hex(item)
 					if not self._received(misc.WAIT_REPLY):
 						break
 			return False
