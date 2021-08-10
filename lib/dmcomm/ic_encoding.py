@@ -33,6 +33,8 @@ def encode(x):
 def decode(bytes_, start_index=0):
 	offset = 0
 	bytes4 = []
+	stage = 1
+	count_C0 = 0
 	while True:
 		i = start_index + offset
 		if i >= len(bytes_):
@@ -42,10 +44,25 @@ def decode(bytes_, start_index=0):
 			b2 = bytes_[i+1]
 		else:
 			b2 = None
-		if offset < 14:
-			target = START_SEQUENCE[offset]
+		if stage == 1:
+			if b1 == 0xC0:
+				count_C0 += 1
+				if count_C0 > 10:
+					raise ValueError("more than 10 C0")
+			elif count_C0 < 5:
+				raise ValueError("less than 5 C0")
+			else:
+				stage = 2
+				start_sequence_remaining = 4
+		if stage == 1:
+			pass #continuing from above to stage 2 with same byte
+		elif stage == 2:
+			target = START_SEQUENCE[-start_sequence_remaining]
 			if b1 != target:
 				raise ValueError("byte at position %d expected %02X, got %02X" % (offset, target, b1))
+			start_sequence_remaining -= 1
+			if start_sequence_remaining == 0:
+				stage = 3
 		elif b1 == 0x7D:
 			if b2 == 0xE0:
 				bytes4.append(0xC0)

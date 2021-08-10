@@ -74,6 +74,13 @@ class iC_Communicator:
 		pulses.pause()
 		if len(pulses) == 0:
 			return []
+		#discard first byte or part of byte since we're joining partway through
+		min_gap_find = 2.5 * self._params.tick_length
+		while True:
+			if len(pulses) == 0:
+				raise ReceiveError("fragment")
+			if pulses.popleft() > min_gap_find:
+				break
 		bytes_received = []
 		current_byte = 0
 		pulse_count = 0
