@@ -1,3 +1,4 @@
 *.html
 *.tmp
 *.zip
+*.pyc

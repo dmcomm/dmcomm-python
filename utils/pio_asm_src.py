@@ -42,6 +42,21 @@ release:
 	set pindirs 0
 """
 
+# Outputs the specified bytes to iC.
+# Run with 100kHz clock, 1 out pin and 1 set pin which are the same.
+# TODO This is inefficient on PIO space and could be redone with a loop.
+iC_TX_ASM = """
+	pull
+	mov osr ~ osr
+	set pins 1
+	set pins 0 [8]
+""" + ("""
+	out pins 1
+	set pins 0 [8]
+""" * 8) + """
+	nop [12]
+"""
+
 this_file_name = os.path.basename(__file__)
 
 output_text = f"""# This file is part of the DMComm project by BladeSabre. License: MIT.
@@ -50,6 +65,8 @@ output_text = f"""# This file is part of the DMComm project by BladeSabre. Licen
 from array import array
 
 prong_TX = {repr(adafruit_pioasm.assemble(prong_TX_ASM))}
+
+iC_TX = {repr(adafruit_pioasm.assemble(iC_TX_ASM))}
 """
 
 if __name__ == "__main__":
