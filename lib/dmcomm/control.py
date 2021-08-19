@@ -5,6 +5,7 @@ from . import misc
 from . import pins
 
 class Controller:
+	"""Main class which controls the communication."""
 	def __init__(self):
 		self._protocol = None
 		self._turn = None
@@ -23,6 +24,10 @@ class Controller:
 		self._ic_encoder = None
 		self._modulated_comm = None
 	def register(self, io_object):
+		"""Registers pins for a particular type of input or output.
+
+		:param io_object: One of the `Input` or `Output` types provided.
+		"""
 		if isinstance(io_object, pins.ProngOutput):
 			self._prong_output = io_object
 		if isinstance(io_object, pins.ProngInput):
@@ -46,7 +51,17 @@ class Controller:
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
-	def execute(self, command):
+	def execute(self, command: str) -> str:
+		"""Carries out the command specified.
+
+		See the serial codes documentation for details.
+		Communication pattern commands configure the system to prepare for calling `communicate`.
+		Config commands are executed immediately.
+
+		:param command: The command to execute.
+		:returns: A description of how the command was interpreted.
+		:raises: `CommandError` if the command was incorrect.
+		"""
 		parts = command.strip().upper().split("-")
 		if len(parts[0]) >= 2:
 			op = parts[0][:-1]
@@ -66,7 +81,14 @@ class Controller:
 		self._turn = int(turn)
 		self._data_to_send = parts[1:]
 		return f"{op}{turn}-[{len(self._data_to_send)} packets]"
-	def communicate(self):
+	def communicate(self) -> bool:
+		"""Communicates with the toy as configured by `execute`.
+
+		Does nothing if no communication pattern is configured.
+
+		:returns: True if the receive delay was completed, False otherwise.
+		:raises: `CommandError` if an error was found in the configured command.
+		"""
 		if self._protocol is not None:
 			self.prepare(self._protocol)
 			if self._turn in [0, 2]:

@@ -6,15 +6,15 @@ WAIT_FOREVER = -2
 WAIT_REPLY = -1
 
 class CommandError(ValueError):
-	pass
+	"""Exception raised when an incorrect command is provided."""
 
 class ReceiveError(Exception):
-	pass
+	"""Exception raised when a broken transmission is received."""
 
 # Example from https://circuitpython.readthedocs.io/en/latest/shared-bindings/supervisor/index.html
-_TICKS_PERIOD = const(1<<29)
-_TICKS_MAX = const(_TICKS_PERIOD-1)
-_TICKS_HALFPERIOD = const(_TICKS_PERIOD//2)
+_TICKS_PERIOD = 1 << 29
+_TICKS_MAX = _TICKS_PERIOD - 1
+_TICKS_HALFPERIOD = _TICKS_PERIOD // 2
 def ticks_diff(ticks1, ticks2):
 	"Compute the signed difference between two ticks values, assuming that they are within 2**28 ticks"
 	diff = (ticks1 - ticks2) & _TICKS_MAX
