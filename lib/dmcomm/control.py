@@ -5,7 +5,10 @@ from . import misc
 from . import pins
 
 class Controller:
-	"""Main class which controls the communication."""
+	"""Main class which controls the communication.
+
+	The constructor takes no parameters.
+	"""
 	def __init__(self):
 		self._protocol = None
 		self._turn = None
@@ -23,8 +26,10 @@ class Controller:
 		self._ic_comm = None
 		self._ic_encoder = None
 		self._modulated_comm = None
-	def register(self, io_object):
+	def register(self, io_object) -> None:
 		"""Registers pins for a particular type of input or output.
+
+		Each type should only be provided once.
 
 		:param io_object: One of the `Input` or `Output` types provided.
 		"""
@@ -104,7 +109,13 @@ class Controller:
 					if not self._received(misc.WAIT_REPLY):
 						break
 			return False
-	def prepare(self, protocol):
+	def prepare(self, protocol: str) -> None:
+		"""Prepares for a single interaction using lower-level communication functions.
+
+		Not needed if using `execute` and `communicate`.
+
+		:param protocol: The protocol string from "V", "X", "Y", "!IC", "!DL", "!FL".
+		"""
 		self.disable()
 		if protocol in ["V", "X", "Y"]:
 			if self._prong_output is None:

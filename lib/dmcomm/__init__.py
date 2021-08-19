@@ -6,6 +6,7 @@
 Communication with pronged and infrared Digimon toys, for CircuitPython 7 on RP2040.
 
 Note: This API is still under development and may change at any time.
+The undocumented functions here are likely to change soon.
 """
 
 from .control import Controller

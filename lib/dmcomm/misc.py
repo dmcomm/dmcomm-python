@@ -2,7 +2,10 @@
 
 import supervisor
 
+#: Value to pass to receiving functions indicating there is no timeout.
 WAIT_FOREVER = -2
+
+#: Value to pass to receiving functions indicating the default reply timeout.
 WAIT_REPLY = -1
 
 class CommandError(ValueError):
