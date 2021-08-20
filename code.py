@@ -5,7 +5,7 @@ import digitalio
 import time
 import usb_cdc
 
-import dmcomm
+import dmcomm.hardware as hw
 
 pins_extra_power = [board.GP11, board.GP13, board.GP18]
 outputs_extra_power = []
@@ -15,12 +15,12 @@ for pin in pins_extra_power:
 	output.value = True
 	outputs_extra_power.append(output)
 
-controller = dmcomm.Controller()
-controller.register(dmcomm.ProngOutput(board.GP19, board.GP21))
-controller.register(dmcomm.ProngInput(board.GP26))
-controller.register(dmcomm.InfraredOutput(board.GP16))
-controller.register(dmcomm.InfraredInputModulated(board.GP17))
-controller.register(dmcomm.InfraredInputRaw(board.GP14))
+controller = hw.Controller()
+controller.register(hw.ProngOutput(board.GP19, board.GP21))
+controller.register(hw.ProngInput(board.GP26))
+controller.register(hw.InfraredOutput(board.GP16))
+controller.register(hw.InfraredInputModulated(board.GP17))
+controller.register(hw.InfraredInputRaw(board.GP14))
 usb_cdc.console.timeout = 1
 
 while True:
@@ -35,7 +35,7 @@ while True:
 		try:
 			result = controller.execute(serial_str)
 			print(result)
-		except (dmcomm.CommandError, NotImplementedError) as e:
+		except (hw.CommandError, NotImplementedError) as e:
 			print(repr(e))
 		time.sleep(1)
 	error = ""
@@ -43,7 +43,7 @@ while True:
 	done_time = False
 	try:
 		done_time = controller.communicate()
-	except (dmcomm.CommandError, dmcomm.ReceiveError, NotImplementedError) as e:
+	except (hw.CommandError, hw.ReceiveError, NotImplementedError) as e:
 		error = repr(e)
 		result_end = " "
 	result = controller.result()

@@ -1,7 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 # Source code for the RP2 PIO programs, to be pre-assembled using desktop Python.
-# Main writes to ../lib/dmcomm/pio_programs.py .
+# Main writes to ../lib/dmcomm/hardware/pio_programs.py .
 
 import os
 import adafruit_pioasm
@@ -71,6 +71,6 @@ iC_TX = {repr(adafruit_pioasm.assemble(iC_TX_ASM))}
 
 if __name__ == "__main__":
 	dir_above = os.path.dirname(os.path.dirname(os.path.realpath("__file__")))
-	target_filepath = os.path.join(dir_above, "lib/dmcomm/pio_programs.py")
+	target_filepath = os.path.join(dir_above, "lib/dmcomm/hardware/pio_programs.py")
 	with open(target_filepath, "w") as f:
 		f.write(output_text)

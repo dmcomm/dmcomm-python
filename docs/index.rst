@@ -5,6 +5,4 @@ DMComm documentation
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: dmcomm
-   :members:
-   :undoc-members:
+   hardware
