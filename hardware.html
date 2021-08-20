@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>dmcomm.hardware &#8212; DMComm  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="DMComm documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="DMComm documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.hardware</cite></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-dmcomm.hardware"></span><section id="dmcomm-hardware">
+<h1><cite>dmcomm.hardware</cite><a class="headerlink" href="#dmcomm-hardware" title="Permalink to this headline">¶</a></h1>
+<p>Communication with pronged and infrared Digimon toys, for CircuitPython 7 on RP2040.</p>
+<p>Note: This API is still under development and may change at any time.
+The undocumented functions here are likely to change soon.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="headerlink" href="#dmcomm.hardware.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class which controls the communication.</p>
+<p>The constructor takes no parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers pins for a particular type of input or output.</p>
+<p>Each type should only be provided once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>io_object</strong> – One of the <cite>Input</cite> or <cite>Output</cite> types provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carries out the command specified.</p>
+<p>See the serial codes documentation for details.
+Communication pattern commands configure the system to prepare for calling <cite>communicate</cite>.
+Config commands are executed immediately.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> – The command to execute.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A description of how the command was interpreted.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><cite>CommandError</cite> if the command was incorrect.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.communicate">
+<span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.communicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Communicates with the toy as configured by <cite>execute</cite>.</p>
+<p>Does nothing if no communication pattern is configured.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the receive delay was completed, False otherwise.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><cite>CommandError</cite> if an error was found in the configured command.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepares for a single interaction using lower-level communication functions.</p>
+<p>Not needed if using <cite>execute</cite> and <cite>communicate</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>protocol</strong> – The protocol string from “V”, “X”, “Y”, “!IC”, “!DL”, “!FL”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.send_hex">
+<span class="sig-name descname"><span class="pre">send_hex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.send_hex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.receive">
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout_ms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.receive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.disable">
+<span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.hardware.Controller.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="dmcomm.hardware.CommandError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">CommandError</span></span><a class="headerlink" href="#dmcomm.hardware.CommandError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised when an incorrect command is provided.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="dmcomm.hardware.ReceiveError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ReceiveError</span></span><a class="headerlink" href="#dmcomm.hardware.ReceiveError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised when a broken transmission is received.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.ProngOutput">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_drive_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_weak_pull</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the outputs for the RP2040 prong circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin_drive_signal</strong> – The first pin to use for signal output.
+Note that <cite>pin_drive_low=pin_drive_signal+1</cite> due to the rules of PIO.</p></li>
+<li><p><strong>pin_weak_pull</strong> – The pin to use for the weak pull-up / pull-down.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.ProngInput">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the input for the RP2040 prong circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin_input</strong> – The pin to use for input.
+An analog pin is recommended for compatibility with the Arduino version
+and for a possible future voltage test.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.InfraredOutput">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the infrared LED output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin_output</strong> – The pin to use for output.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.InfraredInputModulated">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputModulated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputModulated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the modulated infrared input (TSOP4838 recommended).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin_input</strong> – The pin to use for input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.InfraredInputRaw">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the non-modulated infrared input (TSMP58000 recommended).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin_input</strong> – The pin to use for input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="DMComm documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.hardware</cite></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, BladeSabre.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+    </div>
+  </body>
+</html>
