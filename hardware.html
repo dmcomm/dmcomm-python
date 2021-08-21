@@ -43,6 +43,18 @@
 <p>Communication with pronged and infrared Digimon toys, for CircuitPython 7 on RP2040.</p>
 <p>Note: This API is still under development and may change at any time.
 The undocumented functions here are likely to change soon.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.hardware.WAIT_FOREVER">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_FOREVER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_FOREVER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value to pass to receiving functions indicating there is no timeout.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.hardware.WAIT_REPLY">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_REPLY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_REPLY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value to pass to receiving functions indicating the default reply timeout.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.Controller">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="headerlink" href="#dmcomm.hardware.Controller" title="Permalink to this definition">¶</a></dt>
@@ -129,18 +141,6 @@ Config commands are executed immediately.</p>
 
 </dd></dl>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="dmcomm.hardware.CommandError">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">CommandError</span></span><a class="headerlink" href="#dmcomm.hardware.CommandError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised when an incorrect command is provided.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="dmcomm.hardware.ReceiveError">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ReceiveError</span></span><a class="headerlink" href="#dmcomm.hardware.ReceiveError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised when a broken transmission is received.</p>
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.ProngOutput">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_drive_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_weak_pull</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngOutput" title="Permalink to this definition">¶</a></dt>
@@ -203,6 +203,7 @@ and for a possible future voltage test.</p>
 </dd></dl>
 
 </section>
+<p>Generated from git commit: 2021-08-21 9afca9e</p>
 
 
             <div class="clearer"></div>
