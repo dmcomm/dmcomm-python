@@ -5,9 +5,10 @@ import pulseio
 import time
 import rp2pio
 
+from dmcomm import ReceiveError
+from . import WAIT_REPLY
 from . import ic_encoding
 from . import misc
-from .misc import ReceiveError
 from . import pio_programs
 
 class iC_Communicator:
@@ -67,7 +68,7 @@ class iC_Communicator:
 		pulses = self._input_pulses
 		pulses.clear()
 		pulses.resume()
-		if timeout_ms == misc.WAIT_REPLY:
+		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
 		misc.wait_for_length(pulses, 1, timeout_ms)
 		time.sleep(self._params.packet_length_timeout_ms / 1000)

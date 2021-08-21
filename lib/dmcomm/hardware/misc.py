@@ -2,17 +2,7 @@
 
 import supervisor
 
-#: Value to pass to receiving functions indicating there is no timeout.
-WAIT_FOREVER = -2
-
-#: Value to pass to receiving functions indicating the default reply timeout.
-WAIT_REPLY = -1
-
-class CommandError(ValueError):
-	"""Exception raised when an incorrect command is provided."""
-
-class ReceiveError(Exception):
-	"""Exception raised when a broken transmission is received."""
+from . import WAIT_FOREVER
 
 # Example from https://circuitpython.readthedocs.io/en/latest/shared-bindings/supervisor/index.html
 _TICKS_PERIOD = 1 << 29

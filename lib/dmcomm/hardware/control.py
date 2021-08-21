@@ -1,7 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-from .misc import CommandError
-from . import misc
+from dmcomm import CommandError
+from . import WAIT_REPLY
 from . import pins
 
 class Controller:
@@ -101,12 +101,12 @@ class Controller:
 					return True
 			if self._turn == 0:
 				while True:
-					if not self._received(misc.WAIT_REPLY):
+					if not self._received(WAIT_REPLY):
 						return False
 			else:
 				for item in self._data_to_send:
 					self.send_hex(item)
-					if not self._received(misc.WAIT_REPLY):
+					if not self._received(WAIT_REPLY):
 						break
 			return False
 	def prepare(self, protocol: str) -> None:

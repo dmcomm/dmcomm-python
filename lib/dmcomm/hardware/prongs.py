@@ -5,8 +5,9 @@ import digitalio
 import pulseio
 import rp2pio
 
+from dmcomm import ReceiveError
+from . import WAIT_REPLY
 from . import misc
-from .misc import ReceiveError
 from . import pio_programs
 
 class ProngCommunicator:
@@ -85,7 +86,7 @@ class ProngCommunicator:
 		pulses = self._input_pulses
 		pulses.clear()
 		pulses.resume()
-		if timeout_ms == misc.WAIT_REPLY:
+		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
 		misc.wait_for_length_2(pulses, 35, timeout_ms, self._params.packet_length_timeout_ms)
 		pulses.pause()

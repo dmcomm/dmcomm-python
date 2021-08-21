@@ -9,11 +9,16 @@ Note: This API is still under development and may change at any time.
 The undocumented functions here are likely to change soon.
 """
 
+#: Value to pass to receiving functions indicating there is no timeout.
+WAIT_FOREVER = -2
+
+#: Value to pass to receiving functions indicating the default reply timeout.
+WAIT_REPLY = -1
+
 from .control import Controller
-from .misc import CommandError, ReceiveError, WAIT_FOREVER, WAIT_REPLY
 from .pins import ProngOutput, ProngInput, InfraredOutput, InfraredInputModulated, InfraredInputRaw
 
 __all__ = [
-	"Controller", "CommandError", "ReceiveError", "WAIT_FOREVER", "WAIT_REPLY",
+	"WAIT_FOREVER", "WAIT_REPLY", "Controller",
 	"ProngOutput", "ProngInput", "InfraredOutput", "InfraredInputModulated", "InfraredInputRaw",
 	]

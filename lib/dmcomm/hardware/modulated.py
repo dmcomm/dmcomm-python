@@ -3,8 +3,9 @@
 import array
 import pulseio
 
+from dmcomm import CommandError, ReceiveError
+from . import WAIT_REPLY
 from . import misc
-from .misc import ReceiveError
 
 class ModulatedCommunicator:
 	def __init__(self, ir_output, ir_input_modulated):
@@ -61,14 +62,14 @@ class ModulatedCommunicator:
 		if not self._enabled:
 			raise RuntimeError("not enabled")
 		if len(text) < 2 or len(text) % 2 != 0:
-			raise misc.CommandError("bad length: " + text)
+			raise CommandError("bad length: " + text)
 		bytes_to_send = []
 		for i in range(len(text)-2, -1, -2):
 			digits = text[i:i+2]
 			try:
 				b = int(digits, 16)
 			except:
-				raise misc.CommandError("not hex number: " + digits)
+				raise CommandError("not hex number: " + digits)
 			bytes_to_send.append(b)
 		self.send(bytes_to_send)
 		return(bytes_to_send, "s:" + text)
@@ -78,7 +79,7 @@ class ModulatedCommunicator:
 		pulses = self._input_pulses
 		pulses.clear()
 		pulses.resume()
-		if timeout_ms == misc.WAIT_REPLY:
+		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
 		misc.wait_for_length_no_more(pulses, timeout_ms,
 			self._params.packet_length_timeout_ms, self._params.packet_continue_timeout_ms)

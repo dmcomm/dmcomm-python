@@ -1,6 +1,6 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-from . import misc
+from dmcomm import CommandError
 
 class Encoder16:
 	def __init__(self, communicator):
@@ -43,11 +43,11 @@ class Encoder16:
 				else:
 					ch_digit = ch1
 			except IndexError:
-				raise misc.CommandError("incomplete: " + text)
+				raise CommandError("incomplete: " + text)
 			try:
 				digit = int(ch_digit, 16)
 			except:
-				raise misc.CommandError("not hex number: " + ch_digit)
+				raise CommandError("not hex number: " + ch_digit)
 			if ch1 == "@":
 				checksum_target = digit
 				check_digit_LSB_pos = LSB_pos
@@ -58,7 +58,7 @@ class Encoder16:
 				bits |= digit
 			cursor += 1
 		if cursor != len(text):
-			raise misc.CommandError("too long: " + text)
+			raise CommandError("too long: " + text)
 		return self.send_bits(bits, copy_mask, invert_mask, checksum_target, check_digit_LSB_pos)
 	def receive(self, timeout_ms):
 		data = self._communicator.receive(timeout_ms)
