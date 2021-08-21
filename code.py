@@ -28,7 +28,8 @@ while True:
 	if usb_cdc.console.in_waiting != 0:
 		serial_bytes = usb_cdc.console.readline()
 		serial_str = serial_bytes.decode("ascii", "ignore")
-		if serial_str[-1] != "\n":
+		# readline only accepts "\n" but we can receive "\r" after timeout
+		if serial_str[-1] not in ["\r", "\n"]:
 			print("too slow")
 			continue
 		serial_str = serial_str.strip()
