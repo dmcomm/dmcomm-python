@@ -15,6 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dmcomm.protocol" href="protocol.html" />
     <link rel="prev" title="DMComm documentation" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,6 +27,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="DMComm documentation"
              accesskey="P">previous</a> |</li>
@@ -41,8 +45,7 @@
   <span class="target" id="module-dmcomm.hardware"></span><section id="dmcomm-hardware">
 <h1><cite>dmcomm.hardware</cite><a class="headerlink" href="#dmcomm-hardware" title="Permalink to this headline">¶</a></h1>
 <p>Communication with pronged and infrared Digimon toys, for CircuitPython 7 on RP2040.</p>
-<p>Note: This API is still under development and may change at any time.
-The undocumented functions here are likely to change soon.</p>
+<p>Note: This API is still under development and may change at any time.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="dmcomm.hardware.WAIT_FOREVER">
 <span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_FOREVER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_FOREVER" title="Permalink to this definition">¶</a></dt>
@@ -106,28 +109,6 @@ Config commands are executed immediately.</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.prepare">
-<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.prepare" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepares for a single interaction using lower-level communication functions.</p>
-<p>Not needed if using <cite>execute</cite> and <cite>communicate</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>protocol</strong> – The protocol string from “V”, “X”, “Y”, “!IC”, “!DL”, “!FL”.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.send_hex">
-<span class="sig-name descname"><span class="pre">send_hex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.send_hex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.receive">
-<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout_ms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.receive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.hardware.Controller.disable">
@@ -203,7 +184,7 @@ and for a possible future voltage test.</p>
 </dd></dl>
 
 </section>
-<p>Generated from git commit: 2021-08-21 9afca9e</p>
+<p>Generated from git commit: 2021-08-25 146983a</p>
 
 
             <div class="clearer"></div>
@@ -220,6 +201,9 @@ and for a possible future voltage test.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="DMComm documentation"
              >previous</a> |</li>

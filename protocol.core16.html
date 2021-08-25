@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>dmcomm.protocol.core16 &#8212; DMComm  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dmcomm.protocol.core_bytes" href="protocol.core_bytes.html" />
+    <link rel="prev" title="dmcomm.protocol" href="protocol.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.core_bytes.html" title="dmcomm.protocol.core_bytes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="protocol.html" accesskey="U"><cite>dmcomm.protocol</cite></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.protocol.core16</cite></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-dmcomm.protocol.core16"></span><section id="dmcomm-protocol-core16">
+<h1><cite>dmcomm.protocol.core16</cite><a class="headerlink" href="#dmcomm-protocol-core16" title="Permalink to this headline">¶</a></h1>
+<p>Handling of 16-bit low-level protocols.</p>
+<p>Note: This API is still under development and may change at any time.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.DigiROM">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core16.</span></span><span class="sig-name descname"><span class="pre">DigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">physical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.DigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the communication for 16-bit protocols and records the results.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.DigiROM.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.DigiROM.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.DigiROM.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.DigiROM.prepare" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.DigiROM.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.DigiROM.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.DigiROM.receive">
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.DigiROM.receive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.CommandSegment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core16.</span></span><span class="sig-name descname"><span class="pre">CommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checksum_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_digit_LSB_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.CommandSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes how to carry out one segment of the communication for 16-bit protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.CommandSegment.from_string">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.CommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>CommandSegment</cite> from one of the dash-separated parts of a text command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.ResultSegment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core16.</span></span><span class="sig-name descname"><span class="pre">ResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_send</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.ResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication for 16-bit protocols.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>is_send</strong> – True if this represents data sent, False if data received.</p></li>
+<li><p><strong>data</strong> – A 16-bit integer representing the bits sent or received.
+If is_send is False, can be None to indicate nothing was received before timeout.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.core16.ResultSegment.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core16.ResultSegment.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns text formatted for the serial protocol.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<p>Generated from git commit: 2021-08-25 146983a</p>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.core_bytes.html" title="dmcomm.protocol.core_bytes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="protocol.html" ><cite>dmcomm.protocol</cite></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.protocol.core16</cite></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, BladeSabre.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+    </div>
+  </body>
+</html>

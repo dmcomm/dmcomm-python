@@ -9,3 +9,4 @@ DMComm documentation
    :caption: Contents:
 
    hardware
+   protocol
