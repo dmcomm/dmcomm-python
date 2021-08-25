@@ -49,7 +49,7 @@ while True:
 		error = repr(e)
 		result_end = " "
 	result = controller.result()
-	if result != "":
+	if result is not None:
 		print(result, end=result_end)
 	if error != "":
 		print(error)

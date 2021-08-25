@@ -1,6 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 from dmcomm import CommandError
+import dmcomm.protocol
 from . import WAIT_REPLY
 from . import pins
 
@@ -10,21 +11,15 @@ class Controller:
 	The constructor takes no parameters.
 	"""
 	def __init__(self):
-		self._protocol = None
-		self._turn = None
-		self._data_to_send = []
-		self._results = []
+		self._digirom = None
 		self._communicator = None
-		self._encoder = None
 		self._prong_output = None
 		self._prong_input = None
 		self._ir_output = None
 		self._ir_input_modulated = None
 		self._ir_input_raw = None
 		self._prong_comm = None
-		self._prong_encoder = None
 		self._ic_comm = None
-		self._ic_encoder = None
 		self._modulated_comm = None
 	def register(self, io_object) -> None:
 		"""Registers pins for a particular type of input or output.
@@ -67,25 +62,14 @@ class Controller:
 		:returns: A description of how the command was interpreted.
 		:raises: `CommandError` if the command was incorrect.
 		"""
-		parts = command.strip().upper().split("-")
-		if len(parts[0]) >= 2:
-			op = parts[0][:-1]
-			turn = parts[0][-1]
-		else:
-			op = parts[0]
-			turn = ""
-		if op == "D":
-			raise NotImplementedError("debug")
-		elif op == "T":
-			raise NotImplementedError("test")
-		elif op not in ["V", "X", "Y", "!DL", "!FL", "!IC"]:
-			raise CommandError("op=" + op)
-		elif turn not in "012":
-			raise CommandError("turn=" + turn)
-		self._protocol = op
-		self._turn = int(turn)
-		self._data_to_send = parts[1:]
-		return f"{op}{turn}-[{len(self._data_to_send)} packets]"
+		c = dmcomm.protocol.parse_command(command)
+		try:
+			op = c.op
+			raise NotImplementedError("op=" + op)
+		except AttributeError:
+			#It's a DigiROM
+			self._digirom = c
+			return f"{c.physical}{c.turn}-[{len(c)} packets]"
 	def communicate(self) -> bool:
 		"""Communicates with the toy as configured by `execute`.
 
@@ -94,22 +78,26 @@ class Controller:
 		:returns: True if the receive delay was completed, False otherwise.
 		:raises: `CommandError` if an error was found in the configured command.
 		"""
-		if self._protocol is not None:
-			self.prepare(self._protocol)
-			if self._turn in [0, 2]:
+		if self._digirom is not None:
+			self._prepare(self._digirom.physical)
+			turn = self._digirom.turn
+			if turn in [0, 2]:
 				if not self._received(3000):
 					return True
-			if self._turn == 0:
+			if turn == 0:
 				while True:
 					if not self._received(WAIT_REPLY):
 						return False
 			else:
-				for item in self._data_to_send:
-					self.send_hex(item)
+				while True:
+					data_to_send = self._digirom.send()
+					if data_to_send is None:
+						break
+					self._communicator.send(data_to_send)
 					if not self._received(WAIT_REPLY):
 						break
 			return False
-	def prepare(self, protocol: str) -> None:
+	def _prepare(self, protocol: str) -> None:
 		"""Prepares for a single interaction using lower-level communication functions.
 
 		Not needed if using `execute` and `communicate`.
@@ -140,27 +128,20 @@ class Controller:
 			self._encoder = self._modulated_comm
 		else:
 			raise NotImplementedError("protocol=" + protocol)
-		self._protocol = protocol
 		self._communicator.enable(protocol)
-		self._encoder.reset()
-	def send_hex(self, text):
-		(sent_data, sent_desc) = self._encoder.send_hex(text)
-		self._results.append(sent_desc)
-		return sent_data
-	def receive(self, timeout_ms):
-		(received_data, received_desc) = self._encoder.receive(timeout_ms)
-		self._results.append(received_desc)
-		return received_data
+		self._digirom.prepare()
 	def _received(self, timeout_ms):
-		received_data = self.receive(timeout_ms)
+		received_data = self._communicator.receive(timeout_ms)
+		self._digirom.receive(received_data)
 		if received_data is None or received_data == []:
 			return False
 		return True
 	def disable(self):
-		self._protocol = None
-		self._results = []
 		if self._communicator is not None:
 			self._communicator.disable()
 			self._communicator = None
 	def result(self):
-		return " ".join(self._results)
+		if self._digirom is not None:
+			return self._digirom.result
+		else:
+			return None

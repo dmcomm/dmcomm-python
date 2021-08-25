@@ -36,6 +36,8 @@ class ModulatedCommunicator:
 	def reset(self):
 		pass
 	def send(self, bytes_to_send):
+		if not self._enabled:
+			raise RuntimeError("not enabled")
 		num_durations = len(bytes_to_send) * 16 + 4
 		array_to_send = array.array("H")
 		for i in range(num_durations):
@@ -58,21 +60,6 @@ class ModulatedCommunicator:
 		array_to_send[buf_cursor] = self._params.stop_pulse_send
 		array_to_send[buf_cursor + 1] = self._params.stop_gap_send
 		self._output_pulses.send(array_to_send)
-	def send_hex(self, text):
-		if not self._enabled:
-			raise RuntimeError("not enabled")
-		if len(text) < 2 or len(text) % 2 != 0:
-			raise CommandError("bad length: " + text)
-		bytes_to_send = []
-		for i in range(len(text)-2, -1, -2):
-			digits = text[i:i+2]
-			try:
-				b = int(digits, 16)
-			except:
-				raise CommandError("not hex number: " + digits)
-			bytes_to_send.append(b)
-		self.send(bytes_to_send)
-		return(bytes_to_send, "s:" + text)
 	def receive(self, timeout_ms):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
@@ -85,7 +72,7 @@ class ModulatedCommunicator:
 			self._params.packet_length_timeout_ms, self._params.packet_continue_timeout_ms)
 		pulses.pause()
 		if len(pulses) == 0:
-			return ([], "t")
+			return []
 		bytes_received = []
 		t = misc.pop_pulse(pulses, -2)
 		if t < self._params.start_pulse_min or t > self._params.start_pulse_max:
@@ -117,10 +104,7 @@ class ModulatedCommunicator:
 				current_byte = 0
 		if bit_count % 8 != 0:
 			raise ReceiveError("bit_count = %d" % bit_count)
-		hex_received = ["%02X" % b for b in bytes_received]
-		hex_received.reverse()
-		desc = "r:" + "".join(hex_received)
-		return (bytes_received, desc)
+		return bytes_received
 
 class ModulatedParams:
 	def __init__(self):
