@@ -41,13 +41,9 @@ class Controller:
 		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
 			from . import prongs
 			self._prong_comm = prongs.ProngCommunicator(self._prong_output, self._prong_input)
-			from . import encoder16
-			self._prong_encoder = encoder16.Encoder16(self._prong_comm)
 		if self._ic_comm is None and self._ir_output is not None and self._ir_input_raw is not None:
 			from . import ic
 			self._ic_comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
-			from . import encoder16
-			self._ic_encoder = encoder16.Encoder16(self._ic_comm)
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
@@ -111,21 +107,18 @@ class Controller:
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
 			self._communicator = self._prong_comm
-			self._encoder = self._prong_encoder
 		elif protocol == "!IC":
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
 			self._communicator = self._ic_comm
-			self._encoder = self._ic_encoder
 		elif protocol in ["!DL", "!FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
 			self._communicator = self._modulated_comm
-			self._encoder = self._modulated_comm
 		else:
 			raise NotImplementedError("protocol=" + protocol)
 		self._communicator.enable(protocol)
