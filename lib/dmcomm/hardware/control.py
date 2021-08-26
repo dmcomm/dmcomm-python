@@ -1,7 +1,6 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 from dmcomm import CommandError
-import dmcomm.protocol
 from . import WAIT_REPLY
 from . import pins
 
@@ -47,60 +46,39 @@ class Controller:
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
-	def execute(self, command: str) -> str:
-		"""Carries out the command specified.
+	def execute(self, digirom) -> None:
+		"""Carries out the communication specified.
 
-		See the serial codes documentation for details.
-		Communication pattern commands configure the system to prepare for calling `communicate`.
-		Config commands are executed immediately.
-
-		:param command: The command to execute.
-		:returns: A description of how the command was interpreted.
-		:raises: `CommandError` if the command was incorrect.
+		:param digirom: The DigiROM to execute.
+		:raises CommandError: If the required pins for the selected physical protocol are not registered.
+		:raises ReceiveError: If a broken transmission was received.
 		"""
-		c = dmcomm.protocol.parse_command(command)
+		self._digirom = digirom
 		try:
-			op = c.op
-			raise NotImplementedError("op=" + op)
-		except AttributeError:
-			#It's a DigiROM
-			self._digirom = c
-			return f"{c.physical}{c.turn}-[{len(c)} packets]"
-	def communicate(self) -> bool:
-		"""Communicates with the toy as configured by `execute`.
-
-		Does nothing if no communication pattern is configured.
-
-		:returns: True if the receive delay was completed, False otherwise.
-		:raises: `CommandError` if an error was found in the configured command.
-		"""
-		if self._digirom is not None:
-			self._prepare(self._digirom.physical)
-			turn = self._digirom.turn
-			if turn in [0, 2]:
-				if not self._received(3000):
-					return True
-			if turn == 0:
+			self._prepare()
+			if digirom.turn in [0, 2]:
+				if not self._received(5000):
+					return
+			if digirom.turn == 0:
 				while True:
 					if not self._received(WAIT_REPLY):
-						return False
+						return
 			else:
 				while True:
 					data_to_send = self._digirom.send()
 					if data_to_send is None:
-						break
+						return
 					self._communicator.send(data_to_send)
 					if not self._received(WAIT_REPLY):
-						break
-			return False
-	def _prepare(self, protocol: str) -> None:
-		"""Prepares for a single interaction using lower-level communication functions.
-
-		Not needed if using `execute` and `communicate`.
-
-		:param protocol: The protocol string from "V", "X", "Y", "!IC", "!DL", "!FL".
+						return
+		finally:
+			self._disable()
+			self._digirom = None
+	def _prepare(self):
+		"""Prepares for a single interaction.
 		"""
-		self.disable()
+		protocol = self._digirom.physical
+		self._disable()
 		if protocol in ["V", "X", "Y"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
@@ -120,7 +98,7 @@ class Controller:
 				raise CommandError("no modulated infrared input registered")
 			self._communicator = self._modulated_comm
 		else:
-			raise NotImplementedError("protocol=" + protocol)
+			raise CommandError("protocol=" + protocol)
 		self._communicator.enable(protocol)
 		self._digirom.prepare()
 	def _received(self, timeout_ms):
@@ -129,12 +107,7 @@ class Controller:
 		if received_data is None or received_data == []:
 			return False
 		return True
-	def disable(self):
+	def _disable(self):
 		if self._communicator is not None:
 			self._communicator.disable()
 			self._communicator = None
-	def result(self):
-		if self._digirom is not None:
-			return self._digirom.result
-		else:
-			return None

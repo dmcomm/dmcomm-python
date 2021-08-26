@@ -7,6 +7,7 @@ import usb_cdc
 
 from dmcomm import CommandError, ReceiveError
 import dmcomm.hardware as hw
+import dmcomm.protocol
 
 pins_extra_power = [board.GP11, board.GP13, board.GP18]
 outputs_extra_power = []
@@ -23,9 +24,12 @@ controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
 usb_cdc.console.timeout = 1
+digirom = None
 
 while True:
+	time_start = time.monotonic()
 	if usb_cdc.console.in_waiting != 0:
+		digirom = None
 		serial_bytes = usb_cdc.console.readline()
 		serial_str = serial_bytes.decode("ascii", "ignore")
 		# readline only accepts "\n" but we can receive "\r" after timeout
@@ -35,23 +39,26 @@ while True:
 		serial_str = serial_str.strip()
 		print("got %d bytes: %s -> " % (len(serial_str), serial_str), end="")
 		try:
-			result = controller.execute(serial_str)
-			print(result)
+			command = dmcomm.protocol.parse_command(serial_str)
+			if hasattr(command, "op"):
+				# It's an OtherCommand
+				raise NotImplementedError("op=" + command.op)
+			digirom = command
+			print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
 		except (CommandError, NotImplementedError) as e:
 			print(repr(e))
 		time.sleep(1)
-	error = ""
-	result_end = "\n"
-	done_time = False
-	try:
-		done_time = controller.communicate()
-	except (CommandError, ReceiveError, NotImplementedError) as e:
-		error = repr(e)
-		result_end = " "
-	result = controller.result()
-	if result is not None:
-		print(result, end=result_end)
-	if error != "":
-		print(error)
-	if not done_time:
-		time.sleep(5)
+	if digirom is not None:
+		error = ""
+		result_end = "\n"
+		try:
+			controller.execute(digirom)
+		except (CommandError, ReceiveError) as e:
+			error = repr(e)
+			result_end = " "
+		print(digirom.result, end=result_end)
+		if error != "":
+			print(error)
+	seconds_passed = time.monotonic() - time_start
+	if seconds_passed < 5:
+		time.sleep(5 - seconds_passed)
