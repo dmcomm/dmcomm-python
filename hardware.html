@@ -77,48 +77,20 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.hardware.Controller.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Carries out the command specified.</p>
-<p>See the serial codes documentation for details.
-Communication pattern commands configure the system to prepare for calling <cite>communicate</cite>.
-Config commands are executed immediately.</p>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digirom</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Carries out the communication specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>command</strong> – The command to execute.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A description of how the command was interpreted.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><cite>CommandError</cite> if the command was incorrect.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.communicate">
-<span class="sig-name descname"><span class="pre">communicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#dmcomm.hardware.Controller.communicate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Communicates with the toy as configured by <cite>execute</cite>.</p>
-<p>Does nothing if no communication pattern is configured.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if the receive delay was completed, False otherwise.</p>
+<dd class="field-odd"><p><strong>digirom</strong> – The DigiROM to execute.</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><cite>CommandError</cite> if an error was found in the configured command.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="index.html#dmcomm.CommandError" title="dmcomm.CommandError"><strong>CommandError</strong></a> – If the required pins for the selected physical protocol are not registered.</p></li>
+<li><p><a class="reference internal" href="index.html#dmcomm.ReceiveError" title="dmcomm.ReceiveError"><strong>ReceiveError</strong></a> – If a broken transmission was received.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.disable">
-<span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.disable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.hardware.Controller.result">
-<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.Controller.result" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -184,7 +156,7 @@ and for a possible future voltage test.</p>
 </dd></dl>
 
 </section>
-<p>Generated from git commit: 2021-08-25 146983a</p>
+<p>Generated from git commit: 2021-08-26 b9add91</p>
 
 
             <div class="clearer"></div>
