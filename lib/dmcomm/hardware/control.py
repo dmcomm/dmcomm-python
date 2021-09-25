@@ -20,6 +20,7 @@ class Controller:
 		self._prong_comm = None
 		self._ic_comm = None
 		self._modulated_comm = None
+		self._barcode_comm = None
 	def register(self, io_object) -> None:
 		"""Registers pins for a particular type of input or output.
 
@@ -46,6 +47,9 @@ class Controller:
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
+		if self._barcode_comm is None and self._ir_output is not None:
+			from . import barcode
+			self._barcode_comm = barcode.BarcodeCommunicator(self._ir_output)
 	def execute(self, digirom) -> None:
 		"""Carries out the communication specified.
 
@@ -97,6 +101,10 @@ class Controller:
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
 			self._communicator = self._modulated_comm
+		elif protocol in ["!BC"]:
+			if self._ir_output is None:
+				raise CommandError("no infrared output registered")
+			self._communicator = self._barcode_comm
 		else:
 			raise CommandError("protocol=" + protocol)
 		self._communicator.enable(protocol)
