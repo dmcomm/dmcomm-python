@@ -106,16 +106,16 @@ class CommandSegment:
 class ResultSegment:
 	"""Describes the result of one segment of the communication for 16-bit protocols.
 
-	:param is_send: True if this represents data sent, False if data received.
+	:param sent: True if this represents data sent, False if data received.
 	:param data: A 16-bit integer representing the bits sent or received.
-		If is_send is False, can be None to indicate nothing was received before timeout.
+		If sent is False, can be None to indicate nothing was received before timeout.
 	"""
-	def __init__(self, is_send: bool, data: int):
-		self.is_send = is_send
+	def __init__(self, sent: bool, data: int):
+		self.sent = sent
 		self.data = data
 	def __str__(self):
 		"""Returns text formatted for the serial protocol."""
-		if self.is_send:
+		if self.sent:
 			return "s:%04X" % self.data
 		elif self.data is None:
 			return "t"

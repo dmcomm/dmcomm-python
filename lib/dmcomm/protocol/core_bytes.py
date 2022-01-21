@@ -43,19 +43,19 @@ class CommandSegment:
 class ResultSegment:
 	"""Describes the result of one segment of the communication for byte-sequence protocols.
 
-	:param is_send: True if this represents data sent, False if data received.
+	:param sent: True if this represents data sent, False if data received.
 	:param data: A list of 8-bit integers representing the bytes sent or received.
-		If is_send is False, can be empty to indicate nothing was received before timeout.
+		If sent is False, can be empty to indicate nothing was received before timeout.
 	"""
-	def __init__(self, is_send: bool, data: list):
-		self.is_send = is_send
+	def __init__(self, sent: bool, data: list):
+		self.sent = sent
 		self.data = data
 	def __str__(self):
 		"""Returns text formatted for the serial protocol."""
 		hex_parts = ["%02X" % b for b in self.data]
 		hex_parts.reverse()
 		hex_str = "".join(hex_parts)
-		if self.is_send:
+		if self.sent:
 			return "s:" + hex_str
 		elif self.data == []:
 			return "t"
