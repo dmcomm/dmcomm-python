@@ -48,19 +48,19 @@
 <p>Note: This API is still under development and may change at any time.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="dmcomm.hardware.WAIT_FOREVER">
-<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_FOREVER</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_FOREVER" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_FOREVER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-2</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_FOREVER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Value to pass to receiving functions indicating there is no timeout.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dmcomm.hardware.WAIT_REPLY">
-<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_REPLY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_REPLY" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">WAIT_REPLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#dmcomm.hardware.WAIT_REPLY" title="Permalink to this definition">¶</a></dt>
 <dd><p>Value to pass to receiving functions indicating the default reply timeout.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.Controller">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="headerlink" href="#dmcomm.hardware.Controller" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="headerlink" href="#dmcomm.hardware.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main class which controls the communication.</p>
 <p>The constructor takes no parameters.</p>
 <dl class="py method">
@@ -96,7 +96,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.ProngOutput">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_drive_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_weak_pull</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngOutput" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_drive_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_weak_pull</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the outputs for the RP2040 prong circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -111,7 +111,7 @@ Note that <cite>pin_drive_low=pin_drive_signal+1</cite> due to the rules of PIO.
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.ProngInput">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngInput" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">ProngInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.ProngInput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the input for the RP2040 prong circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -124,7 +124,7 @@ and for a possible future voltage test.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.InfraredOutput">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredOutput" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the infrared LED output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -135,7 +135,7 @@ and for a possible future voltage test.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.InfraredInputModulated">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputModulated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputModulated" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputModulated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputModulated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the modulated infrared input (TSOP4838 recommended).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -146,7 +146,7 @@ and for a possible future voltage test.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.hardware.InfraredInputRaw">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputRaw" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">InfraredInputRaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.InfraredInputRaw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Description of the non-modulated infrared input (TSMP58000 recommended).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -156,7 +156,7 @@ and for a possible future voltage test.</p>
 </dd></dl>
 
 </section>
-<p>Generated from git commit: 2021-08-26 b9add91</p>
+<p>Generated from git commit: 2022-01-23 9a45f9c</p>
 
 
             <div class="clearer"></div>
@@ -185,7 +185,7 @@ and for a possible future voltage test.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, BladeSabre.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

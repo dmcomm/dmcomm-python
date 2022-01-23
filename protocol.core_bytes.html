@@ -15,6 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dmcomm.protocol.dm20" href="protocol.dm20.html" />
     <link rel="prev" title="dmcomm.protocol.core16" href="protocol.core16.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,6 +27,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.dm20.html" title="dmcomm.protocol.dm20"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="protocol.core16.html" title="dmcomm.protocol.core16"
              accesskey="P">previous</a> |</li>
@@ -45,37 +49,17 @@
 <p>Note: This API is still under development and may change at any time.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.DigiROM">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">DigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">physical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">DigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">physical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes the communication for byte-sequence protocols and records the results.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.DigiROM.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM.append" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.DigiROM.prepare">
-<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM.prepare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.DigiROM.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.DigiROM.receive">
-<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.DigiROM.receive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.CommandSegment">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">CommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.CommandSegment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">CommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.CommandSegment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes how to carry out one segment of the communication for byte-sequence protocols.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.CommandSegment.from_string">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.CommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.CommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a <cite>CommandSegment</cite> from one of the dash-separated parts of a text command.</p>
 </dd></dl>
 
@@ -83,14 +67,14 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.protocol.core_bytes.ResultSegment">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">ResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_send</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.ResultSegment" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.core_bytes.</span></span><span class="sig-name descname"><span class="pre">ResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.core_bytes.ResultSegment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes the result of one segment of the communication for byte-sequence protocols.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>is_send</strong> – True if this represents data sent, False if data received.</p></li>
+<li><p><strong>sent</strong> – True if this represents data sent, False if data received.</p></li>
 <li><p><strong>data</strong> – A list of 8-bit integers representing the bytes sent or received.
-If is_send is False, can be empty to indicate nothing was received before timeout.</p></li>
+If sent is False, can be empty to indicate nothing was received before timeout.</p></li>
 </ul>
 </dd>
 </dl>
@@ -103,7 +87,7 @@ If is_send is False, can be empty to indicate nothing was received before timeou
 </dd></dl>
 
 </section>
-<p>Generated from git commit: 2021-08-26 b9add91</p>
+<p>Generated from git commit: 2022-01-23 9a45f9c</p>
 
 
             <div class="clearer"></div>
@@ -121,6 +105,9 @@ If is_send is False, can be empty to indicate nothing was received before timeou
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="protocol.dm20.html" title="dmcomm.protocol.dm20"
+             >next</a> |</li>
+        <li class="right" >
           <a href="protocol.core16.html" title="dmcomm.protocol.core16"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
@@ -130,7 +117,7 @@ If is_send is False, can be empty to indicate nothing was received before timeou
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2021, BladeSabre.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>

@@ -10,3 +10,4 @@
 
    protocol.core16
    protocol.core_bytes
+   protocol.dm20
