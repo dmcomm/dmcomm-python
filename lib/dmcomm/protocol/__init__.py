@@ -4,7 +4,7 @@
 `dmcomm.protocol`
 =================
 
-...
+Protocol handling for Digimon toys.
 
 Note: This API is still under development and may change at any time.
 
@@ -52,7 +52,7 @@ class BaseDigiROM:
 	def append(self, c):
 		self._segments.append(c)
 	def prepare(self):
-		self.result = Result(self.physical, 0)
+		self.result = Result(self.physical)
 		self._command_index = 0
 	def send(self):
 		if self._command_index >= len(self._segments):
@@ -69,12 +69,31 @@ class BaseDigiROM:
 class Result:
 	"""Describes the result of the communication.
 	"""
-	def __init__(self, physical, turn):
+	def __init__(self, physical):
 		self.physical = physical
-		self.turn = turn
 		self._results = []
 	def append(self, segment):
 		self._results.append(segment)
+	def __len__(self):
+		return len(self._results)
+	def __getitem__(self, i):
+		return self._results[i]
 	def __str__(self):
 		"""Returns text formatted for the serial protocol."""
 		return " ".join([str(r) for r in self._results])
+
+class ResultView:
+	"""Describes the result of one side of the communication.
+
+	:param result: The Result to view.
+	:param turn: 1 for the side who went first, 2 for the side who went second.
+	"""
+	def __init__(self, result, turn):
+		self._result = result
+		self._turn = turn
+		if turn == 1:
+			self._turn_index = 1
+		else:
+			self._turn_index = 0
+	def __getitem__(self, i):
+		return self._result[2 * i + self._turn_index]

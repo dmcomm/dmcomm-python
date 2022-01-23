@@ -23,7 +23,7 @@ class DigiROM:
 	def append(self, c):
 		self._segments.append(c)
 	def prepare(self):
-		self.result = Result(self.physical, 0)
+		self.result = Result(self.physical)
 		self._command_index = 0
 		self._bits_received = 0
 		self._checksum = 0
@@ -32,7 +32,7 @@ class DigiROM:
 			return None
 		c = self._segments[self._command_index]
 		self._command_index += 1
-		bits = c.bits
+		bits = c.data
 		bits &= ~c.copy_mask
 		bits |= c.copy_mask & self._bits_received
 		bits &= ~c.invert_mask
@@ -53,6 +53,8 @@ class DigiROM:
 		self._bits_received = bits
 	def __len__(self):
 		return len(self._segments)
+	def __getitem__(self, i):
+		return self._segments[i]
 
 class CommandSegment:
 	"""Describes how to carry out one segment of the communication for 16-bit protocols.
@@ -96,7 +98,7 @@ class CommandSegment:
 			raise CommandError("too long: " + text)
 		return cls(bits, copy_mask, invert_mask, checksum_target, check_digit_LSB_pos)
 	def __init__(self, bits, copy_mask=0, invert_mask=0, checksum_target=None, check_digit_LSB_pos=12):
-		self.bits = bits
+		self.data = bits
 		self.copy_mask = copy_mask
 		self.invert_mask = invert_mask
 		self.checksum_target = checksum_target
