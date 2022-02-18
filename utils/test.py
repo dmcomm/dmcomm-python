@@ -58,7 +58,7 @@ assert dm20cmd[5].data == 0x047E
 assert dm20cmd[6].data == 0x025E
 assert dm20cmd[7].data == 0x14EE
 assert dm20cmd[8].data == 0x142E
-#TODO dm20cmd[9].data == 0x00FE #check digit is done later
+assert dm20cmd[9].data == 0x00FE #check digit is done later
 
 dm20cmd = dm20.BattleOrCopy(dm20.MODE_TAG, 1)
 dm20cmd.version = dm20.VERSION_YAMATO

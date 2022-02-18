@@ -91,7 +91,7 @@ class ResultView:
 	def __init__(self, result, turn):
 		self._result = result
 		self._turn = turn
-		if turn == 1:
+		if turn == 2:
 			self._turn_index = 1
 		else:
 			self._turn_index = 0

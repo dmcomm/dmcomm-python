@@ -34,6 +34,10 @@ ATTRIBUTE_DATA = 1
 ATTRIBUTE_VIRUS = 2
 ATTRIBUTE_FREE = 3
 
+OUTCOME_WIN = 1
+OUTCOME_DRAW = 0
+OUTCOME_LOSE = -1
+
 ROSTER_SIZE = 134
 
 _CHARACTERS_ENGLISH = " ABCDEFGHIJKLMNOPQRSTUVWXYZ-!?"
@@ -49,34 +53,36 @@ _LOOKUP_JAPANESE = _make_reverse_lookup(_CHARACTERS_JAPANESE)
 for (_wide, _ascii) in [("　", " "), ("ー", "-"), ("！", "!"), ("？", "?")]:
 	_LOOKUP_JAPANESE[_ascii] = _LOOKUP_JAPANESE[_wide]
 
-_ATTRIBUTES = array.array("B")
-_a = _ATTRIBUTES.fromlist
-_a([3,3,0,2,0,1,2,1,0,1,2,2,1,0,2,1,3,3,1,1,0,0,0,0,0,0,2,2,1,2,0,1,3,3,1,2,0,1,2,2,1,1,2,0,0])
-_a([2,0,2,3,3,0,1,1,1,0,2,1,0,2,2,1,1,0,2,3,3,2,2,2,2,2,2,2,2,2,2,2,0,2,2,3,3,0,0,0,0,1,1,1,1])
-_a([3,3,1,0,0,0,2,2,2,3,3,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,1,3,3,1,1,1,0,3,3,0,3,0,0,2,2,1,0,0])
-_SPRITES_STRONG = array.array("B")
-_a = _SPRITES_STRONG.fromlist
-_a([0,0,1,4,3,3,6,6,5,5,15,2,7,8,41,37,0,0,1,4,3,3,6,6,5,9,15,10,7,14,33,12,0,0,1,4,3,3])
-_a([6,6,5,11,15,12,7,13,29,28,0,0,1,4,3,3,6,6,5,11,15,12,7,13,2,12,0,0,1,4,3,3,6,6,5,11])
-_a([15,12,7,13,37,39,25,25,31,12,12,30,26,26,5,12,17,18,18,16,24,20,16,6,20,0,0,6,26,6])
-_a([45,26,0,12,42,1,3,2,38,1,3,26,45,13,13,36,38,31,5,45,40,14,13,3,13,16,3,37,45,12])
-_SPRITES_WEAK = array.array("B")
-_a = _SPRITES_WEAK.fromlist
-_a([0,0,26,31,25,26,12,17,34,14,15,26,6,6,4,32,0,0,25,41,25,5,22,35,17,5,15,2,26,8,11,30,0,0])
-_a([12,41,25,1,11,27,9,5,15,2,20,8,0,38,0,0,5,39,31,12,11,23,41,5,15,2,22,8,9,30,0,0,41,31,26])
-_a([5,5,25,14,5,15,2,22,8,25,28,25,25,25,31,14,31,1,12,16,34,17,18,31,21,31,31,21,13,5,0,0,17])
-_a([7,14,3,0,5,5,5,26,5,26,26,25,26,32,25,5,24,13,13,13,13,45,40,43,26,26,22,12,32,12,41,16])
-_MIN_POWERS = array.array("B")
-_a = _MIN_POWERS.fromlist
-_a([0,0,18,10,75,70,65,60,55,50,40,126,118,107,188,176,0,0,18,10,75,70,65,60,55,50,40,126])
-_a([118,107,169,188,0,0,18,10,75,70,65,60,55,50,40,126,118,107,176,169,0,0,18,10,75,70,65,60])
-_a([55,50,40,126,118,107,188,176,0,0,18,10,75,70,65,60,55,50,40,126,118,107,188,176,0,0,34])
-_a([90,155,210,34,90,155,210,0,0,34,80,143,199,80,143,199,0,0,27,80,135,199,27,80,135,199,25])
-_a([83,135,199,25,77,135,199,0,0,27,90,143,210,0,0,27,80,143,210,238,238,238,238,238])
+_ATTRIBUTES = array.array("B", [
+	3,3,0,2,0,1,2,1,0,1,2,2,1,0,2,1,3,3,1,1,0,0,0,0,0,0,2,2,1,2,0,1,3,3,1,2,0,1,2,2,1,1,2,0,0,
+	2,0,2,3,3,0,1,1,1,0,2,1,0,2,2,1,1,0,2,3,3,2,2,2,2,2,2,2,2,2,2,2,0,2,2,3,3,0,0,0,0,1,1,1,1,
+	3,3,1,0,0,0,2,2,2,3,3,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,1,3,3,1,1,1,0,3,3,0,3,0,0,2,2,1,0,0])
+_SPRITES_STRONG = array.array("B", [
+	0,0,1,4,3,3,6,6,5,5,15,2,7,8,41,37,0,0,1,4,3,3,6,6,5,9,15,10,7,14,33,12,0,0,1,4,3,3,
+	6,6,5,11,15,12,7,13,29,28,0,0,1,4,3,3,6,6,5,11,15,12,7,13,2,12,0,0,1,4,3,3,6,6,5,11,
+	15,12,7,13,37,39,25,25,31,12,12,30,26,26,5,12,17,18,18,16,24,20,16,6,20,0,0,6,26,6,
+	45,26,0,12,42,1,3,2,38,1,3,26,45,13,13,36,38,31,5,45,40,14,13,3,13,16,3,37,45,12])
+_SPRITES_WEAK = array.array("B", [
+	0,0,26,31,25,26,12,17,34,14,15,26,6,6,4,32,0,0,25,41,25,5,22,35,17,5,15,2,26,8,11,30,0,0,
+	12,41,25,1,11,27,9,5,15,2,20,8,0,38,0,0,5,39,31,12,11,23,41,5,15,2,22,8,9,30,0,0,41,31,26,
+	5,5,25,14,5,15,2,22,8,25,28,25,25,25,31,14,31,1,12,16,34,17,18,31,21,31,31,21,13,5,0,0,17,
+	7,14,3,0,5,5,5,26,5,26,26,25,26,32,25,5,24,13,13,13,13,45,40,43,26,26,22,12,32,12,41,16])
+_MIN_POWERS = array.array("B", [
+	0,0,18,10,75,70,65,60,55,50,40,126,118,107,188,176,0,0,18,10,75,70,65,60,55,50,40,126,
+	118,107,169,188,0,0,18,10,75,70,65,60,55,50,40,126,118,107,176,169,0,0,18,10,75,70,65,60,
+	55,50,40,126,118,107,188,176,0,0,18,10,75,70,65,60,55,50,40,126,118,107,188,176,0,0,34,
+	90,155,210,34,90,155,210,0,0,34,80,143,199,80,143,199,0,0,27,80,135,199,27,80,135,199,25,
+	83,135,199,25,77,135,199,0,0,27,90,143,210,0,0,27,80,143,210,238,238,238,238,238])
+_ATTACK_PATTERNS = array.array("B", [
+	0,1,2,0, 0,1,2,0, 0,1,2,0, 1,2,1,2, 1,2,1,2, 2,0,1,3, 2,0,1,3, 3,0,3,0,
+	3,0,3,0, 0,3,2,3, 2,1,3,3, 3,0,3,3, 3,2,3,3, 3,3,2,3, 3,3,2,3, 3,3,2,3])
+_DAMAGE_SINGLE = [1,2,3,4,5]
+_DAMAGE_TAG = [3,4,6,8,12]
 assert len(_ATTRIBUTES) == ROSTER_SIZE
 assert len(_SPRITES_STRONG) == ROSTER_SIZE
 assert len(_SPRITES_WEAK) == ROSTER_SIZE
 assert len(_MIN_POWERS) == ROSTER_SIZE
+assert len(_ATTACK_PATTERNS) == 16 * 4
 def default_attribute(index):
 	return _ATTRIBUTES[index]
 def default_sprite_strong(index):
@@ -85,6 +91,18 @@ def default_sprite_weak(index):
 	return _SPRITES_WEAK[index]
 def min_power(index):
 	return _MIN_POWERS[index]
+def attack_pattern(pattern_index, tag_meter=None):
+	start = pattern_index * 4
+	result = [_ATTACK_PATTERNS[i] for i in range(start, start+4)]
+	if tag_meter == 0 and (pattern_index == 10 or pattern_index >= 13):
+		result[3] = 4
+	elif tag_meter == 1 and pattern_index >= 12:
+		result[1] = 4
+	elif tag_meter == 2 and pattern_index in (9, 11, 12):
+		result[0] = 4
+	elif tag_meter == 3 and pattern_index in (10, 11):
+		result[2] = 4
+	return result
 
 class Name:
 	@classmethod
@@ -211,10 +229,83 @@ class BattleOrCopyView:
 	@property
 	def checksum(self):
 		return self._d(10) >> 12
+	@property
+	def attack_pattern(self):
+		tag_meter = self.tag_meter if self.mode == MODE_TAG else None
+		return attack_pattern(self.pattern, tag_meter)
+	@property
+	def attack_strengths(self):
+		attacks = self.attack_pattern
+		if self.mode == MODE_TAG:
+			damage = _DAMAGE_TAG
+			bonus = 2 if (self.power_bonus == 16 and self.power_bonus_rear == 16) else 0
+		else:
+			damage = _DAMAGE_SINGLE
+			bonus = 1 if self.power_bonus == 16 else 0
+		return [damage[a] + bonus for a in attacks]
+
+class BattleOrCopyOutcome:
+	@classmethod
+	def from_result(cls, result, turn):
+		me = BattleOrCopyView(ResultView(result, turn))
+		you = BattleOrCopyView(ResultView(result, 3 - turn))
+		return cls(me, you)
+	def __init__(self, me: BattleOrCopyView, you: BattleOrCopyView):
+		self.me = me
+		self.you = you
+		self.mode = None
+		self.end = None
+		self.damage_me = []
+		self.damage_you = []
+	@property
+	def ready(self):
+		try:
+			x = self.me.checksum
+			x = self.you.checksum
+			return True
+		except IndexError:
+			return False
+	def run(self):
+		self.end = None
+		self.mode = self.me.mode
+		if self.mode not in (MODE_SINGLE, MODE_TAG):
+			return
+		hitpoints_start = 30 if self.mode == MODE_TAG else 10
+		strengths2 = (self.you.attack_strengths, self.me.attack_strengths)
+		hits2 = (self.you.hit_you, self.you.hit_me)
+		damage2 = ([], [])
+		hitpoints2 = [hitpoints_start, hitpoints_start]
+		for round in range(6):
+			round_index = round % 4
+			for side in (0, 1):
+				damage = strengths2[side][round_index] if ((hits2[side] >> round_index) & 1) else 0
+				if damage > hitpoints2[side]:
+					damage = hitpoints2[side]
+				damage2[side].append(damage)
+				hitpoints2[side] -= damage
+			hp_me = hitpoints2[0]
+			hp_you = hitpoints2[1]
+			if hp_me == 0 and hp_you == 0:
+				self.end = OUTCOME_DRAW
+			elif hp_you == 0:
+				self.end = OUTCOME_WIN
+			elif hp_me == 0:
+				self.end = OUTCOME_LOSE
+			elif round >= 4 and hp_me > hp_you:
+				self.end = OUTCOME_WIN
+			elif round >= 4 and hp_me < hp_you:
+				self.end = OUTCOME_LOSE
+			elif round == 5: #HP equal
+				self.end = OUTCOME_DRAW
+			if self.end is not None:
+				break
+		self.damage_me = damage2[0]
+		self.damage_you = damage2[1]
 
 class BattleOrCopy:
 	"""Adapts DM20 fields to DigiROM interface (under construction)."""
 	def __init__(self, mode, turn):
+		self.physical = "V"
 		self.mode = mode
 		self.turn = turn
 		self.name = None
@@ -237,8 +328,7 @@ class BattleOrCopy:
 		self.hit_you = None
 		self._digirom = None
 		self.result = None
-		#: The opponent's properties.
-		self.opponent = None
+		self.outcome = None
 	def _index_send(self, front):
 		if front:
 			index = self.index
@@ -316,15 +406,15 @@ class BattleOrCopy:
 		return (power2, bonus2)
 	def _meter_power_bits(self, front):
 		tag_meter = self._tag_meter_send(front)
-		(power, bonus) = self._power_send(front)
+		(power, _) = self._power_send(front)
 		return (tag_meter << 12) | (power << 4) | 0xE
 	def prepare(self):
-		self._digirom = DigiROM("V", turn)
+		self._digirom = DigiROM("V", self.turn)
 		self._digirom.prepare()
 		self.result = self._digirom.result
-		self.opponent = BattleOrCopyView(ResultView(self.result, 3 - self._turn))
+		self.outcome = BattleOrCopyOutcome.from_result(self.result, self.turn)
 	def send(self):
-		i = self._digirom._command_index #TODO make accessor
+		i = len(self._digirom)
 		segment = self[i]
 		self._digirom.append(segment)
 		return self._digirom.send()
@@ -339,7 +429,8 @@ class BattleOrCopy:
 		elif i == 3:
 			orderbit = 1 if self.turn == 1 else 0
 			pattern = 0 if self.pattern is None else self.pattern
-			bits = (orderbit << 15) | (pattern << 10) | (self.mode << 8) | (self.version << 4) | 0xE
+			version = VERSION_TAICHI if self.version is None else self.version
+			bits = (orderbit << 15) | (pattern << 10) | (self.mode << 8) | (version << 4) | 0xE
 		elif i == 4:
 			bits = self._index_attribute_bits(True)
 		elif i == 5:
@@ -353,8 +444,27 @@ class BattleOrCopy:
 		elif i == 9:
 			bits = self._meter_power_bits(False)
 		elif i == 10:
-			#...
-			segment = CommandSegment(bits, copy_mask, invert_mask, checksum_target)
+			invert_mask = 0
+			hit_me = 0
+			hit_you = 0
+			if self.mode in (MODE_SEND, MODE_GET):
+				pass
+			elif self.hit_me is not None:
+				hit_me = self.hit_me
+				hit_you = hit_me ^ 0xF if self.hit_you is None else self.hit_you
+			elif self.hit_you is not None:
+				hit_you = self.hit_you
+				hit_me = hit_you ^ 0xF if self.hit_me is None else self.hit_me
+			elif self.turn == 2:
+				try:
+					self.hit_me = self.outcome.you.hit_you
+					self.hit_you = self.outcome.you.hit_me
+				except IndexError:
+					invert_mask = 0x0FF0
+			else:
+				raise NotImplementedException("rolling for the hit bits")
+			bits = (hit_me << 8) | (hit_you << 4) | 0xE
+			segment = CommandSegment(bits, invert_mask=invert_mask, checksum_target=0)
 		else:
 			return None
 		if i != 10:
