@@ -155,7 +155,7 @@ class ProngParams:
 			#self.pre_low_max? PulseIn only goes up to 65535
 			self.start_high_min = 1500
 			self.start_high_send = 2200
-			self.start_high_max = 2500
+			self.start_high_max = 3500
 			self.start_low_min = 1000
 			self.start_low_send = 1600
 			self.start_low_max = 2000
@@ -163,11 +163,11 @@ class ProngParams:
 			self.bit0_high_send = 1600
 			self.bit_high_threshold = 2600
 			self.bit1_high_send = 4000
-			self.bit_high_max = 4500
+			self.bit_high_max = 5500
 			self.bit_low_min = 1200
 			self.bit1_low_send = 1600
 			self.bit0_low_send = 4000
-			self.bit_low_max = 4500
+			self.bit_low_max = 5500
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
