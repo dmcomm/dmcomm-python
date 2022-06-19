@@ -1,5 +1,4 @@
 
 .. automodule:: dmcomm.protocol.dm20
    :members:
-   :undoc-members:
-   :special-members: __str__
+   :special-members: __str__, __len__, __getitem__

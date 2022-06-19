@@ -14,31 +14,37 @@ import array
 from dmcomm.protocol import ResultView
 from dmcomm.protocol.core16 import DigiROM, CommandSegment
 
-MODE_SINGLE = 0
-MODE_SEND = 1
-MODE_TAG = 2
-MODE_GET = 3
+MODE_SINGLE = 0  #: Single battle mode.
+MODE_SEND = 1  #: Copy send mode.
+MODE_TAG = 2  #: Tag battle mode.
+MODE_GET = 3  #: Copy get mode.
 
-VERSION_TAICHI = 0
-VERSION_YAMATO = 1
-VERSION_CORONA = 2
-VERSION_LUNA = 3
-VERSION_MEICOO = 4
-VERSION_SILVER_BLACK = 6
-VERSION_SILVER_BLUE = 7
-VERSION_DUKE = 8
-VERSION_BEELZE = 9
+VERSION_TAICHI = 0  #:
+VERSION_YAMATO = 1  #:
+VERSION_CORONA = 2  #:
+VERSION_LUNA = 3  #:
+VERSION_MEICOO = 4  #:
+VERSION_SILVER_BLACK = 6  #:
+VERSION_SILVER_BLUE = 7  #:
+VERSION_DUKE = 8  #:
+VERSION_BEELZE = 9  #:
 
-ATTRIBUTE_VACCINE = 0
-ATTRIBUTE_DATA = 1
-ATTRIBUTE_VIRUS = 2
-ATTRIBUTE_FREE = 3
+ATTRIBUTE_VACCINE = 0  #:
+ATTRIBUTE_DATA = 1  #:
+ATTRIBUTE_VIRUS = 2  #:
+ATTRIBUTE_FREE = 3  #:
 
-OUTCOME_WIN = 1
-OUTCOME_DRAW = 0
-OUTCOME_LOSE = -1
+ATTACK_SINGLE_WEAK = 0  #:
+ATTACK_SINGLE_STRONG = 1  #:
+ATTACK_DOUBLE_WEAK = 2  #:
+ATTACK_DOUBLE_STRONG = 3  #:
+ATTACK_CRITICAL = 4  #:
 
-ROSTER_SIZE = 134
+OUTCOME_WIN = 1  #:
+OUTCOME_DRAW = 0  #:
+OUTCOME_LOSE = -1  #:
+
+ROSTER_SIZE = 134  #:
 
 _CHARACTERS_ENGLISH = " ABCDEFGHIJKLMNOPQRSTUVWXYZ-!?"
 _CHARACTERS_JAPANESE = ("　アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロ"
@@ -83,15 +89,44 @@ assert len(_SPRITES_STRONG) == ROSTER_SIZE
 assert len(_SPRITES_WEAK) == ROSTER_SIZE
 assert len(_MIN_POWERS) == ROSTER_SIZE
 assert len(_ATTACK_PATTERNS) == 16 * 4
-def default_attribute(index):
+def default_attribute(index: int) -> int:
+	"""Looks up the default attribute for the specified index.
+
+	:param index: The monster index to look up (0 <= index < ROSTER_SIZE).
+	:returns: The default attribute for that index, as one of the `ATTRIBUTE_` values.
+	"""
 	return _ATTRIBUTES[index]
-def default_sprite_strong(index):
+def default_sprite_strong(index: int) -> int:
+	"""Looks up the default strong attack sprite for the specified index.
+
+	:param index: The monster index to look up (0 <= index < ROSTER_SIZE).
+	:returns: The default sprite index for that monster's strong attack.
+	"""
 	return _SPRITES_STRONG[index]
-def default_sprite_weak(index):
+def default_sprite_weak(index: int) -> int:
+	"""Looks up the default weak attack sprite for the specified index.
+
+	:param index: The monster index to look up (0 <= index < ROSTER_SIZE).
+	:returns: The default sprite index for that monster's weak attack.
+	"""
 	return _SPRITES_WEAK[index]
-def min_power(index):
+def min_power(index: int) -> int:
+	"""Looks up the minimum power for the specified index.
+
+	:param index: The monster index to look up (0 <= index < ROSTER_SIZE).
+	:returns: The minimum power for that index.
+	"""
 	return _MIN_POWERS[index]
-def attack_pattern(pattern_index, tag_meter=None):
+def attack_pattern(pattern_index: int, tag_meter: "Optional[int]" = None) -> list[int]:
+	"""Looks up the attack pattern for the specified values.
+
+	:param pattern_index: The `pattern` field in the DigiROM
+		(normally 0-14, but 15 will be accepted as 14 here).
+	:param tag_meter: `None` for a single battle.
+		For a tag battle, the `tag_meter` field in the DigiROM
+		(`number_of_arrows-1` on the tag power meter).
+	:returns: A list of 4 ints, each as one of the `ATTACK_` values.
+	"""
 	start = pattern_index * 4
 	result = [_ATTACK_PATTERNS[i] for i in range(start, start+4)]
 	if tag_meter == 0 and (pattern_index == 10 or pattern_index >= 13):
@@ -105,14 +140,34 @@ def attack_pattern(pattern_index, tag_meter=None):
 	return result
 
 class Name:
+	"""Class for DM20 player names.
+
+	:param values: A list of 4 ints, with the character indexes from the DigiROM,
+		in the order that the name is spelled.
+	:param japanese: Whether to interpret these values as Japanese by default
+		(False for English by default).
+	"""
 	@classmethod
-	def from_japanese(cls, name: str):
+	def from_japanese(cls, name: str) -> "Name":
+		"""Creates a `Name` object from a Japanese name string.
+
+		:param name: A Japanese name of up to 4 characters.
+		"""
 		return cls.from_string(name, True)
 	@classmethod
-	def from_english(cls, name: str):
+	def from_english(cls, name: str) -> "Name":
+		"""Creates a `Name` object from an English name string.
+
+		:param name: An English name of up to 4 characters.
+		"""
 		return cls.from_string(name, False)
 	@classmethod
-	def from_string(cls, name: str, japanese: bool):
+	def from_string(cls, name: str, japanese: bool) -> "Name":
+		"""Creates a `Name` object from a Japanese or English name string.
+
+		:param name: A Japanese or English name of up to 4 characters.
+		:param japanese: Whether the string provided is Japanese (False for English).
+		"""
 		if japanese:
 			lookup = _LOOKUP_JAPANESE
 		else:
@@ -121,7 +176,7 @@ class Name:
 		for i in range(min(len(name), 4)):
 			values[i] = lookup.get(name[i], 0)
 		return cls(values, japanese)
-	def __init__(self, values, japanese: bool = True):
+	def __init__(self, values: list[int], japanese: bool = True):
 		self._values = values
 		self.japanese = japanese
 	def __getitem__(self, i: int):
