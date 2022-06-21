@@ -123,14 +123,14 @@ class iC_Communicator:
 
 class iC_Params:
 	def __init__(self):
-		self.set_protocol("!IC")
+		self.set_protocol("IC")
 	def set_protocol(self, protocol):
-		if protocol == "!IC":
+		if protocol == "IC":
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 30
 			self.pulse_max = 25
 			self.tick_length = 100
 			self.tick_margin = 30
 		else:
-			raise ValueError("protocol must be !IC")
+			raise ValueError("protocol must be IC")
 		self.protocol = protocol

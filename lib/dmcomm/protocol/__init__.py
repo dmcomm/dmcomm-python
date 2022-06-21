@@ -22,11 +22,11 @@ def parse_command(text):
 		turn = ""
 	if op in ["D", "T"]:
 		return OtherCommand(op, turn)
-	elif op in ["V", "X", "Y", "!IC"]:
+	elif op in ["V", "X", "Y", "IC"]:
 		from dmcomm.protocol.core16 import CommandSegment, DigiROM
 	elif op in ["!DL", "!FL"]:
 		from dmcomm.protocol.core_bytes import CommandSegment, DigiROM
-	elif op in ["!BC"]:
+	elif op in ["BC"]:
 		from dmcomm.protocol.core_digits import CommandSegment, DigiROM
 	else:
 		raise CommandError("op=" + op)

@@ -89,7 +89,7 @@ class Controller:
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
 			self._communicator = self._prong_comm
-		elif protocol == "!IC":
+		elif protocol == "IC":
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
@@ -101,7 +101,7 @@ class Controller:
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
 			self._communicator = self._modulated_comm
-		elif protocol in ["!BC"]:
+		elif protocol in ["BC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			self._communicator = self._barcode_comm
