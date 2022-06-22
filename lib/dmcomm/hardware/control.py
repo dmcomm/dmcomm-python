@@ -95,7 +95,7 @@ class Controller:
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
 			self._communicator = self._ic_comm
-		elif protocol in ["!DL", "!FL"]:
+		elif protocol in ["!DL", "!!FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:

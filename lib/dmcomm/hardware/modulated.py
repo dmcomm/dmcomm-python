@@ -7,6 +7,14 @@ from dmcomm import CommandError, ReceiveError
 from . import WAIT_REPLY
 from . import misc
 
+def reverse_bits_8(x):
+	y = 0
+	for j in range(8):
+		y <<= 1
+		y |= (x & 1)
+		x >>= 1
+	return y
+
 class ModulatedCommunicator:
 	def __init__(self, ir_output, ir_input_modulated):
 		self._pin_output = ir_output.pin_output
@@ -38,6 +46,13 @@ class ModulatedCommunicator:
 	def send(self, bytes_to_send):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
+		if self._params.low_byte_first:
+			bytes_to_send = bytes_to_send[:]  #copy
+		else:
+			bytes_to_send = bytes_to_send[::-1]  #reversed copy
+		if not self._params.low_bit_first:
+			for i in range(len(bytes_to_send)):
+				bytes_to_send[i] = reverse_bits_8(bytes_to_send[i])
 		num_durations = len(bytes_to_send) * 16 + 4
 		array_to_send = array.array("H")
 		for i in range(num_durations):
@@ -104,6 +119,11 @@ class ModulatedCommunicator:
 				current_byte = 0
 		if bit_count % 8 != 0:
 			raise ReceiveError("bit_count = %d" % bit_count)
+		if not self._params.low_byte_first:
+			bytes_received.reverse()
+		if not self._params.low_bit_first:
+			for i in range(len(bytes_received)):
+				bytes_received[i] = reverse_bits_8(bytes_received[i])
 		return bytes_received
 
 class ModulatedParams:
@@ -111,6 +131,8 @@ class ModulatedParams:
 		self.set_protocol("!DL")
 	def set_protocol(self, protocol):
 		if protocol == "!DL":
+			self.low_bit_first = True
+			self.low_byte_first = True
 			self.start_pulse_min = 9000
 			self.start_pulse_send = 9800
 			self.start_pulse_max = 11000
@@ -132,7 +154,9 @@ class ModulatedParams:
 			self.reply_timeout_ms = 40
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
-		elif protocol == "!FL":
+		elif protocol == "!!FL":
+			self.low_bit_first = False
+			self.low_byte_first = False
 			self.start_pulse_min = 5000
 			self.start_pulse_send = 5880
 			self.start_pulse_max = 7000
@@ -155,5 +179,5 @@ class ModulatedParams:
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
 		else:
-			raise ValueError("protocol must be !DL/!FL")
+			raise ValueError("protocol must be !DL/!!FL")
 		self.protocol = protocol
