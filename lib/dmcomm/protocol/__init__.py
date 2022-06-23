@@ -43,11 +43,11 @@ class OtherCommand:
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
 	"""
-	def __init__(self, result_segment_class, physical, turn, segments=[]):
+	def __init__(self, result_segment_class, physical, turn, segments=None):
 		self.result_segment_class = result_segment_class
 		self.physical = physical
 		self.turn = turn
-		self._segments = segments
+		self._segments = [] if segments is None else segments
 		self.result = None
 	def append(self, c):
 		self._segments.append(c)

@@ -15,7 +15,7 @@ from dmcomm.protocol import BaseDigiROM, Result
 class DigiROM(BaseDigiROM):
 	"""Describes the communication for digit-sequence protocols and records the results.
 	"""
-	def __init__(self, physical, turn, segments=[]):
+	def __init__(self, physical, turn, segments=None):
 		super().__init__(ResultSegment, physical, turn, segments)
 
 class CommandSegment:
