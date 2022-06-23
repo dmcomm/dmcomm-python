@@ -18,12 +18,16 @@ for pin in pins_extra_power:
 	output.value = True
 	outputs_extra_power.append(output)
 
+led = digitalio.DigitalInOut(board.LED)
+led.direction = digitalio.Direction.OUTPUT
+
 controller = hw.Controller()
 controller.register(hw.ProngOutput(board.GP19, board.GP21))
 controller.register(hw.ProngInput(board.GP26))
 controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
+
 usb_cdc.console.timeout = 1
 digirom = dmcomm.protocol.auto.AutoResponderVX("V")
 
@@ -57,9 +61,11 @@ while True:
 		except (CommandError, ReceiveError) as e:
 			error = repr(e)
 			result_end = " "
+		led.value = True
 		print(digirom.result, end=result_end)
 		if error != "":
 			print(error)
+		led.value = False
 	seconds_passed = time.monotonic() - time_start
 	if seconds_passed < 5:
 		time.sleep(5 - seconds_passed)
