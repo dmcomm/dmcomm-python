@@ -8,6 +8,7 @@ import usb_cdc
 from dmcomm import CommandError, ReceiveError
 import dmcomm.hardware as hw
 import dmcomm.protocol
+import dmcomm.protocol.auto
 
 pins_extra_power = [board.GP11, board.GP13, board.GP18]
 outputs_extra_power = []
@@ -24,7 +25,7 @@ controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
 usb_cdc.console.timeout = 1
-digirom = None
+digirom = dmcomm.protocol.auto.AutoResponderVX("V")
 
 while True:
 	time_start = time.monotonic()
