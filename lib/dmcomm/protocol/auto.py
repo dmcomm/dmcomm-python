@@ -16,6 +16,9 @@ TYPE_DMOG = 0
 TYPE_PEN_BATTLE = 1
 TYPE_D3_EGG = 2
 
+TYPE_PENX_BATTLE = -1
+TYPE_PENX_TRADE = -2
+
 class AutoResponderVX:
 	def __init__(self, physical):
 		self.physical = physical
@@ -45,7 +48,7 @@ class AutoResponderVX:
 			byteL = data & 0xFF
 			nibbleL = data & 0xF
 			self._rotation += 1
-			if byteH & byteL == 0:
+			if byteH ^ byteL == 0xFF:
 				self._type = TYPE_DMOG
 				self._add(["FB04", "F^30^3"])
 			elif data & 0x0E0F == 0x000F:
@@ -56,6 +59,14 @@ class AutoResponderVX:
 				egg = self._rotation % 10
 				egg_bits = 0x8C0F | (egg << 4)
 				self._add([egg_bits, "@E80F"])
+			elif data & 0x0C0F == 0x0009:
+				self._type = TYPE_PENX_BATTLE
+				self._add(["0019", "3109", "C009", "@4^1^F9"])
+			elif data & 0x0C0F == 0x0409:
+				self._type = TYPE_PENX_TRADE
+				item = (self._rotation % 13) + 3
+				item_bits = 0x0409 | (item << 4)
+				self._add([item_bits, "@2009"])
 		return self._digirom.send()
 	def receive(self, bits):
 		self._digirom.receive(bits)

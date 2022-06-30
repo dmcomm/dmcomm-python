@@ -27,9 +27,14 @@ controller.register(hw.ProngInput(board.GP26))
 controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
-
 usb_cdc.console.timeout = 1
-digirom = dmcomm.protocol.auto.AutoResponderVX("V")
+
+# Choose an initial digirom / auto-responder here:
+digirom = None  # disable
+#digirom = dmcomm.protocol.auto.AutoResponderVX("V")  # 2-prong auto-responder
+#digirom = dmcomm.protocol.auto.AutoResponderVX("X")  # 3-prong auto-responder
+#digirom = dmcomm.protocol.parse_command("IC2-0007-^0^207-0007-@400F" + "-0000" * 16)  # Twin any
+# ...or use your own digirom, as for the Twin above.
 
 while True:
 	time_start = time.monotonic()
