@@ -24,8 +24,9 @@ class ModulatedCommunicator:
 		self._params = ModulatedParams()
 		self._enabled = False
 	def enable(self, protocol):
-		self.disable()
 		self._params.set_protocol(protocol)
+		if self._enabled:
+			return
 		try:
 			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=38000, duty_cycle=0x8000)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=300, idle_state=True)

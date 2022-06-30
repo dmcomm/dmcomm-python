@@ -76,38 +76,39 @@ class Controller:
 					if not self._received(WAIT_REPLY):
 						return
 		finally:
-			self._disable()
 			self._digirom = None
 	def _prepare(self):
 		"""Prepares for a single interaction.
 		"""
 		protocol = self._digirom.physical
-		self._disable()
 		if protocol in ["V", "X", "Y"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
-			self._communicator = self._prong_comm
+			communicator = self._prong_comm
 		elif protocol == "IC":
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
-			self._communicator = self._ic_comm
+			communicator = self._ic_comm
 		elif protocol in ["!DL", "!!FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
-			self._communicator = self._modulated_comm
+			communicator = self._modulated_comm
 		elif protocol in ["BC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
-			self._communicator = self._barcode_comm
+			communicator = self._barcode_comm
 		else:
 			raise CommandError("protocol=" + protocol)
-		self._communicator.enable(protocol)
+		if communicator != self._communicator:
+			self._disable()
+		communicator.enable(protocol)
+		self._communicator = communicator
 		self._digirom.prepare()
 	def _received(self, timeout_ms):
 		received_data = self._communicator.receive(timeout_ms)

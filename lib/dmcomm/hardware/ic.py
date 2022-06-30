@@ -20,8 +20,9 @@ class iC_Communicator:
 		self._params = iC_Params()
 		self._enabled = False
 	def enable(self, protocol):
-		self.disable()
 		self._params.set_protocol(protocol)
+		if self._enabled:
+			return
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.iC_TX,
