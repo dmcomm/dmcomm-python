@@ -57,6 +57,7 @@ while True:
 			serial_print("too slow\n")
 			continue
 		serial_str = serial_str.strip()
+		serial_str = serial_str.strip("\0")
 		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ")
 		try:
 			command = dmcomm.protocol.parse_command(serial_str)
