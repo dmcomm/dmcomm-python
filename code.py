@@ -1,6 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import board
+import busio
 import digitalio
 import time
 import usb_cdc
@@ -27,7 +28,11 @@ controller.register(hw.ProngInput(board.GP26))
 controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
-usb_cdc.console.timeout = 1
+
+# Serial port selection
+serial = usb_cdc.console  # normal
+#serial = usb_cdc.data  # can use this if enabled in boot.py, but currently no real use for it
+#serial = busio.UART(board.GP0, board.GP1)  # for external UART
 
 # Choose an initial digirom / auto-responder here:
 digirom = None  # disable
@@ -36,27 +41,32 @@ digirom = None  # disable
 #digirom = dmcomm.protocol.parse_command("IC2-0007-^0^207-0007-@400F" + "-0000" * 16)  # Twin any
 # ...or use your own digirom, as for the Twin above.
 
+serial.timeout = 1
+def serial_print(s):
+	serial.write(s.encode("utf-8"))
+serial_print("dmcomm-python starting\n")
+
 while True:
 	time_start = time.monotonic()
-	if usb_cdc.console.in_waiting != 0:
+	if serial.in_waiting != 0:
 		digirom = None
-		serial_bytes = usb_cdc.console.readline()
+		serial_bytes = serial.readline()
 		serial_str = serial_bytes.decode("ascii", "ignore")
 		# readline only accepts "\n" but we can receive "\r" after timeout
 		if serial_str[-1] not in ["\r", "\n"]:
-			print("too slow")
+			serial_print("too slow\n")
 			continue
 		serial_str = serial_str.strip()
-		print("got %d bytes: %s -> " % (len(serial_str), serial_str), end="")
+		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ")
 		try:
 			command = dmcomm.protocol.parse_command(serial_str)
 			if hasattr(command, "op"):
 				# It's an OtherCommand
 				raise NotImplementedError("op=" + command.op)
 			digirom = command
-			print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
+			serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]\n")
 		except (CommandError, NotImplementedError) as e:
-			print(repr(e))
+			serial_print(repr(e) + "\n")
 		time.sleep(1)
 	if digirom is not None:
 		error = ""
@@ -67,9 +77,9 @@ while True:
 			error = repr(e)
 			result_end = " "
 		led.value = True
-		print(digirom.result, end=result_end)
+		serial_print(str(digirom.result) + result_end)
 		if error != "":
-			print(error)
+			serial_print(error + "\n")
 		led.value = False
 	seconds_passed = time.monotonic() - time_start
 	if seconds_passed < 5:
