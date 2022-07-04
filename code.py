@@ -30,8 +30,12 @@ controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
 
 # Serial port selection
-serial = usb_cdc.console  # normal
-#serial = usb_cdc.data  # can use this if enabled in boot.py, but currently no real use for it
+if usb_cdc.data is not None:
+	serial = usb_cdc.data
+else:
+	serial = usb_cdc.console
+#serial = usb_cdc.console  # same as REPL
+#serial = usb_cdc.data  # alternate USB serial
 #serial = busio.UART(board.GP0, board.GP1)  # for external UART
 
 # Choose an initial digirom / auto-responder here:
