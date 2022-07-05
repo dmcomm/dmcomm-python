@@ -15,9 +15,9 @@ WAIT_FOREVER = -2
 WAIT_REPLY = -1
 
 from .control import Controller
-from .pins import ProngOutput, ProngInput, InfraredOutput, InfraredInputModulated, InfraredInputRaw
+from .pins import ProngOutput, ProngInput, InfraredOutput, InfraredInputModulated, InfraredInputRaw, TalisOutput, TalisInput
 
 __all__ = [
 	"WAIT_FOREVER", "WAIT_REPLY", "Controller",
-	"ProngOutput", "ProngInput", "InfraredOutput", "InfraredInputModulated", "InfraredInputRaw",
+	"ProngOutput", "ProngInput", "InfraredOutput", "InfraredInputModulated", "InfraredInputRaw", "TalisOutput", "TalisInput"
 	]

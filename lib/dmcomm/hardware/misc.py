@@ -2,6 +2,7 @@
 
 import supervisor
 
+from dmcomm import ReceiveError
 from . import WAIT_FOREVER
 
 # Example from https://circuitpython.readthedocs.io/en/latest/shared-bindings/supervisor/index.html

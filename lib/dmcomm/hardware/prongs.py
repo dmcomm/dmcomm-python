@@ -91,6 +91,8 @@ class ProngCommunicator:
 			timeout_ms = self._params.reply_timeout_ms
 		misc.wait_for_length_2(pulses, 35, timeout_ms, self._params.packet_length_timeout_ms)
 		pulses.pause()
+		if len(pulses) == pulses.maxlen:
+			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return None
 		if len(pulses) < 35:

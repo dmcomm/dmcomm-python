@@ -74,6 +74,8 @@ class iC_Communicator:
 		misc.wait_for_length(pulses, 1, timeout_ms)
 		time.sleep(self._params.packet_length_timeout_ms / 1000)
 		pulses.pause()
+		if len(pulses) == pulses.maxlen:
+			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return []
 		#discard first byte or part of byte since we're joining partway through

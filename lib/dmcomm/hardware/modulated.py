@@ -28,8 +28,10 @@ class ModulatedCommunicator:
 		if self._enabled:
 			return
 		try:
-			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=38000, duty_cycle=0x8000)
-			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=300, idle_state=True)
+			if self._params.infrared:
+				self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=38000, duty_cycle=0x8000)
+			self._input_pulses = pulseio.PulseIn(self._pin_input,
+				maxlen=self._params.maxlen, idle_state=self._params.infrared)
 			self._input_pulses.pause()
 		except:
 			self.disable()
@@ -47,6 +49,14 @@ class ModulatedCommunicator:
 	def send(self, bytes_to_send):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
+		if self._params.infrared:
+			self._send(bytes_to_send)
+		else:
+			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=100000, duty_cycle=0xFFFF)
+			self._send(bytes_to_send)
+			self._output_pulses.deinit()
+			self._output_pulses = None
+	def _send(self, bytes_to_send):
 		if self._params.low_byte_first:
 			bytes_to_send = bytes_to_send[:]  #copy
 		else:
@@ -87,6 +97,8 @@ class ModulatedCommunicator:
 		misc.wait_for_length_no_more(pulses, timeout_ms,
 			self._params.packet_length_timeout_ms, self._params.packet_continue_timeout_ms)
 		pulses.pause()
+		if len(pulses) == pulses.maxlen:
+			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return []
 		bytes_received = []
@@ -101,8 +113,10 @@ class ModulatedCommunicator:
 		while True:
 			t = misc.pop_pulse(pulses, 2*bit_count+1)
 			if t >= self._params.bit_pulse_min and t <= self._params.bit_pulse_max:
-				#normal pulse
-				pass
+				#normal pulse or
+				if self._params.stop_pulse_same and len(pulses) == 0:
+					#stop pulse
+					break
 			elif t >= self._params.stop_pulse_min and t <= self._params.stop_pulse_max:
 				#stop pulse
 				break
@@ -134,6 +148,8 @@ class ModulatedParams:
 		if protocol == "!DL":
 			self.low_bit_first = True
 			self.low_byte_first = True
+			self.infrared = True
+			self.maxlen = 300
 			self.start_pulse_min = 9000
 			self.start_pulse_send = 9800
 			self.start_pulse_max = 11000
@@ -148,6 +164,7 @@ class ModulatedParams:
 			self.bit_gap_threshold = 800
 			self.bit_gap_send_long = 1300
 			self.bit_gap_max = 1500
+			self.stop_pulse_same = False
 			self.stop_pulse_min = 1000
 			self.stop_pulse_send = 1300
 			self.stop_pulse_max = 1400
@@ -158,6 +175,8 @@ class ModulatedParams:
 		elif protocol == "!!FL":
 			self.low_bit_first = False
 			self.low_byte_first = False
+			self.infrared = True
+			self.maxlen = 300
 			self.start_pulse_min = 5000
 			self.start_pulse_send = 5880
 			self.start_pulse_max = 7000
@@ -172,6 +191,7 @@ class ModulatedParams:
 			self.bit_gap_threshold = 650
 			self.bit_gap_send_long = 1450
 			self.bit_gap_max = 1600
+			self.stop_pulse_same = False
 			self.stop_pulse_min = 700
 			self.stop_pulse_send = 950
 			self.stop_pulse_max = 1100
@@ -179,6 +199,33 @@ class ModulatedParams:
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
+		elif protocol == "LT":
+			self.low_bit_first = False
+			self.low_byte_first = False
+			self.infrared = False
+			self.maxlen = 600
+			self.start_pulse_min = 2800
+			self.start_pulse_send = 3800
+			self.start_pulse_max = 4800
+			self.start_gap_min = 3000
+			self.start_gap_send = 4000
+			self.start_gap_max = 5000
+			self.bit_pulse_min = 220
+			self.bit_pulse_send = 420
+			self.bit_pulse_max = 620
+			self.bit_gap_min = 220
+			self.bit_gap_send_short = 560
+			self.bit_gap_threshold = 800
+			self.bit_gap_send_long = 1530
+			self.bit_gap_max = 1800
+			self.stop_pulse_same = True
+			self.stop_pulse_min = 220
+			self.stop_pulse_send = 420
+			self.stop_pulse_max = 620
+			self.stop_gap_send = 1500
+			self.reply_timeout_ms = 100
+			self.packet_length_timeout_ms = 400
+			self.packet_continue_timeout_ms = 10
 		else:
-			raise ValueError("protocol must be !DL/!!FL")
+			raise ValueError("protocol must be !DL/!!FL/LT")
 		self.protocol = protocol
