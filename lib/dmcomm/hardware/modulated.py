@@ -223,7 +223,7 @@ class ModulatedParams:
 			self.stop_pulse_send = 420
 			self.stop_pulse_max = 620
 			self.stop_gap_send = 1500
-			self.reply_timeout_ms = 100
+			self.reply_timeout_ms = 300
 			self.packet_length_timeout_ms = 400
 			self.packet_continue_timeout_ms = 10
 		else:
