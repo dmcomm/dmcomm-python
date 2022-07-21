@@ -177,7 +177,7 @@ class ModulatedParams:
 			self.low_byte_first = False
 			self.infrared = True
 			self.maxlen = 300
-			self.start_pulse_min = 5000
+			self.start_pulse_min = 3800
 			self.start_pulse_send = 5880
 			self.start_pulse_max = 7000
 			self.start_gap_min = 3000
@@ -205,7 +205,7 @@ class ModulatedParams:
 			self.infrared = False
 			self.maxlen = 600
 			self.start_pulse_min = 2800
-			self.start_pulse_send = 3800
+			self.start_pulse_send = 3900
 			self.start_pulse_max = 4800
 			self.start_gap_min = 3000
 			self.start_gap_send = 4000
