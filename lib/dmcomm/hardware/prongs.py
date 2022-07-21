@@ -33,6 +33,7 @@ class ProngCommunicator:
 				first_set_pin=self._pin_drive_signal,
 				set_pin_count=2,
 				initial_set_pin_direction=0,
+				init=pio_programs.do_nothing,  # workaround for CircuitPython bug
 			)
 			self._output_weak_pull.value = self._params.idle_state
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=40, idle_state=self._params.idle_state)

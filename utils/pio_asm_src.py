@@ -57,6 +57,11 @@ iC_TX_ASM = """
 	nop [12]
 """
 
+# Program that does nothing.
+do_nothing_ASM = """
+	nop
+"""
+
 this_file_name = os.path.basename(__file__)
 
 output_text = f"""# This file is part of the DMComm project by BladeSabre. License: MIT.
@@ -67,6 +72,8 @@ from array import array
 prong_TX = {repr(adafruit_pioasm.assemble(prong_TX_ASM))}
 
 iC_TX = {repr(adafruit_pioasm.assemble(iC_TX_ASM))}
+
+do_nothing = {repr(adafruit_pioasm.assemble(do_nothing_ASM))}
 """
 
 if __name__ == "__main__":
