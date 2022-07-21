@@ -46,18 +46,10 @@ class InfraredInputRaw:
 	def __init__(self, pin_input):
 		self.pin_input = pin_input
 
-class TalisOutput:
-	"""Description of the Talispod/dam output.
+class TalisInputOutput:
+	"""Description of the Talispod/dam input/output.
 
-	:param pin_output: The pin to use for output.
+	:param pin: The pin to use for input and output.
 	"""
-	def __init__(self, pin_output):
-		self.pin_output = pin_output
-
-class TalisInput:
-	"""Description of the Talispod/dam input.
-
-	:param pin_input: The pin to use for input.
-	"""
-	def __init__(self, pin_input):
-		self.pin_input = pin_input
+	def __init__(self, pin):
+		self.pin = pin

@@ -17,8 +17,7 @@ class Controller:
 		self._ir_output = None
 		self._ir_input_modulated = None
 		self._ir_input_raw = None
-		self._talis_output = None
-		self._talis_input = None
+		self._talis_input_output = None
 		self._prong_comm = None
 		self._ic_comm = None
 		self._modulated_comm = None
@@ -41,10 +40,8 @@ class Controller:
 			self._ir_input_modulated = io_object
 		if isinstance(io_object, pins.InfraredInputRaw):
 			self._ir_input_raw = io_object
-		if isinstance(io_object, pins.TalisOutput):
-			self._talis_output = io_object
-		if isinstance(io_object, pins.TalisInput):
-			self._talis_input = io_object
+		if isinstance(io_object, pins.TalisInputOutput):
+			self._talis_input_output = io_object
 		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
 			from . import prongs
 			self._prong_comm = prongs.ProngCommunicator(self._prong_output, self._prong_input)
@@ -54,9 +51,9 @@ class Controller:
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
-		if self._talis_comm is None and self._talis_output is not None and self._talis_input is not None:
+		if self._talis_comm is None and self._talis_input_output is not None:
 			from . import modulated
-			self._talis_comm = modulated.ModulatedCommunicator(self._talis_output, self._talis_input)
+			self._talis_comm = modulated.TalisCommunicator(self._talis_input_output)
 		if self._barcode_comm is None and self._ir_output is not None:
 			from . import barcode
 			self._barcode_comm = barcode.BarcodeCommunicator(self._ir_output)
@@ -110,10 +107,8 @@ class Controller:
 				raise CommandError("no modulated infrared input registered")
 			communicator = self._modulated_comm
 		elif protocol in ["LT"]:
-			if self._talis_output is None:
-				raise CommandError("no talis output registered")
-			if self._talis_input is None:
-				raise CommandError("no talis input registered")
+			if self._talis_input_output is None:
+				raise CommandError("no talis pin registered")
 			communicator = self._talis_comm
 		elif protocol in ["BC"]:
 			if self._ir_output is None:
