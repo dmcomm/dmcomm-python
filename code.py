@@ -28,7 +28,7 @@ controller.register(hw.ProngInput(board.GP26))
 controller.register(hw.InfraredOutput(board.GP16))
 controller.register(hw.InfraredInputModulated(board.GP17))
 controller.register(hw.InfraredInputRaw(board.GP14))
-controller.register(hw.TalisInputOutput(board.GP9))
+controller.register(hw.TalisInputOutput(board.GP15))
 
 # Serial port selection
 if usb_cdc.data is not None:
