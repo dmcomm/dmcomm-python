@@ -28,7 +28,7 @@ class CommandSegment:
 		if len(text) < 2 or len(text) % 2 != 0:
 			raise CommandError("bad length: " + text)
 		data = []
-		for i in range(len(text)-2, -1, -2):
+		for i in range(0, len(text)-1, 2):
 			digits = text[i:i+2]
 			try:
 				b = int(digits, 16)
@@ -53,7 +53,6 @@ class ResultSegment:
 	def __str__(self):
 		"""Returns text formatted for the serial protocol."""
 		hex_parts = ["%02X" % b for b in self.data]
-		hex_parts.reverse()
 		hex_str = "".join(hex_parts)
 		if self.sent:
 			return "s:" + hex_str

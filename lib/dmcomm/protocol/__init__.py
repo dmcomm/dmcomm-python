@@ -65,6 +65,8 @@ class BaseDigiROM:
 		self.result.append(self.result_segment_class(False, data))
 	def __len__(self):
 		return len(self._segments)
+	def __getitem__(self, i):
+		return self._segments[i]
 
 class Result:
 	"""Describes the result of the communication.

@@ -16,7 +16,7 @@ def reverse_bits_8(x):
 	return y
 
 def send(output_pulses, params, bytes_to_send):
-	if params.low_byte_first:
+	if not params.low_byte_first:
 		bytes_to_send = bytes_to_send[:]  #copy
 	else:
 		bytes_to_send = bytes_to_send[::-1]  #reversed copy
@@ -92,7 +92,7 @@ def receive(input_pulses, params, timeout_ms):
 			current_byte = 0
 	if bit_count % 8 != 0:
 		raise ReceiveError("bit_count = %d" % bit_count)
-	if not params.low_byte_first:
+	if params.low_byte_first:
 		bytes_received.reverse()
 	if not params.low_bit_first:
 		for i in range(len(bytes_received)):
