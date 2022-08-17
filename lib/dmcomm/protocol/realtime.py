@@ -25,8 +25,11 @@ class RealTime:
 		self.time_start = None
 	def execute(self, rom_str):
 		digirom = dmcomm.protocol.parse_command(rom_str)
+		self.modify(digirom)
 		self._execute_callback(digirom)
 		self.result = digirom.result
+	def modify(self, digirom):
+		pass
 	def send_message(self):
 		self._send_callback(self.message())
 	def receive_message(self):
@@ -48,6 +51,8 @@ class RealTimeHost(RealTime):
 				self.send_message()
 				self.time_start = time.monotonic()
 				self.update_status(STATUS_WAIT)
+		elif time.monotonic() - self.time_start < self.wait_min:
+			self.update_status(STATUS_WAIT)
 		elif time.monotonic() - self.time_start > self.wait_max:
 			self.time_start = None
 		else:
@@ -68,12 +73,12 @@ class RealTimeGuest(RealTime):
 			if self.comm_successful():
 				self.send_message()
 
-class RealTimeHostTalis(RealTimeHost):
+class RealTimeHostTalisReal(RealTimeHost):
 	@property
 	def scan_str(self):
-		return "LT0"
+		return "LT2"
 	def scan_successful(self):
-		return len(self.result) == 2 and len(self.result[0].data) >= 20
+		return len(self.result) == 1 and len(self.result[0].data) >= 20
 	def message(self):
 		return "LT1-" + str(self.result[0])[2:] + "-AA590003" * 3
 	@property
@@ -85,7 +90,7 @@ class RealTimeHostTalis(RealTimeHost):
 	def matched(self, rom_str):
 		return rom_str.startswith("LT1-")
 
-class RealTimeGuestTalis(RealTimeGuest):
+class RealTimeGuestTalisReal(RealTimeGuest):
 	def matched(self, rom_str):
 		return rom_str.startswith("LT1-")
 	@property
@@ -95,6 +100,26 @@ class RealTimeGuestTalis(RealTimeGuest):
 		return len(self.result) >= 4
 	def message(self):
 		return "LT1-" + str(self.result[1])[2:] + "-AA590003" * 3
+
+class RealTimeGuestTalis(RealTimeHostTalisReal): #this is deliberate: they are almost symmetrical
+	@property
+	def wait_min(self):
+		return 9
+	@property
+	def wait_max(self):
+		return 15
+
+class RealTimeHostTalis(RealTimeGuestTalis):
+	def modify(self, digirom):
+		if len(digirom) == 0:
+			return
+		sent_data = self.result[0].data
+		rom_data = digirom[0].data
+		rom_data[14] = sent_data[14] #random number that only Pod copies?
+		rom_data[15] = sent_data[15] #session ID
+		rom_data[17] = sent_data[17] #terrain
+		rom_data[-1] = 0
+		rom_data[-1] = sum(rom_data) % 256
 
 class RealTimeHostPenXBattle(RealTimeHost):
 	@property
