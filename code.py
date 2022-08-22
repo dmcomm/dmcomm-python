@@ -10,25 +10,21 @@ from dmcomm import CommandError, ReceiveError
 import dmcomm.hardware as hw
 import dmcomm.protocol
 import dmcomm.protocol.auto
+import board_config
 
-pins_extra_power = [board.GP11, board.GP13, board.GP18]
 outputs_extra_power = []
-for pin in pins_extra_power:
+for (pin, value) in board_config.extra_power_pins:
 	output = digitalio.DigitalInOut(pin)
 	output.direction = digitalio.Direction.OUTPUT
-	output.value = True
+	output.value = value
 	outputs_extra_power.append(output)
+
+controller = hw.Controller()
+for pin_description in board_config.controller_pins:
+	controller.register(pin_description)
 
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
-
-controller = hw.Controller()
-controller.register(hw.ProngOutput(board.GP19, board.GP21))
-controller.register(hw.ProngInput(board.GP26))
-controller.register(hw.InfraredOutput(board.GP16))
-controller.register(hw.InfraredInputModulated(board.GP17))
-controller.register(hw.InfraredInputRaw(board.GP14))
-controller.register(hw.TalisInputOutput(board.GP15))
 
 # Serial port selection
 if usb_cdc.data is not None:
