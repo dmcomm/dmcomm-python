@@ -43,9 +43,9 @@ digirom = None  # disable
 # ...or use your own digirom, as for the Twin above.
 
 serial.timeout = 1
-def serial_print(s):
-	serial.write(s.encode("utf-8"))
-serial_print("dmcomm-python starting\n")
+def serial_print(s, end="\n"):
+	serial.write((s + end).encode("utf-8"))
+serial_print("dmcomm-python starting")
 
 while True:
 	time_start = time.monotonic()
@@ -55,20 +55,20 @@ while True:
 		serial_str = serial_bytes.decode("ascii", "ignore")
 		# readline only accepts "\n" but we can receive "\r" after timeout
 		if serial_str[-1] not in ["\r", "\n"]:
-			serial_print("too slow\n")
+			serial_print("too slow")
 			continue
 		serial_str = serial_str.strip()
 		serial_str = serial_str.strip("\0")
-		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ")
+		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ", end="")
 		try:
 			command = dmcomm.protocol.parse_command(serial_str)
 			if hasattr(command, "op"):
 				# It's an OtherCommand
 				raise NotImplementedError("op=" + command.op)
 			digirom = command
-			serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]\n")
+			serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
 		except (CommandError, NotImplementedError) as e:
-			serial_print(repr(e) + "\n")
+			serial_print(repr(e))
 		time.sleep(1)
 	if digirom is not None:
 		error = ""
@@ -79,9 +79,9 @@ while True:
 			error = repr(e)
 			result_end = " "
 		led.value = True
-		serial_print(str(digirom.result) + result_end)
+		serial_print(str(digirom.result), end=result_end)
 		if error != "":
-			serial_print(error + "\n")
+			serial_print(error)
 		led.value = False
 	seconds_passed = time.monotonic() - time_start
 	if seconds_passed < 5:
