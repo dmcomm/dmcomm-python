@@ -42,5 +42,14 @@ elif board.board_id == "raspberry_pi_pico":
 		(board.GP13, True),
 		(board.GP18, True),
 	]
+elif board.board_id == "seeeduino_xiao_rp2040":
+	controller_pins = [
+		hw.ProngOutput(board.A0, board.D6),
+		hw.ProngInput(board.A2),
+		hw.InfraredOutput(board.D8),
+		hw.InfraredInputModulated(board.D9),
+		hw.InfraredInputRaw(board.D7),
+	]
+	extra_power_pins = []
 else:
 	raise ValueError("Please configure pins in board_config.py")
