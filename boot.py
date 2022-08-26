@@ -19,7 +19,7 @@ if board.board_id == "arduino_nano_rp2040_connect":
 elif board.board_id == "raspberry_pi_pico":
 	button_pin = board.GP3
 elif board.board_id == "seeeduino_xiao_rp2040":
-	button_pin = board.D10
+	button_pin = board.D6
 else:
 	button_pin = None
 

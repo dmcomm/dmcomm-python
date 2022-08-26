@@ -6,7 +6,7 @@
 Handles differences between boards.
 
 Currently we have recommended pin assignments for
-Raspberry Pi Pico and Arduino Nano RP2040 Connect.
+Raspberry Pi Pico, Arduino Nano RP2040 Connect, and Seeed Xiao RP2040.
 """
 
 import board
@@ -44,11 +44,11 @@ elif board.board_id == "raspberry_pi_pico":
 	]
 elif board.board_id == "seeeduino_xiao_rp2040":
 	controller_pins = [
-		hw.ProngOutput(board.A0, board.D6),
-		hw.ProngInput(board.A2),
-		hw.InfraredOutput(board.D8),
-		hw.InfraredInputModulated(board.D9),
-		hw.InfraredInputRaw(board.D7),
+		hw.ProngOutput(board.D10, board.D7), # D10 is GP3, D9 is GP4
+		hw.ProngInput(board.D8),
+		hw.InfraredOutput(board.A1),
+		hw.InfraredInputModulated(board.A2),
+		hw.InfraredInputRaw(board.A0),
 	]
 	extra_power_pins = []
 else:
