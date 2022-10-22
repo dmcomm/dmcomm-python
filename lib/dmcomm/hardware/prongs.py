@@ -96,9 +96,12 @@ class ProngCommunicator:
 			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return None
+		ic_bug = False
 		if len(pulses) < 35:
-			#TODO handle the iC bug
-			raise ReceiveError("incomplete: %d pulses" % len(pulses))
+			if self._params.protocol == "X" and len(pulses) == 34:
+				ic_bug = True
+			else:
+				raise ReceiveError("incomplete: %d pulses" % len(pulses))
 		t = pulses.popleft()
 		if t < self._params.pre_low_min:
 			raise ReceiveError("pre_low = %d" % t)
@@ -116,6 +119,8 @@ class ProngCommunicator:
 			result >>= 1
 			if t > self._params.bit_high_threshold:
 				result |= 0x8000
+			if ic_bug and i == 15:
+				return result
 			t = pulses.popleft()
 			if t < self._params.bit_low_min or t > self._params.bit_low_max:
 				raise ReceiveError("bit_low %d = %d" % (i + 1, t))
@@ -162,7 +167,7 @@ class ProngParams:
 			self.start_high_max = 3500
 			self.start_low_min = 1000
 			self.start_low_send = 1600
-			self.start_low_max = 2000
+			self.start_low_max = 2600
 			self.bit_high_min = 800
 			self.bit0_high_send = 1600
 			self.bit_high_threshold = 2600
@@ -173,7 +178,7 @@ class ProngParams:
 			self.bit0_low_send = 4000
 			self.bit_low_max = 5500
 			self.cooldown_send = 400
-			self.reply_timeout_ms = 100
+			self.reply_timeout_ms = 200  # but wait_for_length_2 failing at 40 when this was 100?
 			self.packet_length_timeout_ms = 300
 		elif protocol == "Y":
 			self.idle_state = False
