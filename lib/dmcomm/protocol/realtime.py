@@ -128,7 +128,7 @@ class RealTimeHostPenXBattle(RealTimeHost):
 	def scan_successful(self):
 		return len(self.result) == 7 and self.result[6].data is not None
 	def message(self):
-		return "X2-{0}-{1}-{2}-@4^1^F9".format(
+		return "X2-{0}-{1}-{2}-@4^3^F9".format(
 			str(self.result[0])[2:],
 			str(self.result[2])[2:],
 			str(self.result[4])[2:],
