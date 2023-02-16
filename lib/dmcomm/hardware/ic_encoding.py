@@ -38,7 +38,7 @@ def decode(bytes_, start_index=0):
 	while True:
 		i = start_index + offset
 		if i >= len(bytes_):
-			raise ValueError("ended unfinished")
+			raise ValueError("ended unfinished: " + str(bytes_))
 		b1 = bytes_[i]
 		if i <= len(bytes_) - 2:
 			b2 = bytes_[i+1]
@@ -48,9 +48,9 @@ def decode(bytes_, start_index=0):
 			if b1 == 0xC0:
 				count_C0 += 1
 				if count_C0 > 10:
-					raise ValueError("more than 10 C0")
+					raise ValueError("more than 10 leading C0 in " + str(bytes_))
 			elif count_C0 < 5:
-				raise ValueError("less than 5 C0")
+				raise ValueError("less than 5 leading C0 in " + str(bytes_))
 			else:
 				stage = 2
 				start_sequence_remaining = 4
@@ -59,7 +59,8 @@ def decode(bytes_, start_index=0):
 		elif stage == 2:
 			target = START_SEQUENCE[-start_sequence_remaining]
 			if b1 != target:
-				raise ValueError("byte at position %d expected %02X, got %02X" % (offset, target, b1))
+				raise ValueError("byte at position %d expected %02X, got %02X in %s"
+					% (offset, target, b1, str(bytes_)))
 			start_sequence_remaining -= 1
 			if start_sequence_remaining == 0:
 				stage = 3
@@ -69,9 +70,9 @@ def decode(bytes_, start_index=0):
 			elif b2 == 0xE1:
 				bytes4.append(0xC1)
 			elif b2 is None:
-				raise ValueError("ended unfinished")
+				raise ValueError("ended during escape sequence: " + str(bytes_))
 			else:
-				raise ValueError("bad escape sequence %02X %02X" % (b1, b2))
+				raise ValueError("bad escape sequence %02X %02X in %s" % (b1, b2, str(bytes_)))
 			offset += 1
 		elif b1 == 0xC1:
 			if b2 == 0xFF:
@@ -81,7 +82,7 @@ def decode(bytes_, start_index=0):
 			bytes4.append(b1)
 		offset += 1
 	if len(bytes4) != 4:
-		raise ValueError("length not 4: " + str(bytes4))
+		raise ValueError("length not 4: " + str(bytes4) + " from " + str(bytes_))
 	x = bytes4[0] | (bytes4[1] << 8)
 	r = bytes4[2] | (bytes4[3] << 8)
 	r_calc = redundancy_bits(x)
