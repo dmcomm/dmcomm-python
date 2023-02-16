@@ -3,6 +3,7 @@
 import board
 import busio
 import digitalio
+import os
 import time
 import usb_cdc
 
@@ -11,6 +12,10 @@ import dmcomm.hardware as hw
 import dmcomm.protocol
 import dmcomm.protocol.auto
 import board_config
+
+VERSION = f"""dmcomm-python v0.3.0+wip
+CircuitPython {os.uname().version}
+{os.uname().machine}"""
 
 outputs_extra_power = []
 for (pin, value) in board_config.extra_power_pins:
@@ -64,9 +69,13 @@ while True:
 			command = dmcomm.protocol.parse_command(serial_str)
 			if hasattr(command, "op"):
 				# It's an OtherCommand
-				raise NotImplementedError("op=" + command.op)
-			digirom = command
-			serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
+				if command.op == "?":
+					serial_print(VERSION)
+				else:
+					raise NotImplementedError("op=" + command.op)
+			else:
+				digirom = command
+				serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
 		except (CommandError, NotImplementedError) as e:
 			serial_print(repr(e))
 		time.sleep(1)

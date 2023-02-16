@@ -20,7 +20,7 @@ def parse_command(text):
 	else:
 		op = parts[0]
 		turn = ""
-	if op in ["D", "T"]:
+	if op in ["D", "T", "?"]:
 		return OtherCommand(op, turn)
 	elif op in ["V", "X", "Y", "IC"]:
 		from dmcomm.protocol.core16 import CommandSegment, DigiROM
