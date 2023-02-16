@@ -25,6 +25,9 @@ def encode(x):
 		elif byte_ == 0xC1:
 			result.append(0x7D)
 			result.append(0xE1)
+		elif byte_ == 0x7D:
+			result.append(0x7D)
+			result.append(0x5D)
 		else:
 			result.append(byte_)
 	result.append(0xC1)
@@ -69,6 +72,8 @@ def decode(bytes_, start_index=0):
 				bytes4.append(0xC0)
 			elif b2 == 0xE1:
 				bytes4.append(0xC1)
+			elif b2 == 0x5D:
+				bytes4.append(0x7D)
 			elif b2 is None:
 				raise ValueError("ended during escape sequence: " + str(bytes_))
 			else:
