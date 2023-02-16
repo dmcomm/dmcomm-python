@@ -16,8 +16,6 @@ class ProngInput:
 	"""Description of the input for the RP2040 prong circuit.
 
 	:param pin_input: The pin to use for input.
-		An analog pin is recommended for compatibility with the Arduino version
-		and for a possible future voltage test.
 	"""
 	def __init__(self, pin_input):
 		self.pin_input = pin_input

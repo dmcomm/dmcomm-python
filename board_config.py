@@ -31,7 +31,7 @@ if board.board_id == "arduino_nano_rp2040_connect":
 elif board.board_id == "raspberry_pi_pico":
 	controller_pins = [
 		hw.ProngOutput(board.GP19, board.GP21),
-		hw.ProngInput(board.GP26),
+		hw.ProngInput(board.GP22), #note this may need changed to GP26 on older builds
 		hw.InfraredOutput(board.GP16),
 		hw.InfraredInputModulated(board.GP17),
 		hw.InfraredInputRaw(board.GP14),
