@@ -225,7 +225,7 @@ class ModulatedParams:
 		elif signal_type == "LT":
 			self.low_bit_first = False
 			self.low_byte_first = False
-			self.start_pulse_min = 2800
+			self.start_pulse_min = 300 # should be 2800 but there is a mysterious issue
 			self.start_pulse_send = 3900
 			self.start_pulse_max = 4800
 			self.start_gap_min = 3000
