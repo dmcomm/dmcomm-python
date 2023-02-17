@@ -151,7 +151,7 @@ class ProngParams:
 			self.bit_low_min = 1000
 			self.bit1_low_send = 1667
 			self.bit0_low_send = 3167
-			self.bit_low_max = 3500
+			self.bit_low_max = 4000
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
