@@ -6,8 +6,8 @@ import time
 import rp2pio
 
 from dmcomm import ReceiveError
+from dmcomm.protocol import ic_encoding
 from . import WAIT_REPLY
-from . import ic_encoding
 from . import misc
 from . import pio_programs
 

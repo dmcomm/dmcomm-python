@@ -1,3 +1,11 @@
+# This file is part of the DMComm project by BladeSabre. License: MIT.
+
+"""
+`dmcomm.protocol.ic_encoding`
+=============================
+
+Handles conversion between 16-bit values and IR sequences for iC protocol.
+"""
 
 START_SEQUENCE = [0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xFF,0x13,0x70,0x70]
 
