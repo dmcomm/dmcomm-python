@@ -23,10 +23,11 @@ class ProngCommunicator:
 		self._params = ProngParams()
 		self._enabled = False
 	def enable(self, protocol):
-		self._params.set_protocol(protocol)
-		self._output_weak_pull.value = self._params.idle_state
 		if self._enabled:
-			return
+			if protocol == self._params.protocol:
+				return
+			self.disable()
+		self._params.set_protocol(protocol)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.prong_TX,
@@ -36,6 +37,7 @@ class ProngCommunicator:
 				initial_set_pin_direction=0,
 				init=pio_programs.do_nothing,  # workaround for CircuitPython bug
 			)
+			self._output_weak_pull.value = self._params.idle_state
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=40, idle_state=self._params.idle_state)
 			self._input_pulses.pause()
 		except:

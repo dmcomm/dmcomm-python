@@ -6,7 +6,7 @@
 ### Changed
 - Moved recommended `prong_in` on Pi Pico from GP26 to GP22
 - Fixed iC escape sequence where `0x7D` is encoded as `0x7D, 0x5D`
-- Ensured prong weak pull is always updated
+- Ensured prong weak pull and input logic level are updated when changing prong type
 - Relaxed "V" bit timing to account for D3USv1
 ### Removed
 - `realtime` module and example - moved to WiFiCom and has since been updated
