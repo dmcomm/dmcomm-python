@@ -22,12 +22,12 @@ class ProngCommunicator:
 		self._input_pulses = None
 		self._params = ProngParams()
 		self._enabled = False
-	def enable(self, protocol):
+	def enable(self, signal_type):
 		if self._enabled:
-			if protocol == self._params.protocol:
+			if signal_type == self._params.signal_type:
 				return
 			self.disable()
-		self._params.set_protocol(protocol)
+		self._params.set_signal_type(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.prong_TX,
@@ -100,7 +100,7 @@ class ProngCommunicator:
 			return None
 		ic_bug = False
 		if len(pulses) < 35:
-			if self._params.protocol == "X" and len(pulses) == 34:
+			if self._params.signal_type == "X" and len(pulses) == 34:
 				ic_bug = True
 			else:
 				raise ReceiveError("incomplete: %d pulses" % len(pulses))
@@ -132,9 +132,9 @@ class ProngCommunicator:
 
 class ProngParams:
 	def __init__(self):
-		self.set_protocol("V")
-	def set_protocol(self, protocol):
-		if protocol == "V":
+		self.set_signal_type("V")
+	def set_signal_type(self, signal_type):
+		if signal_type == "V":
 			self.idle_state = True
 			self.invert_bit_read = False
 			self.pre_high_send = 3000
@@ -159,7 +159,7 @@ class ProngParams:
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
-		elif protocol == "X":
+		elif signal_type == "X":
 			self.idle_state = True
 			self.invert_bit_read = False
 			self.pre_high_send = 3000
@@ -184,7 +184,7 @@ class ProngParams:
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 200  # but wait_for_length_2 failing at 40 when this was 100?
 			self.packet_length_timeout_ms = 300
-		elif protocol == "Y":
+		elif signal_type == "Y":
 			self.idle_state = False
 			self.invert_bit_read = True
 			self.pre_high_send = 5000
@@ -210,5 +210,5 @@ class ProngParams:
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
 		else:
-			raise ValueError("protocol must be V/X/Y")
-		self.protocol = protocol
+			raise ValueError("signal_type must be V/X/Y")
+		self.signal_type = signal_type

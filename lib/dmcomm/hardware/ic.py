@@ -19,8 +19,8 @@ class iC_Communicator:
 		self._input_pulses = None
 		self._params = iC_Params()
 		self._enabled = False
-	def enable(self, protocol):
-		self._params.set_protocol(protocol)
+	def enable(self, signal_type):
+		self._params.set_signal_type(signal_type)
 		if self._enabled:
 			return
 		try:
@@ -127,14 +127,14 @@ class iC_Communicator:
 
 class iC_Params:
 	def __init__(self):
-		self.set_protocol("IC")
-	def set_protocol(self, protocol):
-		if protocol == "IC":
+		self.set_signal_type("IC")
+	def set_signal_type(self, signal_type):
+		if signal_type == "IC":
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 30
 			self.pulse_max = 25
 			self.tick_length = 100
 			self.tick_margin = 30
 		else:
-			raise ValueError("protocol must be IC")
-		self.protocol = protocol
+			raise ValueError("signal_type must be IC")
+		self.signal_type = signal_type

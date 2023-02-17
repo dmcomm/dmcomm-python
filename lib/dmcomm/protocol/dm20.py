@@ -360,7 +360,7 @@ class BattleOrCopyOutcome:
 class BattleOrCopy:
 	"""Adapts DM20 fields to DigiROM interface (under construction)."""
 	def __init__(self, mode, turn):
-		self.physical = "V"
+		self.signal_type = "V"
 		self.mode = mode
 		self.turn = turn
 		self.name = None

@@ -20,8 +20,8 @@ TYPE_PENX_BATTLE = -1
 TYPE_PENX_TRADE = -2
 
 class AutoResponderVX:
-	def __init__(self, physical):
-		self.physical = physical
+	def __init__(self, signal_type):
+		self.signal_type = signal_type
 		self.turn = 2
 		self.result = None
 		self._rotation = -1
@@ -32,7 +32,7 @@ class AutoResponderVX:
 			else:
 				self._digirom.append(CommandSegment.from_string(item))
 	def prepare(self):
-		self._digirom = DigiROM(self.physical, self.turn)
+		self._digirom = DigiROM(self.signal_type, self.turn)
 		self._digirom.prepare()
 		self.result = self._digirom.result
 		self._rview = ResultView(self.result, 1)

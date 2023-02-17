@@ -61,7 +61,7 @@ class Controller:
 		"""Carries out the communication specified.
 
 		:param digirom: The DigiROM to execute.
-		:raises CommandError: If the required pins for the selected physical protocol are not registered.
+		:raises CommandError: If the required pins for the selected signal type are not registered.
 		:raises ReceiveError: If a broken transmission was received.
 		"""
 		self._digirom = digirom
@@ -87,38 +87,38 @@ class Controller:
 	def _prepare(self):
 		"""Prepares for a single interaction.
 		"""
-		protocol = self._digirom.physical
-		if protocol in ["V", "X", "Y"]:
+		signal_type = self._digirom.signal_type
+		if signal_type in ["V", "X", "Y"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
 			communicator = self._prong_comm
-		elif protocol == "IC":
+		elif signal_type == "IC":
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
 			communicator = self._ic_comm
-		elif protocol in ["!DL", "!!FL"]:
+		elif signal_type in ["!DL", "!!FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
 			communicator = self._modulated_comm
-		elif protocol in ["LT"]:
+		elif signal_type in ["LT"]:
 			if self._talis_input_output is None:
 				raise CommandError("no talis pin registered")
 			communicator = self._talis_comm
-		elif protocol in ["BC"]:
+		elif signal_type in ["BC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			communicator = self._barcode_comm
 		else:
-			raise CommandError("protocol=" + protocol)
+			raise CommandError("signal_type=" + signal_type)
 		if communicator != self._communicator:
 			self._disable()
-		communicator.enable(protocol)
+		communicator.enable(signal_type)
 		self._communicator = communicator
 		self._digirom.prepare()
 	def _received(self, timeout_ms):

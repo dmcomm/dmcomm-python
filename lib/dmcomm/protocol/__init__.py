@@ -43,16 +43,16 @@ class OtherCommand:
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
 	"""
-	def __init__(self, result_segment_class, physical, turn, segments=None):
+	def __init__(self, result_segment_class, signal_type, turn, segments=None):
 		self.result_segment_class = result_segment_class
-		self.physical = physical
+		self.signal_type = signal_type
 		self.turn = turn
 		self._segments = [] if segments is None else segments
 		self.result = None
 	def append(self, c):
 		self._segments.append(c)
 	def prepare(self):
-		self.result = Result(self.physical)
+		self.result = Result(self.signal_type)
 		self._command_index = 0
 	def send(self):
 		if self._command_index >= len(self._segments):
@@ -71,8 +71,8 @@ class BaseDigiROM:
 class Result:
 	"""Describes the result of the communication.
 	"""
-	def __init__(self, physical):
-		self.physical = physical
+	def __init__(self, signal_type):
+		self.signal_type = signal_type
 		self._results = []
 	def append(self, segment):
 		self._results.append(segment)

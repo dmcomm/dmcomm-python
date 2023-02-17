@@ -107,8 +107,8 @@ class ModulatedCommunicator:
 		self._input_pulses = None
 		self._params = ModulatedParams()
 		self._enabled = False
-	def enable(self, protocol):
-		self._params.set_protocol(protocol)
+	def enable(self, signal_type):
+		self._params.set_signal_type(signal_type)
 		if self._enabled:
 			return
 		try:
@@ -142,8 +142,8 @@ class TalisCommunicator:
 		self._pin = talis_input_output.pin
 		self._params = ModulatedParams()
 		self._enabled = False
-	def enable(self, protocol):
-		self._params.set_protocol(protocol)
+	def enable(self, signal_type):
+		self._params.set_signal_type(signal_type)
 		self._enabled = True
 	def disable(self):
 		self._enabled = False
@@ -170,9 +170,9 @@ class TalisCommunicator:
 
 class ModulatedParams:
 	def __init__(self):
-		self.set_protocol("!DL")
-	def set_protocol(self, protocol):
-		if protocol == "!DL":
+		self.set_signal_type("!DL")
+	def set_signal_type(self, signal_type):
+		if signal_type == "!DL":
 			self.low_bit_first = True
 			self.low_byte_first = True
 			self.start_pulse_min = 9000
@@ -197,7 +197,7 @@ class ModulatedParams:
 			self.reply_timeout_ms = 40
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
-		elif protocol == "!!FL":
+		elif signal_type == "!!FL":
 			self.low_bit_first = False
 			self.low_byte_first = False
 			self.start_pulse_min = 3800
@@ -222,7 +222,7 @@ class ModulatedParams:
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
-		elif protocol == "LT":
+		elif signal_type == "LT":
 			self.low_bit_first = False
 			self.low_byte_first = False
 			self.start_pulse_min = 2800
@@ -248,5 +248,5 @@ class ModulatedParams:
 			self.packet_length_timeout_ms = 400
 			self.packet_continue_timeout_ms = 10
 		else:
-			raise ValueError("protocol must be !DL/!!FL/LT")
-		self.protocol = protocol
+			raise ValueError("signal_type must be !DL/!!FL/LT")
+		self.signal_type = signal_type

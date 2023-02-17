@@ -15,15 +15,15 @@ from dmcomm.protocol import Result
 class DigiROM:
 	"""Describes the communication for 16-bit protocols and records the results.
 	"""
-	def __init__(self, physical, turn, segments=None):
-		self.physical = physical
+	def __init__(self, signal_type, turn, segments=None):
+		self.signal_type = signal_type
 		self.turn = turn
 		self._segments = [] if segments is None else segments
 		self.result = None
 	def append(self, c):
 		self._segments.append(c)
 	def prepare(self):
-		self.result = Result(self.physical)
+		self.result = Result(self.signal_type)
 		self._command_index = 0
 		self._bits_received = 0
 		self._checksum = 0

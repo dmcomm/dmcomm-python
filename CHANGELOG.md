@@ -5,6 +5,7 @@
 - More informative messages about iC decoding errors
 ### Changed
 - Changed recommended `prong_in` on Pi Pico from GP26 to GP22
+- Renamed `physical` and `protocol` attributes to `signal_type` - major breaking change to API (most API users will have been using `digirom.physical`)
 - Moved `ic_encoding` module to `protocol` subpackage
 - Fixed iC escape sequence where `0x7D` is encoded as `0x7D, 0x5D`
 - Ensured prong weak pull and input logic level are updated when changing prong type

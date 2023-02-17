@@ -75,7 +75,7 @@ while True:
 					raise NotImplementedError("op=" + command.op)
 			else:
 				digirom = command
-				serial_print(f"{digirom.physical}{digirom.turn}-[{len(digirom)} packets]")
+				serial_print(f"{digirom.signal_type}{digirom.turn}-[{len(digirom)} packets]")
 		except (CommandError, NotImplementedError) as e:
 			serial_print(repr(e))
 		time.sleep(1)

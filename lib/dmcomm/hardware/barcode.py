@@ -11,7 +11,7 @@ class BarcodeCommunicator:
 		self._pin_output = ir_output.pin_output
 		self._output_pulses = None
 		self._enabled = False
-	def enable(self, protocol):
+	def enable(self, signal_type):
 		if self._enabled:
 			return
 		try:
