@@ -1,5 +1,5 @@
 
-## Unreleased
+## 0.4.0 - 2023-02-17
 ### Added
 - Version check over serial
 - More informative messages about iC decoding errors
@@ -14,6 +14,8 @@
 - Relaxed Talis start bit timing to see if this works around the reliability issue
 ### Removed
 - `realtime` module and example - moved to WiFiCom and has since been updated
+### Tested with
+- CircuitPython 8.0.2
 
 ## 0.3.0 - 2023-02-12
 - First release
