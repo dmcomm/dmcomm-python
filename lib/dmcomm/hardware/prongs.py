@@ -122,10 +122,12 @@ class ProngCommunicator:
 			if t > self._params.bit_high_threshold:
 				result |= 0x8000
 			if ic_bug and i == 15:
-				return result
+				break
 			t = pulses.popleft()
 			if t < self._params.bit_low_min or t > self._params.bit_low_max:
 				raise ReceiveError("bit_low %d = %d" % (i + 1, t))
+		if self._params.invert_bit_read:
+			result ^= 0xFFFF
 		return result
 
 class ProngParams:
