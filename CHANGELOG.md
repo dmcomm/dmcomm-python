@@ -1,5 +1,5 @@
 
-## Unreleased
+## 0.5.0 - 2023-02-19
 ### Added
 - Default Pi Pico W pins in `board_config` (same as Pico except LED)
 - Configurable `led_pin` in `board_config`
