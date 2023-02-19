@@ -13,7 +13,7 @@ import dmcomm.protocol
 import dmcomm.protocol.auto
 import board_config
 
-VERSION = f"""dmcomm-python v0.4.0
+VERSION = f"""dmcomm-python v0.4.0+wip
 CircuitPython {os.uname().version}
 {os.uname().machine}"""
 
@@ -28,7 +28,7 @@ controller = hw.Controller()
 for pin_description in board_config.controller_pins:
 	controller.register(pin_description)
 
-led = digitalio.DigitalInOut(board.LED)
+led = digitalio.DigitalInOut(board_config.led_pin)
 led.direction = digitalio.Direction.OUTPUT
 
 # Serial port selection

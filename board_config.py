@@ -6,13 +6,14 @@
 Handles differences between boards.
 
 Currently we have recommended pin assignments for
-Raspberry Pi Pico, Arduino Nano RP2040 Connect, and Seeed Xiao RP2040.
+Raspberry Pi Pico and W, Arduino Nano RP2040 Connect, Seeed Xiao RP2040.
 """
 
 import board
 import dmcomm.hardware as hw
 
 if board.board_id == "arduino_nano_rp2040_connect":
+	led_pin = board.LED
 	controller_pins = [
 		hw.ProngOutput(board.A0, board.A2),
 		hw.ProngInput(board.A3),
@@ -28,7 +29,11 @@ if board.board_id == "arduino_nano_rp2040_connect":
 		(board.D11, False),
 		(board.D12, True),
 	]
-elif board.board_id == "raspberry_pi_pico":
+elif board.board_id in ["raspberry_pi_pico", "raspberry_pi_pico_w"]:
+	if board.board_id == "raspberry_pi_pico":
+		led_pin = board.LED
+	else:
+		led_pin = board.GP10
 	controller_pins = [
 		hw.ProngOutput(board.GP19, board.GP21),
 		hw.ProngInput(board.GP22), #note this may need changed to GP26 on older builds
@@ -43,6 +48,7 @@ elif board.board_id == "raspberry_pi_pico":
 		(board.GP18, True),
 	]
 elif board.board_id == "seeeduino_xiao_rp2040":
+	led_pin = board.LED
 	controller_pins = [
 		hw.ProngOutput(board.D10, board.D7), # D10 is GP3, D9 is GP4
 		hw.ProngInput(board.D8),
