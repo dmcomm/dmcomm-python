@@ -1,4 +1,8 @@
 
+## Unreleased
+### Changed
+- Changed ending of serial output lines from "\n" to "\r\n" to match Arduino.
+
 ## 0.5.0 - 2023-02-19
 ### Added
 - Default Pi Pico W pins in `board_config` (same as Pico except LED)

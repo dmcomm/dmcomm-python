@@ -13,7 +13,7 @@ import dmcomm.protocol
 import dmcomm.protocol.auto
 import board_config
 
-VERSION = f"""dmcomm-python v0.5.0
+VERSION = f"""dmcomm-python v0.5.0+wip
 CircuitPython {os.uname().version}
 {os.uname().machine}"""
 
@@ -48,7 +48,7 @@ digirom = None  # disable
 # ...or use your own digirom, as for the Twin above.
 
 serial.timeout = 1
-def serial_print(s, end="\n"):
+def serial_print(s, end="\r\n"):
 	serial.write((s + end).encode("utf-8"))
 serial_print("dmcomm-python starting")
 
