@@ -57,10 +57,14 @@ while True:
 	if serial.in_waiting != 0:
 		digirom = None
 		serial_bytes = serial.readline()
-		serial_str = serial_bytes.decode("ascii", "ignore")
+		try:
+			serial_str = serial_bytes.decode("utf-8")
+		except UnicodeError:
+			serial_print(f"UnicodeError: {repr(serial_bytes)}")
+			continue
 		# readline only accepts "\n" but we can receive "\r" after timeout
 		if serial_str[-1] not in ["\r", "\n"]:
-			serial_print("too slow")
+			serial_print(f"too slow: {repr(serial_bytes)}")
 			continue
 		serial_str = serial_str.strip()
 		serial_str = serial_str.strip("\0")

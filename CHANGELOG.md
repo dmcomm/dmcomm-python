@@ -2,6 +2,7 @@
 ## Unreleased
 ### Changed
 - Changed ending of serial output lines from "\n" to "\r\n" to match Arduino.
+- Fixed serial `UnicodeError`
 
 ## 0.5.0 - 2023-02-19
 ### Added
