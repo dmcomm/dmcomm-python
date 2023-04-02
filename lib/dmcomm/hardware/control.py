@@ -88,7 +88,7 @@ class Controller:
 		"""Prepares for a single interaction.
 		"""
 		signal_type = self._digirom.signal_type
-		if signal_type in ["V", "X", "Y"]:
+		if signal_type in ["V", "X", "Y", "C"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
