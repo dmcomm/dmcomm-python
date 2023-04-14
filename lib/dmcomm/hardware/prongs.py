@@ -179,8 +179,8 @@ class ProngParams:
 			self.start_high_max = 2500
 			self.start_low_min = 600
 			self.start_low_send = 917
-			self.start_low_max = 1200
-			self.bit_high_min = 800
+			self.start_low_max = 1400
+			self.bit_high_min = 700
 			self.bit0_high_send = 1000
 			self.bit_high_threshold = 1800
 			self.bit1_high_send = 2667

@@ -8,6 +8,7 @@
     - disabled status bar
     - made CIRCUITPY drive read-only by default instead of disabling
     - more informative messages (visible in `boot_out.txt`)
+- Relaxed timings for Data Link and English DMOG
 
 ## 0.5.0 - 2023-02-19
 ### Added

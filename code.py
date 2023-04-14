@@ -17,6 +17,8 @@ VERSION = f"""dmcomm-python v0.5.0+wip
 CircuitPython {os.uname().version}
 {os.uname().machine}"""
 
+DEFAULT_EOL = "\r\n"
+
 outputs_extra_power = []
 for (pin, value) in board_config.extra_power_pins:
 	output = digitalio.DigitalInOut(pin)
@@ -48,7 +50,7 @@ digirom = None  # disable
 # ...or use your own digirom, as for the Twin above.
 
 serial.timeout = 1
-def serial_print(s, end="\r\n"):
+def serial_print(s, end=DEFAULT_EOL):
 	serial.write((s + end).encode("utf-8"))
 serial_print("dmcomm-python starting")
 
@@ -85,7 +87,7 @@ while True:
 		time.sleep(1)
 	if digirom is not None:
 		error = ""
-		result_end = "\n"
+		result_end = DEFAULT_EOL
 		try:
 			controller.execute(digirom)
 		except (CommandError, ReceiveError) as e:

@@ -188,7 +188,7 @@ class ModulatedParams:
 			self.bit_gap_send_short = 700
 			self.bit_gap_threshold = 800
 			self.bit_gap_send_long = 1300
-			self.bit_gap_max = 1500
+			self.bit_gap_max = 1600
 			self.stop_pulse_same = False
 			self.stop_pulse_min = 1000
 			self.stop_pulse_send = 1300
