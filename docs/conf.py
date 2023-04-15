@@ -36,13 +36,11 @@ autodoc_mock_imports = ['supervisor']
 
 # Git commit ID
 import subprocess
-_git_args = ['git', 'show', '-s', '--format=%cd %h', '--date=short', 'HEAD']
+_git_args = ['git', 'show', '-s', '--format=%cd', '--date=short', 'HEAD']
+_git_date = subprocess.check_output(_git_args).strip().decode('ascii')
+_git_args = ['git', 'describe', '--tags', '--dirty']
 _git_commit = subprocess.check_output(_git_args).strip().decode('ascii')
-_git_args = ['git', 'status', '--porcelain']
-_git_status = subprocess.check_output(_git_args).strip().decode('ascii')
-rst_epilog = 'Generated from git commit: ' + _git_commit
-if _git_status != "":
-    rst_epilog += " (dirty)"
+rst_epilog = 'Generated from git commit: ' + _git_date + ' ' + _git_commit
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
