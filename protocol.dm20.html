@@ -43,38 +43,265 @@
 <h1><cite>dmcomm.protocol.dm20</cite><a class="headerlink" href="#dmcomm-protocol-dm20" title="Permalink to this headline">¶</a></h1>
 <p>Handling of DM20 high-level protocol.</p>
 <p>Note: This API is still under development and may change at any time.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.MODE_SINGLE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">MODE_SINGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.MODE_SINGLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single battle mode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.MODE_SEND">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">MODE_SEND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.MODE_SEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy send mode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.MODE_TAG">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">MODE_TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.MODE_TAG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag battle mode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.MODE_GET">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">MODE_GET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.MODE_GET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy get mode.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_TAICHI">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_TAICHI</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_TAICHI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_YAMATO">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_YAMATO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_YAMATO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_CORONA">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_CORONA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_CORONA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_LUNA">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_LUNA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_LUNA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_MEICOO">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_MEICOO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_MEICOO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_SILVER_BLACK">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_SILVER_BLACK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_SILVER_BLACK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_SILVER_BLUE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_SILVER_BLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_SILVER_BLUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_DUKE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_DUKE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_DUKE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.VERSION_BEELZE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">VERSION_BEELZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.VERSION_BEELZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTRIBUTE_VACCINE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTRIBUTE_VACCINE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTRIBUTE_VACCINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTRIBUTE_DATA">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTRIBUTE_DATA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTRIBUTE_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTRIBUTE_VIRUS">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTRIBUTE_VIRUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTRIBUTE_VIRUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTRIBUTE_FREE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTRIBUTE_FREE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTRIBUTE_FREE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTACK_SINGLE_WEAK">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTACK_SINGLE_WEAK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTACK_SINGLE_WEAK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTACK_SINGLE_STRONG">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTACK_SINGLE_STRONG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTACK_SINGLE_STRONG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTACK_DOUBLE_WEAK">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTACK_DOUBLE_WEAK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTACK_DOUBLE_WEAK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTACK_DOUBLE_STRONG">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTACK_DOUBLE_STRONG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTACK_DOUBLE_STRONG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ATTACK_CRITICAL">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ATTACK_CRITICAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ATTACK_CRITICAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.OUTCOME_WIN">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">OUTCOME_WIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.OUTCOME_WIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.OUTCOME_DRAW">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">OUTCOME_DRAW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.OUTCOME_DRAW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.OUTCOME_LOSE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">OUTCOME_LOSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.OUTCOME_LOSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.ROSTER_SIZE">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">ROSTER_SIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">134</span></em><a class="headerlink" href="#dmcomm.protocol.dm20.ROSTER_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.default_attribute">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">default_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.default_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the default attribute for the specified index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The monster index to look up (0 &lt;= index &lt; ROSTER_SIZE).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The default attribute for that index, as one of the <cite>ATTRIBUTE_</cite> values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.default_sprite_strong">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">default_sprite_strong</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.default_sprite_strong" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the default strong attack sprite for the specified index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The monster index to look up (0 &lt;= index &lt; ROSTER_SIZE).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The default sprite index for that monster’s strong attack.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.default_sprite_weak">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">default_sprite_weak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.default_sprite_weak" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the default weak attack sprite for the specified index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The monster index to look up (0 &lt;= index &lt; ROSTER_SIZE).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The default sprite index for that monster’s weak attack.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.min_power">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">min_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.min_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the minimum power for the specified index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The monster index to look up (0 &lt;= index &lt; ROSTER_SIZE).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The minimum power for that index.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.dm20.attack_pattern">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">attack_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_meter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.attack_pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up the attack pattern for the specified values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern_index</strong> – The <cite>pattern</cite> field in the DigiROM
+(normally 0-14, but 15 will be accepted as 14 here).</p></li>
+<li><p><strong>tag_meter</strong> – <cite>None</cite> for a single battle.
+For a tag battle, the <cite>tag_meter</cite> field in the DigiROM
+(<cite>number_of_arrows-1</cite> on the tag power meter).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of 4 ints, each as one of the <cite>ATTACK_</cite> values.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">Name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">japanese</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.Name" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">Name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">japanese</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.Name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for DM20 player names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – A list of 4 ints, with the character indexes from the DigiROM,
+in the order that the name is spelled.</p></li>
+<li><p><strong>japanese</strong> – Whether to interpret these values as Japanese by default
+(False for English by default).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.from_japanese">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_japanese</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_japanese" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_japanese</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dmcomm.protocol.dm20.Name" title="dmcomm.protocol.dm20.Name"><span class="pre">dmcomm.protocol.dm20.Name</span></a></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_japanese" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>Name</cite> object from a Japanese name string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – A Japanese name of up to 4 characters.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.from_english">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_english</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_english" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_english</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dmcomm.protocol.dm20.Name" title="dmcomm.protocol.dm20.Name"><span class="pre">dmcomm.protocol.dm20.Name</span></a></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_english" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>Name</cite> object from an English name string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – An English name of up to 4 characters.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.from_string">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">japanese</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_string" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.japanese_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">japanese_name</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.japanese_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.Name.english_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">english_name</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.english_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">japanese</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dmcomm.protocol.dm20.Name" title="dmcomm.protocol.dm20.Name"><span class="pre">dmcomm.protocol.dm20.Name</span></a></span></span><a class="headerlink" href="#dmcomm.protocol.dm20.Name.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>Name</cite> object from a Japanese or English name string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – A Japanese or English name of up to 4 characters.</p></li>
+<li><p><strong>japanese</strong> – Whether the string provided is Japanese (False for English).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -87,132 +314,16 @@
 <dd class="field-odd"><p><strong>target</strong> – A <cite>ResultView</cite>, or <cite>core16.DigiROM</cite> (calculations will be ignored).</p>
 </dd>
 </dl>
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.turn">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">turn</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.turn" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.pattern">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.pattern" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.mode">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.mode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.version">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.version" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.attribute">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attribute</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.attribute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.sprite_strong">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sprite_strong</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.sprite_strong" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.sprite_weak">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sprite_weak</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.sprite_weak" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.power">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">power</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.power" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.index_rear">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index_rear</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.index_rear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.attribute_rear">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attribute_rear</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.attribute_rear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.sprite_strong_rear">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sprite_strong_rear</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.sprite_strong_rear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.sprite_weak_rear">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sprite_weak_rear</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.sprite_weak_rear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.power_rear">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">power_rear</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.power_rear" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.tag_meter">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tag_meter</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.tag_meter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.hit_me">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hit_me</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.hit_me" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.hit_you">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hit_you</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.hit_you" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopyView.checksum">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">checksum</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopyView.checksum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">BattleOrCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">turn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.dm20.</span></span><span class="sig-name descname"><span class="pre">BattleOrCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adapts DM20 fields to DigiROM interface (under construction).</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopy.opponent">
-<span class="sig-name descname"><span class="pre">opponent</span></span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy.opponent" title="Permalink to this definition">¶</a></dt>
-<dd><p>The opponent’s properties.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopy.prepare">
-<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy.prepare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopy.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.dm20.BattleOrCopy.receive">
-<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.dm20.BattleOrCopy.receive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
-<p>Generated from git commit: 2022-01-23 9a45f9c</p>
+<p>Generated from git commit: 2023-04-15 v0.5.0-7-gb450718</p>
 
 
             <div class="clearer"></div>

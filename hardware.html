@@ -44,7 +44,7 @@
             
   <span class="target" id="module-dmcomm.hardware"></span><section id="dmcomm-hardware">
 <h1><cite>dmcomm.hardware</cite><a class="headerlink" href="#dmcomm-hardware" title="Permalink to this headline">¶</a></h1>
-<p>Communication with pronged and infrared Digimon toys, for CircuitPython 7 on RP2040.</p>
+<p>Communication with pronged and infrared Digimon toys, for CircuitPython on RP2040.</p>
 <p>Note: This API is still under development and may change at any time.</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="dmcomm.hardware.WAIT_FOREVER">
@@ -85,7 +85,7 @@
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="index.html#dmcomm.CommandError" title="dmcomm.CommandError"><strong>CommandError</strong></a> – If the required pins for the selected physical protocol are not registered.</p></li>
+<li><p><a class="reference internal" href="index.html#dmcomm.CommandError" title="dmcomm.CommandError"><strong>CommandError</strong></a> – If the required pins for the selected signal type are not registered.</p></li>
 <li><p><a class="reference internal" href="index.html#dmcomm.ReceiveError" title="dmcomm.ReceiveError"><strong>ReceiveError</strong></a> – If a broken transmission was received.</p></li>
 </ul>
 </dd>
@@ -115,9 +115,7 @@ Note that <cite>pin_drive_low=pin_drive_signal+1</cite> due to the rules of PIO.
 <dd><p>Description of the input for the RP2040 prong circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pin_input</strong> – The pin to use for input.
-An analog pin is recommended for compatibility with the Arduino version
-and for a possible future voltage test.</p>
+<dd class="field-odd"><p><strong>pin_input</strong> – The pin to use for input.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -155,8 +153,19 @@ and for a possible future voltage test.</p>
 </dl>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.hardware.TalisInputOutput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.hardware.</span></span><span class="sig-name descname"><span class="pre">TalisInputOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.hardware.TalisInputOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the Talispod/dam input/output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pin</strong> – The pin to use for input and output.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<p>Generated from git commit: 2022-01-23 9a45f9c</p>
+<p>Generated from git commit: 2023-04-15 v0.5.0-7-gb450718</p>
 
 
             <div class="clearer"></div>
