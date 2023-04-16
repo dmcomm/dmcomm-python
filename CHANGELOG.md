@@ -1,5 +1,7 @@
 
 ## Unreleased
+###
+- Basic support for Digimon Color
 ### Changed
 - Changed ending of serial output lines from "\n" to "\r\n" to match Arduino.
 - Fixed serial `UnicodeError`
