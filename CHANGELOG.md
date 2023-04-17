@@ -1,9 +1,9 @@
 
-## Unreleased
-###
+## 0.6.0 - 2023-04-17
+### Added
 - Basic support for Digimon Color
 ### Changed
-- Changed ending of serial output lines from "\n" to "\r\n" to match Arduino.
+- Changed ending of serial output lines from "\n" to "\r\n" to match Arduino
 - Fixed serial `UnicodeError`
 - `boot.py` changes:
     - added Pico W button support

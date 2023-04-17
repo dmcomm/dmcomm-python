@@ -13,7 +13,7 @@ import dmcomm.protocol
 import dmcomm.protocol.auto
 import board_config
 
-VERSION = f"""dmcomm-python v0.5.0+wip
+VERSION = f"""dmcomm-python v0.6.0
 CircuitPython {os.uname().version}
 {os.uname().machine}"""
 
