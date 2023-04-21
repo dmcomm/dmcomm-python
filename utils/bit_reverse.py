@@ -1,12 +1,12 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 # Reads file named on first command-line arg,
-# replaces uppercase hex strings of at least 8 digits with bit-reversed version,
-# and outputs results to stdout.
+# replaces uppercase hex strings of at least 8 digits with bit-reversed version
+# (across whole string so bytes reversed too), and outputs results to stdout.
 
 import re, sys
 
-pattern = "[0-9A-Z]" * 8 + "+"
+pattern = "[0-9A-F]" * 8 + "+"
 
 digit_mapping = {
 	"0": "0", "1": "8", "2": "4", "3": "C",
