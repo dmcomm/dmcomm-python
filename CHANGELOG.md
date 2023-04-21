@@ -1,4 +1,8 @@
 
+## Unreleased
+### Changed
+- Finalized Fusion Loader - removed "!!" with no changes
+
 ## 0.6.0 - 2023-04-17
 ### Added
 - Basic support for Digimon Color

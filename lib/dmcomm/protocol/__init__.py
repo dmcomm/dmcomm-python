@@ -26,7 +26,7 @@ def parse_command(text):
 		from dmcomm.protocol.core16 import CommandSegment, DigiROM
 	elif op in ["C"]:
 		from dmcomm.protocol.core_words import CommandSegment, DigiROM
-	elif op in ["!DL", "!!FL", "LT"]:
+	elif op in ["!DL", "FL", "LT"]:
 		from dmcomm.protocol.core_bytes import CommandSegment, DigiROM
 	elif op in ["BC"]:
 		from dmcomm.protocol.core_digits import CommandSegment, DigiROM
