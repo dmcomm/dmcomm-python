@@ -1,6 +1,7 @@
 
 ## Unreleased
 ### Changed
+- Finalized Data Link - bytes are reversed from "!" version - `utils/byte_reverse.py` can fix existing Data Link byte sequences in text files
 - Finalized Fusion Loader - removed "!!" with no changes
 
 ## 0.6.0 - 2023-04-17

@@ -170,11 +170,11 @@ class TalisCommunicator:
 
 class ModulatedParams:
 	def __init__(self):
-		self.set_signal_type("!DL")
+		self.set_signal_type("DL")
 	def set_signal_type(self, signal_type):
-		if signal_type == "!DL":
+		if signal_type == "DL":
 			self.low_bit_first = True
-			self.low_byte_first = True
+			self.low_byte_first = False
 			self.start_pulse_min = 9000
 			self.start_pulse_send = 9800
 			self.start_pulse_max = 11000
@@ -248,5 +248,5 @@ class ModulatedParams:
 			self.packet_length_timeout_ms = 400
 			self.packet_continue_timeout_ms = 10
 		else:
-			raise ValueError("signal_type must be !DL/FL/LT")
+			raise ValueError("signal_type must be DL/FL/LT")
 		self.signal_type = signal_type
