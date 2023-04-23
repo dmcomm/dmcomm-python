@@ -12,11 +12,33 @@ Note: This API is still under development and may change at any time.
 from dmcomm import CommandError
 from dmcomm.protocol import BaseDigiROM, Result
 
+def checksum_datalink(bytes_):
+	checksum = 0
+	carry_bit = 0
+	for item in bytes_:
+		checksum += item + carry_bit
+		if checksum >= 0x100:
+			checksum &= 0xFF
+			carry_bit = 1
+		else:
+			carry_bit = 0
+	return checksum
+
 class DigiROM(BaseDigiROM):
 	"""Describes the communication for byte-sequence protocols and records the results.
 	"""
 	def __init__(self, signal_type, turn, segments=None):
 		super().__init__(ResultSegment, signal_type, turn, segments)
+	def _pre_send(self, data):
+		data_to_send = []
+		for i in range(len(data)):
+			item = data[i]
+			if item == "+?":
+				b = checksum_datalink(data_to_send[:i])
+			else:
+				b = item
+			data_to_send.append(b)
+		return data_to_send
 
 class CommandSegment:
 	"""Describes how to carry out one segment of the communication for byte-sequence protocols.
@@ -30,10 +52,13 @@ class CommandSegment:
 		data = []
 		for i in range(0, len(text)-1, 2):
 			digits = text[i:i+2]
-			try:
-				b = int(digits, 16)
-			except:
-				raise CommandError("not hex number: " + digits)
+			if digits in ["+?"]:
+				b = digits
+			else:
+				try:
+					b = int(digits, 16)
+				except:
+					raise CommandError("not hex number: " + digits)
 			data.append(b)
 		return cls(data)
 	def __init__(self, data):

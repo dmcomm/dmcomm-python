@@ -56,15 +56,20 @@ class BaseDigiROM:
 	def prepare(self):
 		self.result = Result(self.signal_type)
 		self._command_index = 0
+		self._data_received = None
+	def _pre_send(self, data):
+		return data
 	def send(self):
 		if self._command_index >= len(self._segments):
 			return None
-		c = self._segments[self._command_index]
+		data = self._segments[self._command_index].data
 		self._command_index += 1
-		self.result.append(self.result_segment_class(True, c.data))
-		return c.data
+		data = self._pre_send(data)
+		self.result.append(self.result_segment_class(True, data))
+		return data
 	def receive(self, data):
 		self.result.append(self.result_segment_class(False, data))
+		self._data_received = data
 	def __len__(self):
 		return len(self._segments)
 	def __getitem__(self, i):
