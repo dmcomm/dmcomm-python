@@ -1,6 +1,7 @@
 
 ## Unreleased
 ### Added
+- Data Link ID shift calculation using ">>"
 - Data Link checksum calculation using "+?"
 ### Changed
 - Major reorganization of DigiROM API (but `parse_command` is unchanged)

@@ -261,7 +261,7 @@ class BytesCommandSegment:
 		data = []
 		for i in range(0, len(text)-1, 2):
 			digits = text[i:i+2]
-			if digits in ["+?"]:
+			if digits in [">>", "+?"]:
 				b = digits
 			else:
 				try:
@@ -306,6 +306,11 @@ class BytesDigiROM(BaseDigiROM):
 			item = data[i]
 			if item == "+?":
 				b = checksum_datalink(data_to_send[:i])
+			elif item == ">>":
+				try:
+					b = self._data_received[i-1]
+				except:
+					b = 0
 			else:
 				b = item
 			data_to_send.append(b)
