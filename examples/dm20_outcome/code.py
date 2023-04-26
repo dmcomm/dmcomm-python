@@ -9,7 +9,7 @@ from dmcomm.protocol import dm20
 
 controller = hw.Controller()
 controller.register(hw.ProngOutput(board.GP19, board.GP21))
-controller.register(hw.ProngInput(board.GP26))
+controller.register(hw.ProngInput(board.GP22))
 
 digirom = dm20.BattleOrCopy(dm20.MODE_TAG, 2)
 digirom.pattern = 10
