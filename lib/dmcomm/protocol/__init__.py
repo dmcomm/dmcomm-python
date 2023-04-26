@@ -24,22 +24,18 @@ def parse_command(text):
 	if op in ["D", "T", "?"]:
 		return OtherCommand(op, turn)
 	elif op in ["V", "X", "Y", "IC"]:
-		CommandSegment = digirom.ClassicCommandSegment
 		DigiROM = digirom.ClassicDigiROM
 	elif op in ["C"]:
-		CommandSegment = digirom.WordsCommandSegment
 		DigiROM = digirom.WordsDigiROM
 	elif op in ["DL", "FL", "LT"]:
-		CommandSegment = digirom.BytesCommandSegment
 		DigiROM = digirom.BytesDigiROM
 	elif op in ["BC"]:
-		CommandSegment = digirom.DigitsCommandSegment
 		DigiROM = digirom.DigitsDigiROM
 	else:
 		raise CommandError("op=" + op)
 	if turn not in "012":
 		raise CommandError("turn=" + turn)
-	segments = [CommandSegment.from_string(part) for part in parts[1:]]
+	segments = [DigiROM.command_segment_class.from_string(part) for part in parts[1:]]
 	return DigiROM(op, int(turn), segments)
 
 class OtherCommand:

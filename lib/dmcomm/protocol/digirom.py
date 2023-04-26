@@ -58,8 +58,9 @@ class ResultView:
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
 	"""
-	def __init__(self, result_segment_class, signal_type, turn, segments=None):
-		self.result_segment_class = result_segment_class
+	command_segment_class = None  #: Subclasses must implement.
+	result_segment_class = None   #: Subclasses must implement.
+	def __init__(self, signal_type, turn, segments=None):
 		self.signal_type = signal_type
 		self.turn = turn
 		self._segments = [] if segments is None else segments
@@ -159,6 +160,8 @@ class ClassicResultSegment:
 class ClassicDigiROM:
 	"""Describes the communication for 16-bit protocols and records the results.
 	"""
+	command_segment_class = ClassicCommandSegment
+	result_segment_class = ClassicResultSegment
 	def __init__(self, signal_type, turn, segments=None):
 		self.signal_type = signal_type
 		self.turn = turn
@@ -243,8 +246,8 @@ class DigitsResultSegment:
 class DigitsDigiROM(BaseDigiROM):
 	"""Describes the communication for digit-sequence protocols and records the results.
 	"""
-	def __init__(self, signal_type, turn, segments=None):
-		super().__init__(DigitsResultSegment, signal_type, turn, segments)
+	command_segment_class = DigitsCommandSegment
+	result_segment_class = DigitsResultSegment
 
 class BytesCommandSegment:
 	"""Describes how to carry out one segment of the communication for byte-sequence protocols.
@@ -295,8 +298,8 @@ class BytesResultSegment:
 class BytesDigiROM(BaseDigiROM):
 	"""Describes the communication for byte-sequence protocols and records the results.
 	"""
-	def __init__(self, signal_type, turn, segments=None):
-		super().__init__(BytesResultSegment, signal_type, turn, segments)
+	command_segment_class = BytesCommandSegment
+	result_segment_class = BytesResultSegment
 	def _pre_send(self, data):
 		data_to_send = []
 		for i in range(len(data)):
@@ -354,5 +357,5 @@ class WordsResultSegment:
 class WordsDigiROM(BaseDigiROM):
 	"""Describes the communication for word-sequence protocols and records the results.
 	"""
-	def __init__(self, signal_type, turn, segments=None):
-		super().__init__(WordsResultSegment, signal_type, turn, segments)
+	command_segment_class = WordsCommandSegment
+	result_segment_class = WordsResultSegment
