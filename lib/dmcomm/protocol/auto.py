@@ -9,8 +9,7 @@ Auto-responder / punchbag.
 Note: This API is still under development and may change at any time.
 """
 
-from dmcomm.protocol import ResultView
-from dmcomm.protocol.core16 import DigiROM, CommandSegment
+from dmcomm.protocol.digirom import ClassicDigiROM, ClassicCommandSegment, ResultView
 
 TYPE_DMOG = 0
 TYPE_PEN_BATTLE = 1
@@ -28,11 +27,11 @@ class AutoResponderVX:
 	def _add(self, items):
 		for item in items:
 			if type(item) is int:
-				self._digirom.append(CommandSegment(item))
+				self._digirom.append(ClassicCommandSegment(item))
 			else:
-				self._digirom.append(CommandSegment.from_string(item))
+				self._digirom.append(ClassicCommandSegment.from_string(item))
 	def prepare(self):
-		self._digirom = DigiROM(self.signal_type, self.turn)
+		self._digirom = ClassicDigiROM(self.signal_type, self.turn)
 		self._digirom.prepare()
 		self.result = self._digirom.result
 		self._rview = ResultView(self.result, 1)

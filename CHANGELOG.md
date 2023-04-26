@@ -3,6 +3,7 @@
 ### Added
 - Data Link checksum calculation using "+?"
 ### Changed
+- Major reorganization of DigiROM API (but `parse_command` is unchanged)
 - Finalized Data Link - bytes are reversed from "!" version - `utils/byte_reverse.py` can fix existing Data Link byte sequences in text files
 - Finalized Fusion Loader - removed "!!" with no changes
 

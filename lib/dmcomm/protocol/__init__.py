@@ -11,6 +11,7 @@ Note: This API is still under development and may change at any time.
 """
 
 from dmcomm import CommandError
+from dmcomm.protocol import digirom
 
 def parse_command(text):
 	parts = text.strip().upper().split("-")
@@ -23,13 +24,17 @@ def parse_command(text):
 	if op in ["D", "T", "?"]:
 		return OtherCommand(op, turn)
 	elif op in ["V", "X", "Y", "IC"]:
-		from dmcomm.protocol.core16 import CommandSegment, DigiROM
+		CommandSegment = digirom.ClassicCommandSegment
+		DigiROM = digirom.ClassicDigiROM
 	elif op in ["C"]:
-		from dmcomm.protocol.core_words import CommandSegment, DigiROM
+		CommandSegment = digirom.WordsCommandSegment
+		DigiROM = digirom.WordsDigiROM
 	elif op in ["DL", "FL", "LT"]:
-		from dmcomm.protocol.core_bytes import CommandSegment, DigiROM
+		CommandSegment = digirom.BytesCommandSegment
+		DigiROM = digirom.BytesDigiROM
 	elif op in ["BC"]:
-		from dmcomm.protocol.core_digits import CommandSegment, DigiROM
+		CommandSegment = digirom.DigitsCommandSegment
+		DigiROM = digirom.DigitsDigiROM
 	else:
 		raise CommandError("op=" + op)
 	if turn not in "012":
@@ -41,68 +46,3 @@ class OtherCommand:
 	def __init__(self, op, param):
 		self.op = op
 		self.param = param
-
-class BaseDigiROM:
-	"""Base class for describing the communication and recording the results.
-	"""
-	def __init__(self, result_segment_class, signal_type, turn, segments=None):
-		self.result_segment_class = result_segment_class
-		self.signal_type = signal_type
-		self.turn = turn
-		self._segments = [] if segments is None else segments
-		self.result = None
-	def append(self, c):
-		self._segments.append(c)
-	def prepare(self):
-		self.result = Result(self.signal_type)
-		self._command_index = 0
-		self._data_received = None
-	def _pre_send(self, data):
-		return data
-	def send(self):
-		if self._command_index >= len(self._segments):
-			return None
-		data = self._segments[self._command_index].data
-		self._command_index += 1
-		data = self._pre_send(data)
-		self.result.append(self.result_segment_class(True, data))
-		return data
-	def receive(self, data):
-		self.result.append(self.result_segment_class(False, data))
-		self._data_received = data
-	def __len__(self):
-		return len(self._segments)
-	def __getitem__(self, i):
-		return self._segments[i]
-
-class Result:
-	"""Describes the result of the communication.
-	"""
-	def __init__(self, signal_type):
-		self.signal_type = signal_type
-		self._results = []
-	def append(self, segment):
-		self._results.append(segment)
-	def __len__(self):
-		return len(self._results)
-	def __getitem__(self, i):
-		return self._results[i]
-	def __str__(self):
-		"""Returns text formatted for the serial protocol."""
-		return " ".join([str(r) for r in self._results])
-
-class ResultView:
-	"""Describes the result of one side of the communication.
-
-	:param result: The Result to view.
-	:param turn: 1 for the side who went first, 2 for the side who went second.
-	"""
-	def __init__(self, result, turn):
-		self._result = result
-		self._turn = turn
-		if turn == 2:
-			self._turn_index = 1
-		else:
-			self._turn_index = 0
-	def __getitem__(self, i):
-		return self._result[2 * i + self._turn_index]

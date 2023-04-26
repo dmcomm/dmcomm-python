@@ -11,8 +11,7 @@ Note: This API is still under development and may change at any time.
 
 import array
 
-from dmcomm.protocol import ResultView
-from dmcomm.protocol.core16 import DigiROM, CommandSegment
+from dmcomm.protocol.digirom import ClassicDigiROM, ClassicCommandSegment, ResultView
 
 MODE_SINGLE = 0  #: Single battle mode.
 MODE_SEND = 1  #: Copy send mode.
@@ -206,7 +205,7 @@ class Name:
 class BattleOrCopyView:
 	"""DM20 parser.
 
-	:param target: A `ResultView`, or `core16.DigiROM` (calculations will be ignored)."""
+	:param target: A `ResultView`, or `ClassicDigiROM` (calculations will be ignored)."""
 	def __init__(self, target):
 		self._target = target
 	def _d(self, i):
@@ -464,7 +463,7 @@ class BattleOrCopy:
 		(power, _) = self._power_send(front)
 		return (tag_meter << 12) | (power << 4) | 0xE
 	def prepare(self):
-		self._digirom = DigiROM("V", self.turn)
+		self._digirom = ClassicDigiROM("V", self.turn)
 		self._digirom.prepare()
 		self.result = self._digirom.result
 		self.outcome = BattleOrCopyOutcome.from_result(self.result, self.turn)
@@ -519,9 +518,9 @@ class BattleOrCopy:
 			else:
 				raise NotImplementedException("rolling for the hit bits")
 			bits = (hit_me << 8) | (hit_you << 4) | 0xE
-			segment = CommandSegment(bits, invert_mask=invert_mask, checksum_target=0)
+			segment = ClassicCommandSegment(bits, invert_mask=invert_mask, checksum_target=0)
 		else:
 			return None
 		if i != 10:
-			segment = CommandSegment(bits)
+			segment = ClassicCommandSegment(bits)
 		return segment
