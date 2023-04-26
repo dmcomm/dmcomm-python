@@ -4,7 +4,8 @@
 - Data Link ID shift calculation using ">>"
 - Data Link checksum calculation using "+?"
 ### Changed
-- Major reorganization of DigiROM API (but `parse_command` is unchanged)
+- Major reorganization of DigiROM API (but `parse_command` API is unchanged)
+- Files have moved around so recommend deleting old `lib/dmcomm` folder before upgrading
 - Finalized Data Link - bytes are reversed from "!" version - `utils/byte_reverse.py` can fix existing Data Link byte sequences in text files
 - Finalized Fusion Loader - removed "!!" with no changes
 
