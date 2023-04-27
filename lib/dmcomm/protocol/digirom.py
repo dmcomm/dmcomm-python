@@ -58,8 +58,8 @@ class ResultView:
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
 	"""
-	command_segment_class = None  #: Subclasses must implement.
-	result_segment_class = None   #: Subclasses must implement.
+	command_segment_class = None  #: Subclasses must override.
+	result_segment_class = None   #: Subclasses must override.
 	def __init__(self, signal_type, turn, segments=None):
 		self.signal_type = signal_type
 		self.turn = turn
@@ -71,14 +71,14 @@ class BaseDigiROM:
 		self.result = Result(self.signal_type)
 		self._command_index = 0
 		self._data_received = None
-	def _pre_send(self, data):
-		return data
+	def _pre_send(self, segment):
+		return segment.data
 	def send(self):
 		if self._command_index >= len(self._segments):
 			return None
-		data = self._segments[self._command_index].data
+		segment = self._segments[self._command_index]
 		self._command_index += 1
-		data = self._pre_send(data)
+		data = self._pre_send(segment)
 		self.result.append(self.result_segment_class(True, data))
 		return data
 	def receive(self, data):
@@ -157,33 +157,21 @@ class ClassicResultSegment:
 		else:
 			return "r:%04X" % self.data
 
-class ClassicDigiROM:
+class ClassicDigiROM(BaseDigiROM):
 	"""Describes the communication for 16-bit protocols and records the results.
 	"""
 	command_segment_class = ClassicCommandSegment
 	result_segment_class = ClassicResultSegment
-	def __init__(self, signal_type, turn, segments=None):
-		self.signal_type = signal_type
-		self.turn = turn
-		self._segments = [] if segments is None else segments
-		self.result = None
-	def append(self, c):
-		self._segments.append(c)
 	def prepare(self):
-		self.result = Result(self.signal_type)
-		self._command_index = 0
-		self._bits_received = 0
+		super().prepare()
 		self._checksum = 0
-	def send(self):
-		if self._command_index >= len(self._segments):
-			return None
-		c = self._segments[self._command_index]
-		self._command_index += 1
+	def _pre_send(self, c):
+		bits_received = self._data_received or 0
 		bits = c.data
 		bits &= ~c.copy_mask
-		bits |= c.copy_mask & self._bits_received
+		bits |= c.copy_mask & bits_received
 		bits &= ~c.invert_mask
-		bits |= c.invert_mask & ~self._bits_received
+		bits |= c.invert_mask & ~bits_received
 		if c.checksum_target is not None:
 			bits &= ~(0xF << c.check_digit_LSB_pos)
 		for i in range(4):
@@ -193,15 +181,7 @@ class ClassicDigiROM:
 			check_digit = (c.checksum_target - self._checksum) % 16
 			bits |= check_digit << c.check_digit_LSB_pos
 			self._checksum = c.checksum_target
-		self.result.append(ClassicResultSegment(True, bits))
 		return bits
-	def receive(self, bits):
-		self.result.append(ClassicResultSegment(False, bits))
-		self._bits_received = bits
-	def __len__(self):
-		return len(self._segments)
-	def __getitem__(self, i):
-		return self._segments[i]
 
 class DigitsCommandSegment:
 	"""Describes how to carry out one segment of the communication for digit-sequence protocols.
@@ -300,10 +280,10 @@ class BytesDigiROM(BaseDigiROM):
 	"""
 	command_segment_class = BytesCommandSegment
 	result_segment_class = BytesResultSegment
-	def _pre_send(self, data):
+	def _pre_send(self, segment):
 		data_to_send = []
-		for i in range(len(data)):
-			item = data[i]
+		for i in range(len(segment.data)):
+			item = segment.data[i]
 			if item == "+?":
 				b = checksum_datalink(data_to_send[:i])
 			elif item == ">>":
