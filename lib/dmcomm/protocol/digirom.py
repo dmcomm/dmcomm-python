@@ -23,6 +23,28 @@ def checksum_datalink(bytes_):
 			carry_bit = 0
 	return checksum
 
+def _sequence_from_hex_string(text, grouplen):
+	"""Creates a list of command data from one of the dash-separated parts of a text command.
+
+	For Bytes|WordsCommandSegment.
+
+	:param grouplen: The number of hex digits in each group.
+	"""
+	if len(text) < grouplen or len(text) % grouplen != 0:
+		raise CommandError("bad length: " + text)
+	data = []
+	for i in range(0, len(text)-1, grouplen):
+		digits = text[i:i+grouplen]
+		if digits in [">>", "+?"]:
+			item = digits
+		else:
+			try:
+				item = int(digits, 16)
+			except:
+				raise CommandError("not hex number: " + digits)
+		data.append(item)
+	return data
+
 class Result:
 	"""Describes the result of the communication.
 	"""
@@ -232,20 +254,7 @@ class BytesCommandSegment:
 	def from_string(cls, text):
 		"""Creates a `BytesCommandSegment` from one of the dash-separated parts of a text command.
 		"""
-		if len(text) < 2 or len(text) % 2 != 0:
-			raise CommandError("bad length: " + text)
-		data = []
-		for i in range(0, len(text)-1, 2):
-			digits = text[i:i+2]
-			if digits in [">>", "+?"]:
-				b = digits
-			else:
-				try:
-					b = int(digits, 16)
-				except:
-					raise CommandError("not hex number: " + digits)
-			data.append(b)
-		return cls(data)
+		return cls(_sequence_from_hex_string(text, 2))
 	def __init__(self, data):
 		self.data = data
 	#def __str__():
@@ -286,17 +295,7 @@ class WordsCommandSegment:
 	def from_string(cls, text):
 		"""Creates a `WordsCommandSegment` from one of the dash-separated parts of a text command.
 		"""
-		if len(text) < 4 or len(text) % 4 != 0:
-			raise CommandError("bad length: " + text)
-		data = []
-		for i in range(0, len(text)-1, 4):
-			digits = text[i:i+4]
-			try:
-				b = int(digits, 16)
-			except:
-				raise CommandError("not hex number: " + digits)
-			data.append(b)
-		return cls(data)
+		return cls(_sequence_from_hex_string(text, 4))
 	def __init__(self, data):
 		self.data = data
 	#def __str__():
