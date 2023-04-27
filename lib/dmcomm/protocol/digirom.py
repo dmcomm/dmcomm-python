@@ -55,6 +55,28 @@ class ResultView:
 	def __getitem__(self, i):
 		return self._result[2 * i + self._turn_index]
 
+class BaseResultSegment:
+	"""Describes the result of one segment of the communication.
+
+	:param sent: True if this represents data sent, False if data received.
+	:param data: The data sent or received.
+		If sent is False, can be `null_value` to indicate nothing was received before timeout.
+	"""
+	null_value = None  #: Subclasses can override.
+	def __init__(self, sent: bool, data):
+		self.sent = sent
+		self.data = data
+	def str_data(self):
+		raise NotImplementedError("Subclasses must override str_data()")
+	def __str__(self):
+		"""Returns text formatted for the serial protocol."""
+		if self.sent:
+			return "s:" + self.str_data()
+		elif self.data == self.null_value:
+			return "t"
+		else:
+			return "r:" + self.str_data()
+
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
 	"""
@@ -138,24 +160,11 @@ class ClassicCommandSegment:
 		self.check_digit_LSB_pos = check_digit_LSB_pos
 	#def __str__():
 
-class ClassicResultSegment:
+class ClassicResultSegment(BaseResultSegment):
 	"""Describes the result of one segment of the communication for 16-bit protocols.
-
-	:param sent: True if this represents data sent, False if data received.
-	:param data: A 16-bit integer representing the bits sent or received.
-		If sent is False, can be None to indicate nothing was received before timeout.
 	"""
-	def __init__(self, sent: bool, data: int):
-		self.sent = sent
-		self.data = data
-	def __str__(self):
-		"""Returns text formatted for the serial protocol."""
-		if self.sent:
-			return "s:%04X" % self.data
-		elif self.data is None:
-			return "t"
-		else:
-			return "r:%04X" % self.data
+	def str_data(self):
+		return "%04X" % self.data
 
 class ClassicDigiROM(BaseDigiROM):
 	"""Describes the communication for 16-bit protocols and records the results.
@@ -202,26 +211,13 @@ class DigitsCommandSegment:
 		self.data = data
 	#def __str__():
 
-class DigitsResultSegment:
+class DigitsResultSegment(BaseResultSegment):
 	"""Describes the result of one segment of the communication for digit-sequence protocols.
-
-	:param sent: True if this represents data sent, False if data received.
-	:param data: A list of integers representing the digits sent or received.
-		If sent is False, can be empty to indicate nothing was received before timeout.
 	"""
-	def __init__(self, sent: bool, data: list):
-		self.sent = sent
-		self.data = data
-	def __str__(self):
-		"""Returns text formatted for the serial protocol."""
+	null_value = []
+	def str_data(self):
 		digits = ["%d" % n for n in self.data]
-		digit_str = "".join(digits)
-		if self.sent:
-			return "s:" + digit_str
-		elif self.data == []:
-			return "t"
-		else:
-			return "r:" + digit_str
+		return "".join(digits)
 
 class DigitsDigiROM(BaseDigiROM):
 	"""Describes the communication for digit-sequence protocols and records the results.
@@ -254,26 +250,13 @@ class BytesCommandSegment:
 		self.data = data
 	#def __str__():
 
-class BytesResultSegment:
+class BytesResultSegment(BaseResultSegment):
 	"""Describes the result of one segment of the communication for byte-sequence protocols.
-
-	:param sent: True if this represents data sent, False if data received.
-	:param data: A list of 8-bit integers representing the bytes sent or received.
-		If sent is False, can be empty to indicate nothing was received before timeout.
 	"""
-	def __init__(self, sent: bool, data: list):
-		self.sent = sent
-		self.data = data
-	def __str__(self):
-		"""Returns text formatted for the serial protocol."""
+	null_value = []
+	def str_data(self):
 		hex_parts = ["%02X" % b for b in self.data]
-		hex_str = "".join(hex_parts)
-		if self.sent:
-			return "s:" + hex_str
-		elif self.data == []:
-			return "t"
-		else:
-			return "r:" + hex_str
+		return "".join(hex_parts)
 
 class BytesDigiROM(BaseDigiROM):
 	"""Describes the communication for byte-sequence protocols and records the results.
@@ -318,26 +301,13 @@ class WordsCommandSegment:
 		self.data = data
 	#def __str__():
 
-class WordsResultSegment:
+class WordsResultSegment(BaseResultSegment):
 	"""Describes the result of one segment of the communication for word-sequence protocols.
-
-	:param sent: True if this represents data sent, False if data received.
-	:param data: A list of 16-bit integers representing the bytes sent or received.
-		If sent is False, can be empty to indicate nothing was received before timeout.
 	"""
-	def __init__(self, sent: bool, data: list):
-		self.sent = sent
-		self.data = data
-	def __str__(self):
-		"""Returns text formatted for the serial protocol."""
+	null_value = []
+	def str_data(self):
 		hex_parts = ["%04X" % b for b in self.data]
-		hex_str = "".join(hex_parts)
-		if self.sent:
-			return "s:" + hex_str
-		elif self.data == []:
-			return "t"
-		else:
-			return "r:" + hex_str
+		return "".join(hex_parts)
 
 class WordsDigiROM(BaseDigiROM):
 	"""Describes the communication for word-sequence protocols and records the results.
