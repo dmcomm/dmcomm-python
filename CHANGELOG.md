@@ -1,13 +1,18 @@
 
 ## Unreleased
 ### Added
-- Data Link ID shift calculation using ">>"
-- Data Link checksum calculation using "+?"
+- Calculation features in sequence DigiROMs:
+    - Normal checksum using "++", or "++++" for DMC
+    - Normal mirroring using "__", or "____" for DMC
+    - Data Link ID shift using ">>"
+    - Data Link checksum calculation using "+?"
 ### Changed
 - Major reorganization of DigiROM API (but `parse_command` API is unchanged)
 - Files have moved around so recommend deleting old `lib/dmcomm` folder before upgrading
-- Finalized Data Link - bytes are reversed from "!" version - `utils/byte_reverse.py` can fix existing Data Link byte sequences in text files
+- Finalized Data Link - removed "!" - bytes are reversed from "!" version, `utils/byte_reverse.py` can fix existing Data Link byte sequences in text files
 - Finalized Fusion Loader - removed "!!" with no changes
+### Tested with
+- CircuitPython 8.0.5
 
 ## 0.6.0 - 2023-04-17
 ### Added

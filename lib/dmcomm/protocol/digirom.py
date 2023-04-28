@@ -35,13 +35,13 @@ def _sequence_from_hex_string(text, grouplen):
 	data = []
 	for i in range(0, len(text)-1, grouplen):
 		digits = text[i:i+grouplen]
-		if digits in [">>", "+?"]:
+		if digits in ["++++", "____", "++", "+?", "__", ">>"]:
 			item = digits
 		else:
 			try:
 				item = int(digits, 16)
 			except:
-				raise CommandError("not hex number: " + digits)
+				raise CommandError("not a recognised instruction or hex number: " + digits)
 		data.append(item)
 	return data
 
@@ -284,8 +284,15 @@ class BytesDigiROM(BaseDigiROM):
 		data_to_send = []
 		for i in range(len(segment.data)):
 			item = segment.data[i]
-			if item == "+?":
+			if item == "++":
+				b = sum(data_to_send[:i]) % 0x100
+			elif item == "+?":
 				b = checksum_datalink(data_to_send[:i])
+			elif item == "__":
+				try:
+					b = self._data_received[i]
+				except:
+					b = 0
 			elif item == ">>":
 				try:
 					b = self._data_received[i-1]
@@ -321,3 +328,18 @@ class WordsDigiROM(BaseDigiROM):
 	"""
 	command_segment_class = WordsCommandSegment
 	result_segment_class = WordsResultSegment
+	def _pre_send(self, segment):
+		data_to_send = []
+		for i in range(len(segment.data)):
+			item = segment.data[i]
+			if item == "++++":
+				w = sum(data_to_send[:i]) % 0x10000
+			elif item == "____":
+				try:
+					w = self._data_received[i]
+				except:
+					w = 0
+			else:
+				w = item
+			data_to_send.append(w)
+		return data_to_send
