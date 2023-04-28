@@ -101,14 +101,22 @@ class BaseResultSegment:
 
 class BaseDigiROM:
 	"""Base class for describing the communication and recording the results.
+
+	Caller should provide `segments` or `text_segments` or neither, but not both.
 	"""
 	command_segment_class = None  #: Subclasses must override.
 	result_segment_class = None   #: Subclasses must override.
-	def __init__(self, signal_type, turn, segments=None):
+	def __init__(self, signal_type:str, turn:int, segments=None, text_segments=None):
 		self.signal_type = signal_type
 		self.turn = turn
-		self._segments = [] if segments is None else segments
 		self.result = None
+		if segments is not None:
+			self._segments = segments
+		elif text_segments is not None:
+			conv = self.command_segment_class.from_string
+			self._segments = [conv(item) for item in text_segments]
+		else:
+			self._segments = []
 	def append(self, c):
 		self._segments.append(c)
 	def prepare(self):

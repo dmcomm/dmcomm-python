@@ -35,8 +35,7 @@ def parse_command(text):
 		raise CommandError("op=" + op)
 	if turn not in "012":
 		raise CommandError("turn=" + turn)
-	segments = [DigiROM.command_segment_class.from_string(part) for part in parts[1:]]
-	return DigiROM(op, int(turn), segments)
+	return DigiROM(op, int(turn), text_segments=parts[1:])
 
 class OtherCommand:
 	def __init__(self, op, param):
