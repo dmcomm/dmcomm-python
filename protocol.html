@@ -15,7 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dmcomm.protocol.core16" href="protocol.core16.html" />
+    <link rel="next" title="dmcomm.protocol.digirom" href="protocol.digirom.html" />
     <link rel="prev" title="dmcomm.hardware" href="hardware.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -28,7 +28,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="protocol.core16.html" title="dmcomm.protocol.core16"
+          <a href="protocol.digirom.html" title="dmcomm.protocol.digirom"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="hardware.html" title="dmcomm.hardware"
@@ -56,73 +56,15 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.</span></span><span class="sig-name descname"><span class="pre">OtherCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.OtherCommand" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="dmcomm.protocol.BaseDigiROM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.</span></span><span class="sig-name descname"><span class="pre">BaseDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result_segment_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.BaseDigiROM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for describing the communication and recording the results.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.BaseDigiROM.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.BaseDigiROM.append" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.BaseDigiROM.prepare">
-<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.BaseDigiROM.prepare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.BaseDigiROM.send">
-<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.BaseDigiROM.send" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.BaseDigiROM.receive">
-<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.BaseDigiROM.receive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="dmcomm.protocol.Result">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.Result" title="Permalink to this definition">¶</a></dt>
-<dd><p>Describes the result of the communication.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.Result.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.Result.append" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="dmcomm.protocol.Result.__str__">
-<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.Result.__str__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns text formatted for the serial protocol.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="dmcomm.protocol.ResultView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.</span></span><span class="sig-name descname"><span class="pre">ResultView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.ResultView" title="Permalink to this definition">¶</a></dt>
-<dd><p>Describes the result of one side of the communication.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>result</strong> – The Result to view.</p></li>
-<li><p><strong>turn</strong> – 1 for the side who went first, 2 for the side who went second.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="protocol.core16.html"><cite>dmcomm.protocol.core16</cite></a></li>
-<li class="toctree-l1"><a class="reference internal" href="protocol.core_bytes.html"><cite>dmcomm.protocol.core_bytes</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="protocol.digirom.html"><cite>dmcomm.protocol.digirom</cite></a></li>
 <li class="toctree-l1"><a class="reference internal" href="protocol.dm20.html"><cite>dmcomm.protocol.dm20</cite></a></li>
 </ul>
 </div>
-<p>Generated from git commit: 2023-04-15 v0.5.0-7-gb450718</p>
+<p>Generated from git commit: 2023-05-06 v0.7.0</p>
 
 
             <div class="clearer"></div>
@@ -140,7 +82,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="protocol.core16.html" title="dmcomm.protocol.core16"
+          <a href="protocol.digirom.html" title="dmcomm.protocol.digirom"
              >next</a> |</li>
         <li class="right" >
           <a href="hardware.html" title="dmcomm.hardware"

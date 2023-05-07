@@ -8,6 +8,5 @@
    :maxdepth: 2
    :caption: Contents:
 
-   protocol.core16
-   protocol.core_bytes
+   protocol.digirom
    protocol.dm20

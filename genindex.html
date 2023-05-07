@@ -59,12 +59,20 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.core16.html#dmcomm.protocol.core16.ResultSegment.__str__">__str__() (dmcomm.protocol.core16.ResultSegment method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseResultSegment.__str__">__str__() (dmcomm.protocol.digirom.BaseResultSegment method)</a>
 
       <ul>
-        <li><a href="protocol.core_bytes.html#dmcomm.protocol.core_bytes.ResultSegment.__str__">(dmcomm.protocol.core_bytes.ResultSegment method)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.Result.__str__">(dmcomm.protocol.digirom.Result method)</a>
 </li>
-        <li><a href="protocol.html#dmcomm.protocol.Result.__str__">(dmcomm.protocol.Result method)</a>
+      </ul></li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM._pre_send">_pre_send() (dmcomm.protocol.digirom.BaseDigiROM method)</a>
+
+      <ul>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesDigiROM._pre_send">(dmcomm.protocol.digirom.BytesDigiROM method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicDigiROM._pre_send">(dmcomm.protocol.digirom.ClassicDigiROM method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsDigiROM._pre_send">(dmcomm.protocol.digirom.WordsDigiROM method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -73,12 +81,10 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.html#dmcomm.protocol.BaseDigiROM.append">append() (dmcomm.protocol.BaseDigiROM method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.append">append() (dmcomm.protocol.digirom.BaseDigiROM method)</a>
 
       <ul>
-        <li><a href="protocol.core16.html#dmcomm.protocol.core16.DigiROM.append">(dmcomm.protocol.core16.DigiROM method)</a>
-</li>
-        <li><a href="protocol.html#dmcomm.protocol.Result.append">(dmcomm.protocol.Result method)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.Result.append">(dmcomm.protocol.digirom.Result method)</a>
 </li>
       </ul></li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.ATTACK_CRITICAL">ATTACK_CRITICAL (in module dmcomm.protocol.dm20)</a>
@@ -87,10 +93,10 @@
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.ATTACK_DOUBLE_WEAK">ATTACK_DOUBLE_WEAK (in module dmcomm.protocol.dm20)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.attack_pattern">attack_pattern() (in module dmcomm.protocol.dm20)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.ATTACK_SINGLE_STRONG">ATTACK_SINGLE_STRONG (in module dmcomm.protocol.dm20)</a>
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.ATTACK_SINGLE_WEAK">ATTACK_SINGLE_WEAK (in module dmcomm.protocol.dm20)</a>
@@ -109,13 +115,21 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.html#dmcomm.protocol.BaseDigiROM">BaseDigiROM (class in dmcomm.protocol)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM">BaseDigiROM (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseResultSegment">BaseResultSegment (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.BattleOrCopy">BattleOrCopy (class in dmcomm.protocol.dm20)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.BattleOrCopy">BattleOrCopy (class in dmcomm.protocol.dm20)</a>
-</li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.BattleOrCopyView">BattleOrCopyView (class in dmcomm.protocol.dm20)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesCommandSegment">BytesCommandSegment (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesDigiROM">BytesDigiROM (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesResultSegment">BytesResultSegment (class in dmcomm.protocol.digirom)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -123,16 +137,30 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#dmcomm.CommandError">CommandError</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.checksum_datalink">checksum_datalink() (in module dmcomm.protocol.digirom)</a>
 </li>
-      <li><a href="protocol.core16.html#dmcomm.protocol.core16.CommandSegment">CommandSegment (class in dmcomm.protocol.core16)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicCommandSegment">ClassicCommandSegment (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicDigiROM">ClassicDigiROM (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicResultSegment">ClassicResultSegment (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.command_segment_class">command_segment_class (dmcomm.protocol.digirom.BaseDigiROM attribute)</a>
 
       <ul>
-        <li><a href="protocol.core_bytes.html#dmcomm.protocol.core_bytes.CommandSegment">(class in dmcomm.protocol.core_bytes)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesDigiROM.command_segment_class">(dmcomm.protocol.digirom.BytesDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicDigiROM.command_segment_class">(dmcomm.protocol.digirom.ClassicDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsDigiROM.command_segment_class">(dmcomm.protocol.digirom.DigitsDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsDigiROM.command_segment_class">(dmcomm.protocol.digirom.WordsDigiROM attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#dmcomm.CommandError">CommandError</a>
+</li>
       <li><a href="hardware.html#dmcomm.hardware.Controller">Controller (class in dmcomm.hardware)</a>
 </li>
   </ul></td>
@@ -147,12 +175,12 @@
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.default_sprite_weak">default_sprite_weak() (in module dmcomm.protocol.dm20)</a>
 </li>
-      <li><a href="protocol.core16.html#dmcomm.protocol.core16.DigiROM">DigiROM (class in dmcomm.protocol.core16)</a>
-
-      <ul>
-        <li><a href="protocol.core_bytes.html#dmcomm.protocol.core_bytes.DigiROM">(class in dmcomm.protocol.core_bytes)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsCommandSegment">DigitsCommandSegment (class in dmcomm.protocol.digirom)</a>
 </li>
-      </ul></li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsDigiROM">DigitsDigiROM (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsResultSegment">DigitsResultSegment (class in dmcomm.protocol.digirom)</a>
+</li>
       <li>
     dmcomm
 
@@ -160,6 +188,8 @@
         <li><a href="index.html#module-dmcomm">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     dmcomm.hardware
 
@@ -167,8 +197,6 @@
         <li><a href="hardware.html#module-dmcomm.hardware">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     dmcomm.protocol
 
@@ -177,17 +205,10 @@
 </li>
       </ul></li>
       <li>
-    dmcomm.protocol.core16
+    dmcomm.protocol.digirom
 
       <ul>
-        <li><a href="protocol.core16.html#module-dmcomm.protocol.core16">module</a>
-</li>
-      </ul></li>
-      <li>
-    dmcomm.protocol.core_bytes
-
-      <ul>
-        <li><a href="protocol.core_bytes.html#module-dmcomm.protocol.core_bytes">module</a>
+        <li><a href="protocol.digirom.html#module-dmcomm.protocol.digirom">module</a>
 </li>
       </ul></li>
       <li>
@@ -215,12 +236,14 @@
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.Name.from_japanese">from_japanese() (dmcomm.protocol.dm20.Name class method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.core16.html#dmcomm.protocol.core16.CommandSegment.from_string">from_string() (dmcomm.protocol.core16.CommandSegment class method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesCommandSegment.from_string">from_string() (dmcomm.protocol.digirom.BytesCommandSegment class method)</a>
 
       <ul>
-        <li><a href="protocol.core_bytes.html#dmcomm.protocol.core_bytes.CommandSegment.from_string">(dmcomm.protocol.core_bytes.CommandSegment class method)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicCommandSegment.from_string">(dmcomm.protocol.digirom.ClassicCommandSegment class method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsCommandSegment.from_string">(dmcomm.protocol.digirom.DigitsCommandSegment class method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsCommandSegment.from_string">(dmcomm.protocol.digirom.WordsCommandSegment class method)</a>
 </li>
         <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.Name.from_string">(dmcomm.protocol.dm20.Name class method)</a>
 </li>
@@ -255,6 +278,8 @@
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.MODE_TAG">MODE_TAG (in module dmcomm.protocol.dm20)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
@@ -265,9 +290,7 @@
 </li>
         <li><a href="protocol.html#module-dmcomm.protocol">dmcomm.protocol</a>
 </li>
-        <li><a href="protocol.core16.html#module-dmcomm.protocol.core16">dmcomm.protocol.core16</a>
-</li>
-        <li><a href="protocol.core_bytes.html#module-dmcomm.protocol.core_bytes">dmcomm.protocol.core_bytes</a>
+        <li><a href="protocol.digirom.html#module-dmcomm.protocol.digirom">dmcomm.protocol.digirom</a>
 </li>
         <li><a href="protocol.dm20.html#module-dmcomm.protocol.dm20">dmcomm.protocol.dm20</a>
 </li>
@@ -280,6 +303,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.Name">Name (class in dmcomm.protocol.dm20)</a>
 </li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseResultSegment.null_value">null_value (dmcomm.protocol.digirom.BaseResultSegment attribute)</a>
+
+      <ul>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesResultSegment.null_value">(dmcomm.protocol.digirom.BytesResultSegment attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsResultSegment.null_value">(dmcomm.protocol.digirom.DigitsResultSegment attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsResultSegment.null_value">(dmcomm.protocol.digirom.WordsResultSegment attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -304,10 +337,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="protocol.html#dmcomm.protocol.parse_command">parse_command() (in module dmcomm.protocol)</a>
 </li>
-      <li><a href="protocol.html#dmcomm.protocol.BaseDigiROM.prepare">prepare() (dmcomm.protocol.BaseDigiROM method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.prepare">prepare() (dmcomm.protocol.digirom.BaseDigiROM method)</a>
 
       <ul>
-        <li><a href="protocol.core16.html#dmcomm.protocol.core16.DigiROM.prepare">(dmcomm.protocol.core16.DigiROM method)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicDigiROM.prepare">(dmcomm.protocol.digirom.ClassicDigiROM method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -322,27 +355,29 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.html#dmcomm.protocol.BaseDigiROM.receive">receive() (dmcomm.protocol.BaseDigiROM method)</a>
-
-      <ul>
-        <li><a href="protocol.core16.html#dmcomm.protocol.core16.DigiROM.receive">(dmcomm.protocol.core16.DigiROM method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.receive">receive() (dmcomm.protocol.digirom.BaseDigiROM method)</a>
 </li>
-      </ul></li>
       <li><a href="index.html#dmcomm.ReceiveError">ReceiveError</a>
 </li>
       <li><a href="hardware.html#dmcomm.hardware.Controller.register">register() (dmcomm.hardware.Controller method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.html#dmcomm.protocol.Result">Result (class in dmcomm.protocol)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.Result">Result (class in dmcomm.protocol.digirom)</a>
 </li>
-      <li><a href="protocol.core16.html#dmcomm.protocol.core16.ResultSegment">ResultSegment (class in dmcomm.protocol.core16)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.result_segment_class">result_segment_class (dmcomm.protocol.digirom.BaseDigiROM attribute)</a>
 
       <ul>
-        <li><a href="protocol.core_bytes.html#dmcomm.protocol.core_bytes.ResultSegment">(class in dmcomm.protocol.core_bytes)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesDigiROM.result_segment_class">(dmcomm.protocol.digirom.BytesDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicDigiROM.result_segment_class">(dmcomm.protocol.digirom.ClassicDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsDigiROM.result_segment_class">(dmcomm.protocol.digirom.DigitsDigiROM attribute)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsDigiROM.result_segment_class">(dmcomm.protocol.digirom.WordsDigiROM attribute)</a>
 </li>
       </ul></li>
-      <li><a href="protocol.html#dmcomm.protocol.ResultView">ResultView (class in dmcomm.protocol)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ResultView">ResultView (class in dmcomm.protocol.digirom)</a>
 </li>
       <li><a href="protocol.dm20.html#dmcomm.protocol.dm20.ROSTER_SIZE">ROSTER_SIZE (in module dmcomm.protocol.dm20)</a>
 </li>
@@ -352,10 +387,18 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="protocol.html#dmcomm.protocol.BaseDigiROM.send">send() (dmcomm.protocol.BaseDigiROM method)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseDigiROM.send">send() (dmcomm.protocol.digirom.BaseDigiROM method)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BaseResultSegment.str_data">str_data() (dmcomm.protocol.digirom.BaseResultSegment method)</a>
 
       <ul>
-        <li><a href="protocol.core16.html#dmcomm.protocol.core16.DigiROM.send">(dmcomm.protocol.core16.DigiROM method)</a>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.BytesResultSegment.str_data">(dmcomm.protocol.digirom.BytesResultSegment method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.ClassicResultSegment.str_data">(dmcomm.protocol.digirom.ClassicResultSegment method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.DigitsResultSegment.str_data">(dmcomm.protocol.digirom.DigitsResultSegment method)</a>
+</li>
+        <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsResultSegment.str_data">(dmcomm.protocol.digirom.WordsResultSegment method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -400,9 +443,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="hardware.html#dmcomm.hardware.WAIT_FOREVER">WAIT_FOREVER (in module dmcomm.hardware)</a>
 </li>
+      <li><a href="hardware.html#dmcomm.hardware.WAIT_REPLY">WAIT_REPLY (in module dmcomm.hardware)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hardware.html#dmcomm.hardware.WAIT_REPLY">WAIT_REPLY (in module dmcomm.hardware)</a>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsCommandSegment">WordsCommandSegment (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsDigiROM">WordsDigiROM (class in dmcomm.protocol.digirom)</a>
+</li>
+      <li><a href="protocol.digirom.html#dmcomm.protocol.digirom.WordsResultSegment">WordsResultSegment (class in dmcomm.protocol.digirom)</a>
 </li>
   </ul></td>
 </tr></table>

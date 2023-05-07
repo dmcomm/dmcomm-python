@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>dmcomm.protocol.digirom &#8212; DMComm  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dmcomm.protocol.dm20" href="protocol.dm20.html" />
+    <link rel="prev" title="dmcomm.protocol" href="protocol.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.dm20.html" title="dmcomm.protocol.dm20"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="protocol.html" accesskey="U"><cite>dmcomm.protocol</cite></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.protocol.digirom</cite></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-dmcomm.protocol.digirom"></span><section id="dmcomm-protocol-digirom">
+<h1><cite>dmcomm.protocol.digirom</cite><a class="headerlink" href="#dmcomm-protocol-digirom" title="Permalink to this headline">¶</a></h1>
+<p>Handling of DigiROM formats.</p>
+<p>Note: This API is still under development and may change at any time.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.checksum_datalink">
+<span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">checksum_datalink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.checksum_datalink" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.Result">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.Result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of the communication.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.Result.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.Result.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.Result.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.Result.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns text formatted for the serial protocol.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ResultView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">ResultView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ResultView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one side of the communication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>result</strong> – The Result to view.</p></li>
+<li><p><strong>turn</strong> – 1 for the side who went first, 2 for the side who went second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseResultSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">BaseResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sent</strong> – True if this represents data sent, False if data received.</p></li>
+<li><p><strong>data</strong> – The data sent or received.
+If sent is False, can be <cite>null_value</cite> to indicate nothing was received before timeout.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseResultSegment.null_value">
+<span class="sig-name descname"><span class="pre">null_value</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.BaseResultSegment.null_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses can override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseResultSegment.str_data">
+<span class="sig-name descname"><span class="pre">str_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseResultSegment.str_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseResultSegment.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseResultSegment.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns text formatted for the serial protocol.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">BaseDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for describing the communication and recording the results.</p>
+<p>Caller should provide <cite>segments</cite> or <cite>text_segments</cite> or neither, but not both.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.command_segment_class">
+<span class="sig-name descname"><span class="pre">command_segment_class</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.command_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses must override.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.result_segment_class">
+<span class="sig-name descname"><span class="pre">result_segment_class</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.result_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses must override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.prepare" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM._pre_send">
+<span class="sig-name descname"><span class="pre">_pre_send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM._pre_send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BaseDigiROM.receive">
+<span class="sig-name descname"><span class="pre">receive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BaseDigiROM.receive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicCommandSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">ClassicCommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checksum_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_digit_LSB_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicCommandSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes how to carry out one segment of the communication for 16-bit protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicCommandSegment.from_string">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicCommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>ClassicCommandSegment</cite> from one of the dash-separated parts of a text command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicResultSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">ClassicResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication for 16-bit protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicResultSegment.str_data">
+<span class="sig-name descname"><span class="pre">str_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicResultSegment.str_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicDigiROM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">ClassicDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicDigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the communication for 16-bit protocols and records the results.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicDigiROM.command_segment_class">
+<span class="sig-name descname"><span class="pre">command_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicDigiROM.command_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.ClassicCommandSegment" title="dmcomm.protocol.digirom.ClassicCommandSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.ClassicCommandSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicDigiROM.result_segment_class">
+<span class="sig-name descname"><span class="pre">result_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicDigiROM.result_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.ClassicResultSegment" title="dmcomm.protocol.digirom.ClassicResultSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.ClassicResultSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicDigiROM.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicDigiROM.prepare" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.ClassicDigiROM._pre_send">
+<span class="sig-name descname"><span class="pre">_pre_send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.ClassicDigiROM._pre_send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsCommandSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">DigitsCommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsCommandSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes how to carry out one segment of the communication for digit-sequence protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsCommandSegment.from_string">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsCommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>DigitsCommandSegment</cite> from one of the dash-separated parts of a text command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsResultSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">DigitsResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication for digit-sequence protocols.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsResultSegment.null_value">
+<span class="sig-name descname"><span class="pre">null_value</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsResultSegment.null_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses can override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsResultSegment.str_data">
+<span class="sig-name descname"><span class="pre">str_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsResultSegment.str_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsDigiROM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">DigitsDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsDigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the communication for digit-sequence protocols and records the results.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsDigiROM.command_segment_class">
+<span class="sig-name descname"><span class="pre">command_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsDigiROM.command_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.DigitsCommandSegment" title="dmcomm.protocol.digirom.DigitsCommandSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.DigitsCommandSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.DigitsDigiROM.result_segment_class">
+<span class="sig-name descname"><span class="pre">result_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.DigitsDigiROM.result_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.DigitsResultSegment" title="dmcomm.protocol.digirom.DigitsResultSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.DigitsResultSegment</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesCommandSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">BytesCommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesCommandSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes how to carry out one segment of the communication for byte-sequence protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesCommandSegment.from_string">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesCommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>BytesCommandSegment</cite> from one of the dash-separated parts of a text command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesResultSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">BytesResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication for byte-sequence protocols.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesResultSegment.null_value">
+<span class="sig-name descname"><span class="pre">null_value</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.BytesResultSegment.null_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses can override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesResultSegment.str_data">
+<span class="sig-name descname"><span class="pre">str_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesResultSegment.str_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesDigiROM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">BytesDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesDigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the communication for byte-sequence protocols and records the results.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesDigiROM.command_segment_class">
+<span class="sig-name descname"><span class="pre">command_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesDigiROM.command_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.BytesCommandSegment" title="dmcomm.protocol.digirom.BytesCommandSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.BytesCommandSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesDigiROM.result_segment_class">
+<span class="sig-name descname"><span class="pre">result_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesDigiROM.result_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.BytesResultSegment" title="dmcomm.protocol.digirom.BytesResultSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.BytesResultSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.BytesDigiROM._pre_send">
+<span class="sig-name descname"><span class="pre">_pre_send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.BytesDigiROM._pre_send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsCommandSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">WordsCommandSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsCommandSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes how to carry out one segment of the communication for word-sequence protocols.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsCommandSegment.from_string">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsCommandSegment.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <cite>WordsCommandSegment</cite> from one of the dash-separated parts of a text command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsResultSegment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">WordsResultSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsResultSegment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the result of one segment of the communication for word-sequence protocols.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsResultSegment.null_value">
+<span class="sig-name descname"><span class="pre">null_value</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dmcomm.protocol.digirom.WordsResultSegment.null_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses can override.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsResultSegment.str_data">
+<span class="sig-name descname"><span class="pre">str_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsResultSegment.str_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsDigiROM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dmcomm.protocol.digirom.</span></span><span class="sig-name descname"><span class="pre">WordsDigiROM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsDigiROM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describes the communication for word-sequence protocols and records the results.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsDigiROM.command_segment_class">
+<span class="sig-name descname"><span class="pre">command_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsDigiROM.command_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.WordsCommandSegment" title="dmcomm.protocol.digirom.WordsCommandSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.WordsCommandSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsDigiROM.result_segment_class">
+<span class="sig-name descname"><span class="pre">result_segment_class</span></span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsDigiROM.result_segment_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dmcomm.protocol.digirom.WordsResultSegment" title="dmcomm.protocol.digirom.WordsResultSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">dmcomm.protocol.digirom.WordsResultSegment</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dmcomm.protocol.digirom.WordsDigiROM._pre_send">
+<span class="sig-name descname"><span class="pre">_pre_send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dmcomm.protocol.digirom.WordsDigiROM._pre_send" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<p>Generated from git commit: 2023-05-06 v0.7.0</p>
+
+
+            <div class="clearer"></div>
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="protocol.dm20.html" title="dmcomm.protocol.dm20"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="protocol.html" title="dmcomm.protocol"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DMComm  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="protocol.html" ><cite>dmcomm.protocol</cite></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>dmcomm.protocol.digirom</cite></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, BladeSabre.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>
