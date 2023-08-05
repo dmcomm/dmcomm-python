@@ -12,7 +12,7 @@ import usb_cdc
 import board_config
 from dmcomm import CommandError, ReceiveError
 import dmcomm.hardware as hw
-from dmcomm.protocol import dm20
+from dmcomm.protocol import dm20, dmog
 
 
 
@@ -25,18 +25,33 @@ def dm20_tag_create_digirom():
 	digirom.index_rear = 7 #Meramon
 	return digirom
 
-def dm20_tag_print_results(digirom):
-	print("Your front index: ", digirom.outcome.you.index)
-	print("Your rear index: ", digirom.outcome.you.index_rear)
-	print("Your attack strengths: ", digirom.outcome.you.attack_strengths)
+def dm20_tag_print_result(digirom):
+	print("Your front index:", digirom.outcome.you.index)
+	print("Your rear index:", digirom.outcome.you.index_rear)
+	print("Your attack strengths:", digirom.outcome.you.attack_strengths)
 	digirom.outcome.run()
-	print("Damage dealt to you: ", digirom.outcome.damage_you)
+	print("Damage dealt to you:", digirom.outcome.damage_you)
 	if digirom.outcome.end == dm20.OUTCOME_WIN:
 		print("You lose!")
 	elif digirom.outcome.end == dm20.OUTCOME_LOSE:
 		print("You win!")
 	else:
 		print("Draw!")
+
+def dmog_create_digirom():
+	digirom = dmog.Battle(2)
+	digirom.index = 7  # Devimon
+	digirom.boost = 2
+	return digirom
+
+def dmog_print_result(digirom):
+	print("Your index:", digirom.outcome.you.index)
+	print("Your boost:", digirom.outcome.you.boost)
+	print("Your version:", digirom.outcome.you.version)
+	if digirom.outcome.you.win:
+		print("You win!")
+	else:
+		print("You lose!")
 
 
 
@@ -46,7 +61,8 @@ for pin_description in board_config.controller_pins:
 serial = usb_cdc.console
 serial.timeout = 0
 options = [
-	("DM20 tag battle", dm20_tag_create_digirom(), dm20_tag_print_results),
+	("DM20 tag battle", dm20_tag_create_digirom(), dm20_tag_print_result),
+	("DMOG battle", dmog_create_digirom(), dmog_print_result),
 ]
 (title, digirom, print_result) = options[0]
 

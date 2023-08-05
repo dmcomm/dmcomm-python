@@ -1,5 +1,7 @@
 
 ## Unreleased
+### Added
+- High-level DigiROM API for DMOG
 ### Changed
 - Rewrote example for high-level DigiROM API
 
