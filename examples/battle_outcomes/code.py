@@ -38,7 +38,13 @@ def dm20_tag_print_result(digirom):
 	else:
 		print("Draw!")
 
-def dmog_create_digirom():
+def dmog1_create_digirom():
+	digirom = dmog.Battle(1)
+	digirom.index = 7  # Devimon
+	digirom.boost = 2
+	return digirom
+
+def dmog2_create_digirom():
 	digirom = dmog.Battle(2)
 	digirom.index = 7  # Devimon
 	digirom.boost = 2
@@ -61,13 +67,20 @@ for pin_description in board_config.controller_pins:
 serial = usb_cdc.console
 serial.timeout = 0
 options = [
-	("DM20 tag battle", dm20_tag_create_digirom(), dm20_tag_print_result),
-	("DMOG battle", dmog_create_digirom(), dmog_print_result),
+	("DM20 tag battle (you go first: press button)", dm20_tag_create_digirom(), dm20_tag_print_result),
+	("DMOG battle (you go first: press button)", dmog2_create_digirom(), dmog_print_result),
+	("DMOG battle (you go second: wait)", dmog1_create_digirom(), dmog_print_result),
 ]
-(title, digirom, print_result) = options[0]
+def print_options():
+	for i in range(len(options)):
+		print("[" + str(i) + "] ", options[i][0])
+	print("(Single keypress without Enter)")
+print_options()
+digirom = None
 
 while True:
 	if serial.in_waiting != 0:
+		digirom = None
 		command = serial.read(100)
 		try:
 			option_number = int(command)
@@ -75,21 +88,21 @@ while True:
 			print(title)
 		except Exception as e:
 			print(repr(command), ":", repr(e))
-			for i in range(len(options)):
-				print("[" + str(i) + "] ", options[i][0])
-	time_start = time.monotonic()
-	error = ""
-	result_end = "\n"
-	try:
-		controller.execute(digirom)
-	except (CommandError, ReceiveError) as e:
-		error = repr(e)
-		result_end = " "
-	print(digirom.result, end=result_end)
-	if error != "":
-		print(error)
-	if digirom.outcome.ready:
-		print_result(digirom)
-	seconds_passed = time.monotonic() - time_start
-	if seconds_passed < 5:
-		time.sleep(5 - seconds_passed)
+			print_options()
+	if digirom is not None:
+		time_start = time.monotonic()
+		error = ""
+		result_end = "\n"
+		try:
+			controller.execute(digirom)
+		except (CommandError, ReceiveError) as e:
+			error = repr(e)
+			result_end = " "
+		print(digirom.result, end=result_end)
+		if error != "":
+			print(error)
+		if digirom.outcome.ready:
+			print_result(digirom)
+		seconds_passed = time.monotonic() - time_start
+		if seconds_passed < 5:
+			time.sleep(5 - seconds_passed)

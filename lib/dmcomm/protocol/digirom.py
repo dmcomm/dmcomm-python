@@ -141,6 +141,32 @@ class BaseDigiROM:
 	def __getitem__(self, i):
 		return self._segments[i]
 
+class BaseHighLevelDigiROM:
+	"""Base class for DigiROM field mapping.
+	"""
+	signal_type = None    #: Subclasses must override.
+	digirom_class = None  #: Subclasses must override.
+	view_class = None     #: Subclasses must override.
+	outcome_class = None  #: Subclasses must override.
+	def prepare(self):
+		"""Relies on member: turn.
+		Creates members: _digirom, result, outcome.
+		"""
+		self._digirom = self.digirom_class(self.signal_type, self.turn)
+		self._digirom.prepare()
+		self.result = self._digirom.result
+		me = self.view_class(ResultView(self.result, self.turn))
+		you = self.view_class(ResultView(self.result, 3 - self.turn))
+		self.outcome = self.outcome_class(me, you)
+	def send(self):
+		i = len(self._digirom)
+		segment = self[i]
+		if segment is not None:
+			self._digirom.append(segment)
+		return self._digirom.send()
+	def receive(self, bits):
+		self._digirom.receive(bits)
+
 class ClassicCommandSegment:
 	"""Describes how to carry out one segment of the communication for 16-bit protocols.
 	"""

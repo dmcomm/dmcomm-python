@@ -12,7 +12,7 @@ Note: This API is still under development and may change at any time.
 import array
 import random
 
-from dmcomm.protocol.digirom import ClassicDigiROM, ClassicCommandSegment, ResultView
+from dmcomm.protocol.digirom import BaseHighLevelDigiROM, ClassicDigiROM, ClassicCommandSegment
 
 ROSTER_SIZE = 12
 _WIN_CHANCES = array.array("B", [
@@ -72,12 +72,7 @@ class BattleView:
 		win_bits = self._d(2) & 0xF
 		return win_bits == 1
 
-class Outcome:
-	@classmethod
-	def from_result(cls, result, turn):
-		me = BattleView(ResultView(result, turn))
-		you = BattleView(ResultView(result, 3 - turn))
-		return cls(me, you)
+class BattleOutcome:
 	def __init__(self, me: BattleView, you: BattleView):
 		self.me = me
 		self.you = you
@@ -90,7 +85,11 @@ class Outcome:
 		except (IndexError, TypeError):
 			return False
 
-class Battle:
+class Battle(BaseHighLevelDigiROM):
+	signal_type = "V"
+	digirom_class = ClassicDigiROM
+	view_class = BattleView
+	outcome_class = BattleOutcome
 	def __init__(self, turn):
 		self.signal_type = "V"
 		self.turn = turn
@@ -107,18 +106,6 @@ class Battle:
 		return 3 if self.index is None else self.index
 	def _version_send(self):
 		return 0 if self.version is None else self.version
-	def prepare(self):
-		self._digirom = ClassicDigiROM("V", self.turn)
-		self._digirom.prepare()
-		self.result = self._digirom.result
-		self.outcome = Outcome.from_result(self.result, self.turn)
-	def send(self):
-		i = len(self._digirom)
-		segment = self[i]
-		self._digirom.append(segment)
-		return self._digirom.send()
-	def receive(self, bits):
-		self._digirom.receive(bits)
 	def __getitem__(self, i):
 		i += 1
 		if i == 1:
@@ -137,6 +124,6 @@ class Battle:
 			win_bits = 1 if win else 2
 			rhs = (self._version_send() << 4) | win_bits
 		else:
-		    return None
+			return None
 		bits = ((rhs ^ 0xff) << 8) | rhs
 		return ClassicCommandSegment(bits)

@@ -11,7 +11,7 @@ Note: This API is still under development and may change at any time.
 
 import array
 
-from dmcomm.protocol.digirom import ClassicDigiROM, ClassicCommandSegment, ResultView
+from dmcomm.protocol.digirom import BaseHighLevelDigiROM, ClassicDigiROM, ClassicCommandSegment
 
 MODE_SINGLE = 0  #: Single battle mode.
 MODE_SEND = 1  #: Copy send mode.
@@ -299,11 +299,6 @@ class BattleOrCopyView:
 		return [damage[a] + bonus for a in attacks]
 
 class BattleOrCopyOutcome:
-	@classmethod
-	def from_result(cls, result, turn):
-		me = BattleOrCopyView(ResultView(result, turn))
-		you = BattleOrCopyView(ResultView(result, 3 - turn))
-		return cls(me, you)
 	def __init__(self, me: BattleOrCopyView, you: BattleOrCopyView):
 		self.me = me
 		self.you = you
@@ -317,7 +312,7 @@ class BattleOrCopyOutcome:
 			x = self.me.checksum
 			x = self.you.checksum
 			return True
-		except IndexError:
+		except (IndexError, TypeError):
 			return False
 	def run(self):
 		self.end = None
@@ -356,8 +351,12 @@ class BattleOrCopyOutcome:
 		self.damage_me = damage2[0]
 		self.damage_you = damage2[1]
 
-class BattleOrCopy:
-	"""Adapts DM20 fields to DigiROM interface (under construction)."""
+class BattleOrCopy(BaseHighLevelDigiROM):
+	"""Adapts DM20 fields to DigiROM interface."""
+	signal_type = "V"
+	digirom_class = ClassicDigiROM
+	view_class = BattleOrCopyView
+	outcome_class = BattleOrCopyOutcome
 	def __init__(self, mode, turn):
 		self.signal_type = "V"
 		self.mode = mode
@@ -462,18 +461,6 @@ class BattleOrCopy:
 		tag_meter = self._tag_meter_send(front)
 		(power, _) = self._power_send(front)
 		return (tag_meter << 12) | (power << 4) | 0xE
-	def prepare(self):
-		self._digirom = ClassicDigiROM("V", self.turn)
-		self._digirom.prepare()
-		self.result = self._digirom.result
-		self.outcome = BattleOrCopyOutcome.from_result(self.result, self.turn)
-	def send(self):
-		i = len(self._digirom)
-		segment = self[i]
-		self._digirom.append(segment)
-		return self._digirom.send()
-	def receive(self, bits):
-		self._digirom.receive(bits)
 	def __getitem__(self, i):
 		i += 1
 		if i == 1:
