@@ -29,7 +29,6 @@ class iC_Communicator:
 				frequency=100_000,
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
-				init=pio_programs.do_nothing,  # workaround for CircuitPython bug
 			)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=250, idle_state=True)
 			self._input_pulses.pause()
