@@ -218,7 +218,7 @@ class ProngParams:
 			self.bit0_low_send = 4000
 			self.bit_low_max = 5500
 			self.cooldown_send = 400
-			self.reply_timeout_ms = 200  # but wait_for_length_2 failing at 40 when this was 100?
+			self.reply_timeout_ms = 200
 			self.packet_length_timeout_ms = 300
 			self.pulses_expected = 35
 			self.empty_value = None
@@ -274,7 +274,7 @@ class ProngParams:
 			self.bit0_low_send = 500
 			self.bit_low_max = 1700
 			self.cooldown_send = 500
-			self.reply_timeout_ms = 200  # why?
+			self.reply_timeout_ms = 200
 			self.packet_length_timeout_ms = 400
 			self.pulses_expected = 257
 			self.empty_value = []

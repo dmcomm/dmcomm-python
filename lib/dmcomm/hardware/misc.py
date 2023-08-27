@@ -16,6 +16,11 @@ def ticks_diff(ticks1, ticks2):
 	return diff
 
 def wait_for_length(obj, target, timeout_ms):
+	"""Wait for `obj` to have length >= `target` with timeout in milliseconds.
+
+	Returns True if target length was reached in time, False otherwise.
+	Note for PulseIn that length 1 is reached on the second edge, not the first!
+	"""
 	start_ticks_ms = supervisor.ticks_ms()
 	while True:
 		if len(obj) >= target:
