@@ -18,7 +18,8 @@ class Controller:
 		self._ir_input_modulated = None
 		self._ir_input_raw = None
 		self._talis_input_output = None
-		self._prong_comm = None
+		self._classic_comm = None
+		self._color_comm = None
 		self._ic_comm = None
 		self._modulated_comm = None
 		self._talis_comm = None
@@ -42,9 +43,10 @@ class Controller:
 			self._ir_input_raw = io_object
 		if isinstance(io_object, pins.TalisInputOutput):
 			self._talis_input_output = io_object
-		if self._prong_comm is None and self._prong_output is not None and self._prong_input is not None:
+		if self._classic_comm is None and self._prong_output is not None and self._prong_input is not None:
 			from . import prongs
-			self._prong_comm = prongs.ProngCommunicator(self._prong_output, self._prong_input)
+			self._classic_comm = prongs.ClassicCommunicator(self._prong_output, self._prong_input)
+			self._color_comm = prongs.ColorCommunicator(self._prong_output, self._prong_input)
 		if self._ic_comm is None and self._ir_output is not None and self._ir_input_raw is not None:
 			from . import ic
 			self._ic_comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
@@ -93,7 +95,7 @@ class Controller:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
-			communicator = self._prong_comm
+			communicator = self._color_comm if signal_type == "C" else self._classic_comm
 		elif signal_type == "IC":
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")

@@ -5,6 +5,7 @@
 ### Changed
 - Rewrote example for high-level DigiROM API
 - Deinit weak pull when prongs are disabled (caused issues combined with past "disable after every transmission" behaviour, but OK now)
+- Separated DMC logic - `ProngCommunicator` became `ClassicCommunicator` and `ColorCommunicator` - `ClassicCommunicator` follows program flow from before DMC was added
 ### Removed
 - Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
 
