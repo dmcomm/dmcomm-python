@@ -15,10 +15,8 @@ class ProngCommunicator:
 		self._pin_drive_signal = prong_output.pin_drive_signal
 		self._pin_weak_pull = prong_output.pin_weak_pull
 		self._pin_input = prong_input.pin_input
-		#Doesn't work to create the weak pull right before use, #TODO deinit? or bug report?
-		self._output_weak_pull = digitalio.DigitalInOut(self._pin_weak_pull)
-		self._output_weak_pull.switch_to_output(value=True)
 		self._output_state_machine = None
+		self._output_weak_pull = None
 		self._input_pulses = None
 		self._params = ProngParams()
 		self._enabled = False
@@ -36,7 +34,8 @@ class ProngCommunicator:
 				set_pin_count=2,
 				initial_set_pin_direction=0,
 			)
-			self._output_weak_pull.value = self._params.idle_state
+			self._output_weak_pull = digitalio.DigitalInOut(self._pin_weak_pull)
+			self._output_weak_pull.switch_to_output(value=self._params.idle_state)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=260, idle_state=self._params.idle_state)
 			self._input_pulses.pause()
 		except:
@@ -44,12 +43,11 @@ class ProngCommunicator:
 			raise
 		self._enabled = True
 	def disable(self):
-		for item in [self._output_state_machine, self._input_pulses]:
-			#add back self._output_weak_pull if it gets fixed
+		for item in [self._output_state_machine, self._output_weak_pull, self._input_pulses]:
 			if item is not None:
 				item.deinit()
 		self._ouput_state_machine = None
-		#self._output_weak_pull = None
+		self._output_weak_pull = None
 		self._input_pulses = None
 		self._enabled = False
 	def send(self, data):

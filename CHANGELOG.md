@@ -4,6 +4,7 @@
 - High-level DigiROM API for DMOG
 ### Changed
 - Rewrote example for high-level DigiROM API
+- Deinit weak pull when prongs are disabled (caused issues combined with past "disable after every transmission" behaviour, but OK now)
 ### Removed
 - Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
 
