@@ -4,6 +4,8 @@
 - High-level DigiROM API for DMOG
 ### Changed
 - Rewrote example for high-level DigiROM API
+### Removed
+- Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
 
 ## 0.7.0 - 2023-05-06
 ### Added
