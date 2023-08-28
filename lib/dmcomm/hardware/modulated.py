@@ -79,7 +79,7 @@ def receive(input_pulses, params, timeout_ms):
 		t_gap = pulses.popleft()
 		t_total = t_pulse + t_gap
 		if t_total < params.bit_min or t_total > params.bit_max:
-			raise ReceiveError(f"bit {bit_count} pulse={t_pulse} gap={t_gap} total={t_pulse}")
+			raise ReceiveError(f"bit {bit_count} pulse={t_pulse} gap={t_gap} total={t_total}")
 		current_byte >>= 1
 		if t_total > params.bit_threshold:
 			current_byte |= 0x80
@@ -182,7 +182,7 @@ class ModulatedParams:
 			self.bit_min = 900
 			self.bit_threshold = 1500
 			self.bit_max = 1900
-			self.stop_pulse_min = 50  # DL pulse widths most affected by sensor type
+			self.stop_pulse_min = 800  # DL pulse widths most affected by sensor type
 			self.stop_pulse_send = 1300
 			self.stop_pulse_max = 1400
 			self.stop_gap_send = 2000  # Delay start of pulse capture?
