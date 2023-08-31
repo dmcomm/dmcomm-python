@@ -20,13 +20,15 @@ class iC_Communicator:
 		self._params = iC_Params()
 		self._enabled = False
 	def enable(self, signal_type):
-		self._params.set_signal_type(signal_type)
 		if self._enabled:
-			return
+			if signal_type == self._params.signal_type:
+				return
+			self.disable()
+		self._params.set_signal_type(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.iC_TX,
-				frequency=100_000,
+				frequency=self._params.pio_clock,
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
 			)
@@ -43,10 +45,13 @@ class iC_Communicator:
 		self._ouput_state_machine = None
 		self._input_pulses = None
 		self._enabled = False
-	def send(self, bits):
+	def send(self, data):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
-		bytes_to_send = ic_encoding.encode(bits)
+		if self._params.do_ic_encode:
+			bytes_to_send = ic_encoding.encode(data)
+		else:
+			bytes_to_send = data
 		self.send_bytes(bytes_to_send)
 	def send_bytes(self, bytes_to_send):
 		if not self._enabled:
@@ -56,6 +61,8 @@ class iC_Communicator:
 		if not self._enabled:
 			raise RuntimeError("not enabled")
 		bytes_received = self.receive_bytes(timeout_ms)
+		if not self._params.do_ic_encode:
+			return bytes_received
 		if bytes_received == []:
 			return None
 		try:
@@ -78,13 +85,14 @@ class iC_Communicator:
 			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return []
-		#discard first byte or part of byte since we're joining partway through
-		min_gap_find = 2.5 * self._params.tick_length
-		while True:
-			if len(pulses) == 0:
-				raise ReceiveError("fragment")
-			if pulses.popleft() > min_gap_find:
-				break
+		if self._params.do_ic_encode:
+			#discard first byte or part of byte since we're joining partway through
+			min_gap_find = 2.5 * self._params.tick_length
+			while True:
+				if len(pulses) == 0:
+					raise ReceiveError("fragment")
+				if pulses.popleft() > min_gap_find:
+					break
 		bytes_received = []
 		current_byte = 0
 		pulse_count = 0
@@ -129,11 +137,21 @@ class iC_Params:
 		self.set_signal_type("IC")
 	def set_signal_type(self, signal_type):
 		if signal_type == "IC":
+			self.pio_clock = 100_000
+			self.do_ic_encode = True
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 30
 			self.pulse_max = 25
 			self.tick_length = 100
 			self.tick_margin = 30
+		elif signal_type == "!XL":
+			self.pio_clock = 583430
+			self.do_ic_encode = False
+			self.reply_timeout_ms = 30
+			self.packet_length_timeout_ms = 100
+			self.pulse_max = 250
+			self.tick_length = 17
+			self.tick_margin = 5
 		else:
-			raise ValueError("signal_type must be IC")
+			raise ValueError("signal_type must be IC/!XL")
 		self.signal_type = signal_type

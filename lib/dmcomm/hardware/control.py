@@ -96,7 +96,7 @@ class Controller:
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
 			communicator = self._color_comm if signal_type == "C" else self._classic_comm
-		elif signal_type == "IC":
+		elif signal_type in ["IC", "!XL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
