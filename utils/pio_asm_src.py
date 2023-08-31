@@ -44,17 +44,37 @@ release:
 
 # Outputs the specified bytes to iC.
 # Run with 100kHz clock, 1 out pin and 1 set pin which are the same.
-# TODO This is inefficient on PIO space and could be redone with a loop.
 iC_TX_ASM = """
 	pull
 	mov osr ~ osr
 	set pins 1
-	set pins 0 [8]
-""" + ("""
+	set pins 0 [7]
+	set x 7
+loop:
 	out pins 1
-	set pins 0 [8]
-""" * 8) + """
+	set pins 0 [7]
+	jmp x-- loop
 	nop [12]
+"""
+
+# Outputs the specified bytes to Xros Loader (trade/battle).
+# Run with 583430 clock, 1 out pin and 1 set pin which are the same.
+XL_TX_ASM = """
+	pull
+	mov osr ~ osr
+	set pins 1 [4]
+	set pins 0 [3]
+	set x 7
+loop:
+	out pins 1
+	set pins 0 [7]
+	jmp x-- loop
+	set x 31
+delay_x:
+	set y 31
+delay_y:
+	jmp y-- delay_y
+	jmp x-- delay_x
 """
 
 this_file_name = os.path.basename(__file__)
@@ -67,6 +87,8 @@ from array import array
 prong_TX = {repr(adafruit_pioasm.assemble(prong_TX_ASM))}
 
 iC_TX = {repr(adafruit_pioasm.assemble(iC_TX_ASM))}
+
+XL_TX = {repr(adafruit_pioasm.assemble(XL_TX_ASM))}
 """
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ class iC_Communicator:
 		self._params.set_signal_type(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
-				pio_programs.iC_TX,
+				self._params.pio_program,
 				frequency=self._params.pio_clock,
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
@@ -137,6 +137,7 @@ class iC_Params:
 		self.set_signal_type("IC")
 	def set_signal_type(self, signal_type):
 		if signal_type == "IC":
+			self.pio_program = pio_programs.iC_TX
 			self.pio_clock = 100_000
 			self.do_ic_encode = True
 			self.reply_timeout_ms = 100
@@ -145,6 +146,7 @@ class iC_Params:
 			self.tick_length = 100
 			self.tick_margin = 30
 		elif signal_type == "!XL":
+			self.pio_program = pio_programs.XL_TX
 			self.pio_clock = 583430
 			self.do_ic_encode = False
 			self.reply_timeout_ms = 30
