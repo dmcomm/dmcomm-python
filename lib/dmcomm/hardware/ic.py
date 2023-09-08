@@ -78,8 +78,8 @@ class iC_Communicator:
 		pulses.resume()
 		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
-		misc.wait_for_length(pulses, 1, timeout_ms)
-		time.sleep(self._params.packet_length_timeout_ms / 1000)
+		misc.wait_for_length_no_more(pulses, timeout_ms,
+			self._params.packet_length_timeout_ms, self._params.packet_continue_timeout_ms)
 		pulses.pause()
 		if len(pulses) == pulses.maxlen:
 			raise ReceiveError("buffer full")
@@ -141,14 +141,16 @@ class iC_Params:
 			self.do_ic_encode = True
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 30
+			self.packet_continue_timeout_ms = 3
 			self.pulse_max = 25
 			self.tick_length = 100
 			self.tick_margin = 30
 		elif signal_type == "!XL":
 			self.pio_clock = 583430
 			self.do_ic_encode = False
-			self.reply_timeout_ms = 30
+			self.reply_timeout_ms = 150
 			self.packet_length_timeout_ms = 100
+			self.packet_continue_timeout_ms = 3
 			self.pulse_max = 250
 			self.tick_length = 17
 			self.tick_margin = 5
