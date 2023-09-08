@@ -32,7 +32,7 @@ class iC_Communicator:
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
 			)
-			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=250, idle_state=True)
+			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=7000, idle_state=True)
 			self._input_pulses.pause()
 		except:
 			self.disable()
@@ -148,8 +148,8 @@ class iC_Params:
 		elif signal_type == "!XL":
 			self.pio_clock = 583430
 			self.do_ic_encode = False
-			self.reply_timeout_ms = 150
-			self.packet_length_timeout_ms = 100
+			self.reply_timeout_ms = 1000
+			self.packet_length_timeout_ms = 1000
 			self.packet_continue_timeout_ms = 3
 			self.pulse_max = 250
 			self.tick_length = 17
