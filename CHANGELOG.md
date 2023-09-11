@@ -3,6 +3,7 @@
 ### Added
 - High-level DigiROM API for DMOG
 ### Changed
+- Rewrote DL/FL/LT receiving to count pulse+gap duration, rather than pulses and gaps separately - improves the situation for non-Vishay TSOP4838
 - Rewrote example for high-level DigiROM API
 - Deinit weak pull when prongs are disabled (caused issues combined with past "disable after every transmission" behaviour, but OK now)
 - Separated DMC logic - `ProngCommunicator` became `ClassicCommunicator` and `ColorCommunicator` - `ClassicCommunicator` follows program flow from before DMC was added
