@@ -1,9 +1,11 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import array
+import board
 import pulseio
 import time
 import rp2pio
+import adafruit_pioasm
 
 from dmcomm import ReceiveError
 from dmcomm.protocol import ic_encoding
@@ -11,12 +13,66 @@ from . import WAIT_REPLY
 from . import misc
 from . import pio_programs
 
+# Connect InfraredOutput to GP4, probe GP5
+# Connect InfraredInputRaw to GP6, probe GP7
+# Won't work with screen on default pins.
+# Extra delay between bytes, iC won't work.
+# Requires adafruit_pioasm.
+
+program_xros = adafruit_pioasm.assemble("""
+	pull
+	mov osr ~ osr
+	set pins 1 [4]
+	set pins 0 [3]
+	set x 7
+loop:
+	out pins 1
+	set pins 0 [7]
+	jmp x-- loop
+	set x 24
+delay_x:
+	set y 31
+delay_y:
+	jmp y-- delay_y [1]
+	jmp x-- delay_x
+""")
+
+program_extend_low = adafruit_pioasm.assemble("""
+	set pins 1
+is_high:
+	jmp pin is_high
+	set pins 0
+	set x 31
+delay_x:
+	set y 31
+delay_y:
+	jmp y-- delay_y
+	jmp x-- delay_x
+""")
+
+program_extend_high = adafruit_pioasm.assemble("""
+	set pins 0
+is_low:
+	jmp pin is_high
+	jmp is_low
+is_high:
+	set pins 1
+	set x 31
+delay_x:
+	set y 31
+delay_y:
+	jmp y-- delay_y
+	jmp x-- delay_x
+""")
+
 class iC_Communicator:
 	def __init__(self, ir_output, ir_input_raw):
 		self._pin_output = ir_output.pin_output
 		self._pin_input = ir_input_raw.pin_input
 		self._output_state_machine = None
 		self._input_pulses = None
+		self._probe_high = None
+		self._probe_low = None
 		self._params = iC_Params()
 		self._enabled = False
 	def enable(self, signal_type):
@@ -27,23 +83,37 @@ class iC_Communicator:
 		self._params.set_signal_type(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
-				pio_programs.iC_TX,
+				program_xros,
 				frequency=self._params.pio_clock,
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
 			)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=7000, idle_state=True)
 			self._input_pulses.pause()
+			self._probe_high = rp2pio.StateMachine(
+				program_extend_high,
+				frequency=1_000_000,
+				jmp_pin=board.GP4,
+				first_set_pin=board.GP5,
+			)
+			self._probe_low = rp2pio.StateMachine(
+				program_extend_low,
+				frequency=1_000_000,
+				jmp_pin=board.GP6,
+				first_set_pin=board.GP7,
+			)
 		except:
 			self.disable()
 			raise
 		self._enabled = True
 	def disable(self):
-		for item in [self._output_state_machine, self._input_pulses]:
+		for item in [self._output_state_machine, self._input_pulses, self._probe_high, self._probe_low]:
 			if item is not None:
 				item.deinit()
 		self._ouput_state_machine = None
 		self._input_pulses = None
+		self._probe_high = None
+		self._probe_low = None
 		self._enabled = False
 	def send(self, data):
 		if not self._enabled:
