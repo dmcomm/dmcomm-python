@@ -8,7 +8,6 @@ import rp2pio
 import adafruit_pioasm
 
 from dmcomm import ReceiveError
-from dmcomm.protocol import ic_encoding
 from . import WAIT_REPLY
 from . import misc
 from . import pio_programs
@@ -16,7 +15,6 @@ from . import pio_programs
 # Connect InfraredOutput to GP4, probe GP5
 # Connect InfraredInputRaw to GP6, probe GP7
 # Won't work with screen on default pins.
-# Extra delay between bytes, iC won't work.
 # Requires adafruit_pioasm.
 
 program_xros = adafruit_pioasm.assemble("""
@@ -65,7 +63,7 @@ delay_y:
 	jmp x-- delay_x
 """)
 
-class iC_Communicator:
+class XLoaderCommunicator:
 	def __init__(self, ir_output, ir_input_raw):
 		self._pin_output = ir_output.pin_output
 		self._pin_input = ir_input_raw.pin_input
@@ -73,7 +71,7 @@ class iC_Communicator:
 		self._input_pulses = None
 		self._probe_high = None
 		self._probe_low = None
-		self._params = iC_Params()
+		self._params = XLoaderParams()
 		self._enabled = False
 	def enable(self, signal_type):
 		if self._enabled:
@@ -118,28 +116,12 @@ class iC_Communicator:
 	def send(self, data):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
-		if self._params.do_ic_encode:
-			bytes_to_send = ic_encoding.encode(data)
-		else:
-			bytes_to_send = data
-		self.send_bytes(bytes_to_send)
-	def send_bytes(self, bytes_to_send):
-		if not self._enabled:
-			raise RuntimeError("not enabled")
-		self._output_state_machine.write(bytes(bytes_to_send))
+		self._output_state_machine.write(bytes(data))
 	def receive(self, timeout_ms):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
 		bytes_received = self.receive_bytes(timeout_ms)
-		if not self._params.do_ic_encode:
-			return bytes_received
-		if bytes_received == []:
-			return None
-		try:
-			(result, count) = ic_encoding.decode(bytes_received)
-		except ValueError as e:
-			raise ReceiveError(str(e))
-		return result
+		return bytes_received
 	def receive_bytes(self, timeout_ms):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
@@ -155,14 +137,6 @@ class iC_Communicator:
 			raise ReceiveError("buffer full")
 		if len(pulses) == 0:
 			return []
-		if self._params.do_ic_encode:
-			#discard first byte or part of byte since we're joining partway through
-			min_gap_find = 2.5 * self._params.tick_length
-			while True:
-				if len(pulses) == 0:
-					raise ReceiveError("fragment")
-				if pulses.popleft() > min_gap_find:
-					break
 		bytes_received = []
 		current_byte = 0
 		pulse_count = 0
@@ -202,22 +176,12 @@ class iC_Communicator:
 				ticks_into_byte += ticks
 		return bytes_received
 
-class iC_Params:
+class XLoaderParams:
 	def __init__(self):
-		self.set_signal_type("IC")
+		self.set_signal_type("!XL")
 	def set_signal_type(self, signal_type):
-		if signal_type == "IC":
-			self.pio_clock = 100_000
-			self.do_ic_encode = True
-			self.reply_timeout_ms = 100
-			self.packet_length_timeout_ms = 30
-			self.packet_continue_timeout_ms = 3
-			self.pulse_max = 25
-			self.tick_length = 100
-			self.tick_margin = 30
-		elif signal_type == "!XL":
+		if signal_type == "!XL":
 			self.pio_clock = 583430
-			self.do_ic_encode = False
 			self.reply_timeout_ms = 1000
 			self.packet_length_timeout_ms = 1000
 			self.packet_continue_timeout_ms = 3
@@ -225,5 +189,5 @@ class iC_Params:
 			self.tick_length = 17
 			self.tick_margin = 5
 		else:
-			raise ValueError("signal_type must be IC/!XL")
+			raise ValueError("signal_type must be !XL")
 		self.signal_type = signal_type
