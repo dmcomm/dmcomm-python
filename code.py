@@ -1,7 +1,6 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import board
-import busio
 import digitalio
 import os
 import time
@@ -30,10 +29,7 @@ for pin_description in board_config.controller_pins:
 
 led = digitalio.DigitalInOut(board_config.led_pin)
 led.direction = digitalio.Direction.OUTPUT
-
-# Serial port selection
 serial = usb_cdc.console
-#serial = busio.UART(board.GP0, board.GP1)  # for external UART
 
 # Choose an initial digirom / auto-responder here:
 digirom = None  # disable
