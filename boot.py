@@ -2,19 +2,13 @@
 
 # Use this with a push-to-close button between the assigned pin and GND.
 # Disables HID and status bar.
-# Normally makes CIRCUITPY read-only,
-# and also switches to data serial if SWITCH_SERIAL is True,
-# but leaves these in the default configuration if the button is held on startup.
+# Makes CIRCUITPY read-only, unless the button is held on startup.
 
 import board
 import digitalio
 import storage
 import supervisor
-import usb_cdc
 import usb_hid
-
-# Whether to use data serial if button is not pressed
-SWITCH_SERIAL = True
 
 # HID is not used in this project
 usb_hid.disable()
@@ -53,9 +47,3 @@ if protect:
 	storage.remount("/", False)
 else:
 	print("CIRCUITPY drive is writeable")
-
-if protect and SWITCH_SERIAL:
-	print("Using data serial")
-	usb_cdc.enable(console=False, data=True)
-else:
-	print("Using console serial")
