@@ -1,6 +1,7 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
 import board
+import busio
 import digitalio
 import os
 import time
@@ -16,6 +17,8 @@ VERSION = f"""dmcomm-python v0.7.0+wip
 CircuitPython {os.uname().version}
 {os.uname().machine}"""
 
+DEFAULT_EOL = "\r\n"
+
 outputs_extra_power = []
 for (pin, value) in board_config.extra_power_pins:
 	output = digitalio.DigitalInOut(pin)
@@ -29,7 +32,10 @@ for pin_description in board_config.controller_pins:
 
 led = digitalio.DigitalInOut(board_config.led_pin)
 led.direction = digitalio.Direction.OUTPUT
+
+# Serial port selection
 serial = usb_cdc.console
+#serial = busio.UART(board.GP0, board.GP1, receiver_buffer_size=128)  # for external UART
 
 # Choose an initial digirom / auto-responder here:
 digirom = None  # disable
@@ -39,7 +45,12 @@ digirom = None  # disable
 # ...or use your own digirom, as for the Twin above.
 
 serial.timeout = 1
-print("dmcomm-python starting")
+def serial_print(s, end=DEFAULT_EOL):
+	if serial == usb_cdc.console:
+		print(s, end=end)
+	else:
+		serial.write((s + end).encode("utf-8"))
+serial_print("dmcomm-python starting")
 
 while True:
 	time_start = time.monotonic()
@@ -49,41 +60,41 @@ while True:
 		try:
 			serial_str = serial_bytes.decode("utf-8")
 		except UnicodeError:
-			print(f"UnicodeError: {repr(serial_bytes)}")
+			serial_print(f"UnicodeError: {repr(serial_bytes)}")
 			continue
 		# readline only accepts "\n" but we can receive "\r" after timeout
 		if serial_str[-1] not in ["\r", "\n"]:
-			print(f"too slow: {repr(serial_bytes)}")
+			serial_print(f"too slow: {repr(serial_bytes)}")
 			continue
 		serial_str = serial_str.strip()
 		serial_str = serial_str.strip("\0")
-		print(f"got {len(serial_str)} bytes: {serial_str} -> ", end="")
+		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ", end="")
 		try:
 			command = dmcomm.protocol.parse_command(serial_str)
 			if hasattr(command, "op"):
 				# It's an OtherCommand
 				if command.op == "?":
-					print(VERSION)
+					serial_print(VERSION)
 				else:
 					raise NotImplementedError("op=" + command.op)
 			else:
 				digirom = command
-				print(f"{digirom.signal_type}{digirom.turn}-[{len(digirom)} packets]")
+				serial_print(f"{digirom.signal_type}{digirom.turn}-[{len(digirom)} packets]")
 		except (CommandError, NotImplementedError) as e:
-			print(repr(e))
+			serial_print(repr(e))
 		time.sleep(1)
 	if digirom is not None:
 		error = ""
-		result_end = "\r\n"
+		result_end = DEFAULT_EOL
 		try:
 			controller.execute(digirom)
 		except (CommandError, ReceiveError) as e:
 			error = repr(e)
 			result_end = " "
 		led.value = True
-		print(str(digirom.result), end=result_end)
+		serial_print(str(digirom.result), end=result_end)
 		if error != "":
-			print(error)
+			serial_print(error)
 		led.value = False
 	seconds_passed = time.monotonic() - time_start
 	if seconds_passed < 5:

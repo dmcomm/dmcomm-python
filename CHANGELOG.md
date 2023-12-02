@@ -9,7 +9,7 @@
 - Separated DMC logic - `ProngCommunicator` became `ClassicCommunicator` and `ColorCommunicator` - `ClassicCommunicator` follows program flow from before DMC was added
 - IR barcodes changed from 100% duty cycle to 15/16 so that IrDA modules will allow them
 ### Removed
-- Data serial option (and `serial_print`; external UART no longer supported; fixes Linux echo issue)
+- Data serial option
 - Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
 
 ## 0.7.0 - 2023-05-06
