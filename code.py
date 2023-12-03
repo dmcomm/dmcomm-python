@@ -13,9 +13,10 @@ import dmcomm.protocol
 import dmcomm.protocol.auto
 import board_config
 
-VERSION = f"""dmcomm-python v0.7.0+wip
-CircuitPython {os.uname().version}
-{os.uname().machine}"""
+VERSION = f'''name = "dmcomm-python"\r
+version = "v0.7.0+wip"\r
+circuitpython_version = "{os.uname().version}"\r
+circuitpython_board_id = "{board.board_id}"'''
 
 DEFAULT_EOL = "\r\n"
 
@@ -50,6 +51,7 @@ def serial_print(s, end=DEFAULT_EOL):
 		print(s, end=end)
 	else:
 		serial.write((s + end).encode("utf-8"))
+
 serial_print("dmcomm-python starting")
 
 while True:
@@ -66,22 +68,26 @@ while True:
 		if serial_str[-1] not in ["\r", "\n"]:
 			serial_print(f"too slow: {repr(serial_bytes)}")
 			continue
-		serial_str = serial_str.strip()
-		serial_str = serial_str.strip("\0")
-		serial_print(f"got {len(serial_str)} bytes: {serial_str} -> ", end="")
+		serial_str = serial_str.strip().strip("\0")
+		output = None
 		try:
 			command = dmcomm.protocol.parse_command(serial_str)
-			if hasattr(command, "op"):
+			if command.signal_type is None:
 				# It's an OtherCommand
-				if command.op == "?":
+				if command.op == "I":
 					serial_print(VERSION)
+				elif command.op == "P":
+					output = "[pause]"
 				else:
 					raise NotImplementedError("op=" + command.op)
 			else:
 				digirom = command
-				serial_print(f"{digirom.signal_type}{digirom.turn}-[{len(digirom)} packets]")
+				output = f"{digirom.signal_type}{digirom.turn}-[{len(digirom)} packets]"
 		except (CommandError, NotImplementedError) as e:
-			serial_print(repr(e))
+			output = repr(e)
+		finally:
+			if output is not None:
+				serial_print(f"got {len(serial_str)} bytes: {serial_str} -> {output}")
 		time.sleep(1)
 	if digirom is not None:
 		error = ""
