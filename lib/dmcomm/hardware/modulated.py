@@ -181,7 +181,7 @@ class ModulatedParams:
 			self.bit_gap_send_long = 1300
 			self.bit_min = 900
 			self.bit_threshold = 1500
-			self.bit_max = 1900
+			self.bit_max = 2200
 			self.stop_pulse_min = 800  # DL pulse widths most affected by sensor type
 			self.stop_pulse_send = 1300
 			self.stop_pulse_max = 1400
