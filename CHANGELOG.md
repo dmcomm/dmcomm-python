@@ -12,6 +12,7 @@
     - `turn` now considered to exist if the first text segment ends with a digit
     - Added `signal_type = None` to `OtherCommand` for easier distinguishing from DigiROMs
     - Removed `param` from `OtherCommand`
+- Copied `board_config.py` from wificom-lib v1.1.0 for easier switching between dmcomm and wificom
 - Rewrote DL/FL/LT receiving to count pulse+gap duration, rather than pulses and gaps separately - improves the situation for non-Vishay TSOP4838
 - Rewrote example for high-level DigiROM API
 - Deinit weak pull when prongs are disabled (caused issues combined with past "disable after every transmission" behaviour, but OK now)
