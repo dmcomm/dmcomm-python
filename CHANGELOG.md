@@ -1,5 +1,5 @@
 
-## Unreleased
+## 0.8.0 - 2024-01-29
 ### Added
 - High-level DigiROM API for DMOG
 - Version info with "i" following the pattern decided in other DMComm variants
