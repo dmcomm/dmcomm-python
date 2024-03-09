@@ -86,7 +86,7 @@ class XLoaderCommunicator:
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
 			)
-			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=7000, idle_state=True)
+			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=100, idle_state=True)
 			self._input_pulses.pause()
 			self._probe_high = rp2pio.StateMachine(
 				program_extend_high,
@@ -120,29 +120,31 @@ class XLoaderCommunicator:
 	def receive(self, timeout_ms):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
-		bytes_received = self.receive_bytes(timeout_ms)
-		return bytes_received
-	def receive_bytes(self, timeout_ms):
-		if not self._enabled:
-			raise RuntimeError("not enabled")
-		pulses = self._input_pulses
-		pulses.clear()
-		pulses.resume()
+		self._input_pulses.clear()
+		self._input_pulses.resume()
 		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
-		misc.wait_for_length_no_more(pulses, timeout_ms,
-			self._params.packet_length_timeout_ms, self._params.packet_continue_timeout_ms)
-		pulses.pause()
+		bytes_received = []
+		while True:
+			byte = self._receive_byte(timeout_ms)
+			if byte is None:
+				self._input_pulses.pause()
+				return bytes_received
+			bytes_received.append(byte)
+			timeout_ms = self._params.byte_timeout_ms
+	def _receive_byte(self, timeout_ms):
+		pulses = self._input_pulses
+		if not misc.wait_for_length(pulses, 1, timeout_ms):
+			return None
+		time.sleep(0.001)
 		if len(pulses) == pulses.maxlen:
 			raise ReceiveError("buffer full")
-		if len(pulses) == 0:
-			return []
-		bytes_received = []
 		current_byte = 0
 		pulse_count = 0
 		ticks_into_byte = 0
-		ended = False
-		while not ended:
+		if pulses[0] > self._params.byte_gap_min:
+			t_gap = pulses.popleft()
+		while True:
 			pulse_count += 1
 			if len(pulses) == 0:
 				raise ReceiveError("ended with gap")
@@ -153,7 +155,6 @@ class XLoaderCommunicator:
 				t_gap = pulses.popleft()
 			else:
 				t_gap = 0xFFFF
-				ended = True
 			dur = t_pulse + t_gap
 			ticks = round(dur / self._params.tick_length)
 			dur_rounded = ticks * self._params.tick_length
@@ -163,9 +164,7 @@ class XLoaderCommunicator:
 				for i in range(8 - ticks_into_byte):
 					current_byte >>= 1
 					current_byte |= 0x80
-				bytes_received.append(current_byte)
-				current_byte = 0
-				ticks_into_byte = 0
+				return current_byte
 			elif off_rounded > self._params.tick_margin:
 				raise ReceiveError("pulse+gap %d = %d" % (pulse_count, dur))
 			else:
@@ -174,7 +173,6 @@ class XLoaderCommunicator:
 					current_byte |= 0x80
 				current_byte >>= 1
 				ticks_into_byte += ticks
-		return bytes_received
 
 class XLoaderParams:
 	def __init__(self):
@@ -183,8 +181,8 @@ class XLoaderParams:
 		if signal_type == "!XL":
 			self.pio_clock = 583430
 			self.reply_timeout_ms = 1000
-			self.packet_length_timeout_ms = 1000
-			self.packet_continue_timeout_ms = 3
+			self.byte_gap_min = 800
+			self.byte_timeout_ms = 5
 			self.pulse_max = 250
 			self.tick_length = 17
 			self.tick_margin = 5
