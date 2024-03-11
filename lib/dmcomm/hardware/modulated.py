@@ -60,31 +60,28 @@ def receive(input_pulses, params, timeout_ms):
 	if len(pulses) == 0:
 		return []
 	bytes_received = []
-	t = misc.pop_pulse(pulses, -2)
-	if t < params.start_pulse_min or t > params.start_pulse_max:
-		raise ReceiveError("start pulse = %d" % t)
-	t = misc.pop_pulse(pulses, -1)
-	if t < params.start_gap_min or t > params.start_gap_max:
-		raise ReceiveError("start gap = %d" % t)
+	t_pulse = misc.pop_pulse(pulses, -2)
+	t_gap = misc.pop_pulse(pulses, -1)
+	t_total = t_pulse + t_gap
+	if t_total < params.start_min or t_total > params.start_max:
+		raise ReceiveError(f"start pulse={t_pulse} gap={t_gap} total={t_total}")
 	current_byte = 0
 	bit_count = 0
 	while True:
-		t = misc.pop_pulse(pulses, 2*bit_count+1)
-		if t >= params.bit_pulse_min and t <= params.bit_pulse_max:
-			#normal pulse or
-			if params.stop_pulse_same and len(pulses) == 0:
-				#stop pulse
+		t_pulse = misc.pop_pulse(pulses, 2*bit_count+1)
+		if len(pulses) == 0:
+			# Stop pulse?
+			if t_pulse < params.stop_pulse_min or t_pulse > params.stop_pulse_max:
+				raise ReceiveError(f"last pulse (bit {bit_count}) = {t_pulse}")
+			else:
+				# We are done
 				break
-		elif t >= params.stop_pulse_min and t <= params.stop_pulse_max:
-			#stop pulse
-			break
-		else:
-			raise ReceiveError("bit %d pulse = %d" % (bit_count, t))
-		t = misc.pop_pulse(pulses, 2*bit_count+2)
-		if t < params.bit_gap_min or t > params.bit_gap_max:
-			raise ReceiveError("bit %d gap = %d" % (bit_count, t))
+		t_gap = pulses.popleft()
+		t_total = t_pulse + t_gap
+		if t_total < params.bit_min or t_total > params.bit_max:
+			raise ReceiveError(f"bit {bit_count} pulse={t_pulse} gap={t_gap} total={t_total}")
 		current_byte >>= 1
-		if t > params.bit_gap_threshold:
+		if t_total > params.bit_threshold:
 			current_byte |= 0x80
 		bit_count += 1
 		if bit_count % 8 == 0:
@@ -175,47 +172,37 @@ class ModulatedParams:
 		if signal_type == "DL":
 			self.low_bit_first = True
 			self.low_byte_first = False
-			self.start_pulse_min = 9000
 			self.start_pulse_send = 9800
-			self.start_pulse_max = 11000
-			self.start_gap_min = 2000
 			self.start_gap_send = 2450
-			self.start_gap_max = 3000
-			self.bit_pulse_min = 300
+			self.start_min = 4000  # ?
+			self.start_max = 14000
 			self.bit_pulse_send = 500
-			self.bit_pulse_max = 650
-			self.bit_gap_min = 300
 			self.bit_gap_send_short = 700
-			self.bit_gap_threshold = 800
 			self.bit_gap_send_long = 1300
-			self.bit_gap_max = 1600
-			self.stop_pulse_same = False
-			self.stop_pulse_min = 1000
+			self.bit_min = 900
+			self.bit_threshold = 1500
+			self.bit_max = 2200
+			self.stop_pulse_min = 800  # DL pulse widths most affected by sensor type
 			self.stop_pulse_send = 1300
 			self.stop_pulse_max = 1400
-			self.stop_gap_send = 400
+			self.stop_gap_send = 2000  # Delay start of pulse capture?
 			self.reply_timeout_ms = 40
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
 		elif signal_type == "FL":
 			self.low_bit_first = False
 			self.low_byte_first = False
-			self.start_pulse_min = 3800
 			self.start_pulse_send = 5880
-			self.start_pulse_max = 7000
-			self.start_gap_min = 3000
 			self.start_gap_send = 3872
-			self.start_gap_max = 4000
-			self.bit_pulse_min = 250
+			self.start_min = 7000
+			self.start_max = 12000
 			self.bit_pulse_send = 480
-			self.bit_pulse_max = 600
-			self.bit_gap_min = 200
 			self.bit_gap_send_short = 480
-			self.bit_gap_threshold = 650
 			self.bit_gap_send_long = 1450
-			self.bit_gap_max = 1600
-			self.stop_pulse_same = False
-			self.stop_pulse_min = 700
+			self.bit_min = 600
+			self.bit_threshold = 1400
+			self.bit_max = 2000
+			self.stop_pulse_min = 600
 			self.stop_pulse_send = 950
 			self.stop_pulse_max = 1100
 			self.stop_gap_send = 1500
@@ -225,21 +212,16 @@ class ModulatedParams:
 		elif signal_type == "LT":
 			self.low_bit_first = False
 			self.low_byte_first = False
-			self.start_pulse_min = 300 # should be 2800 but there is a mysterious issue
 			self.start_pulse_send = 3900
-			self.start_pulse_max = 4800
-			self.start_gap_min = 3000
 			self.start_gap_send = 4000
-			self.start_gap_max = 5000
-			self.bit_pulse_min = 220
+			self.start_min = 4000  # Start pulse comes out much lower than expected
+			self.start_max = 10000
 			self.bit_pulse_send = 420
-			self.bit_pulse_max = 620
-			self.bit_gap_min = 220
 			self.bit_gap_send_short = 560
-			self.bit_gap_threshold = 800
 			self.bit_gap_send_long = 1530
-			self.bit_gap_max = 1800
-			self.stop_pulse_same = True
+			self.bit_min = 600
+			self.bit_threshold = 1400
+			self.bit_max = 2200
 			self.stop_pulse_min = 220
 			self.stop_pulse_send = 420
 			self.stop_pulse_max = 620

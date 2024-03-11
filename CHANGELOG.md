@@ -1,12 +1,26 @@
 
-## Unreleased
+## 0.8.0 - 2024-01-29
 ### Added
 - High-level DigiROM API for DMOG
+- Version info with "i" following the pattern decided in other DMComm variants
+- Pause command with "P"
 ### Changed
+- Results of `parse_command`:
+    - "?" changed to "I"
+    - new "P" for "pause"
+    - removed "D"
+    - `turn` now considered to exist if the first text segment ends with a digit
+    - Added `signal_type = None` to `OtherCommand` for easier distinguishing from DigiROMs
+    - Removed `param` from `OtherCommand`
+- Copied `board_config.py` from wificom-lib v1.1.0 for easier switching between dmcomm and wificom
+- `boot.py` now reads button pin from `board_config.py`
+- Rewrote DL/FL/LT receiving to count pulse+gap duration, rather than pulses and gaps separately - improves the situation for non-Vishay TSOP4838
 - Rewrote example for high-level DigiROM API
 - Deinit weak pull when prongs are disabled (caused issues combined with past "disable after every transmission" behaviour, but OK now)
 - Separated DMC logic - `ProngCommunicator` became `ClassicCommunicator` and `ColorCommunicator` - `ClassicCommunicator` follows program flow from before DMC was added
+- IR barcodes changed from 100% duty cycle to 15/16 so that IrDA modules will allow them
 ### Removed
+- Data serial option
 - Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
 
 ## 0.7.0 - 2023-05-06

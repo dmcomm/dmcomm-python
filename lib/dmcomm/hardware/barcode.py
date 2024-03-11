@@ -15,7 +15,7 @@ class BarcodeCommunicator:
 		if self._enabled:
 			return
 		try:
-			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=100_000, duty_cycle=0xFFFF)
+			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=100_000, duty_cycle=0xF000)
 		except:
 			self.disable()
 			raise

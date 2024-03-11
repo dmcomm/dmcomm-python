@@ -15,14 +15,17 @@ from dmcomm.protocol import digirom
 
 def parse_command(text):
 	parts = text.strip().upper().split("-")
-	if len(parts[0]) >= 2:
-		op = parts[0][:-1]
-		turn = parts[0][-1]
-	else:
-		op = parts[0]
-		turn = ""
-	if op in ["D", "T", "?"]:
-		return OtherCommand(op, turn)
+	op_turn = parts[0]
+	try:
+		turn = int(op_turn[-1])
+		op = op_turn[:-1]
+	except ValueError:
+		turn = None
+		op = op_turn
+	except IndexError:
+		raise CommandError("op=")
+	if op in ["T", "I", "P"]:
+		return OtherCommand(op)
 	elif op in ["V", "X", "Y", "IC"]:
 		DigiROM = digirom.ClassicDigiROM
 	elif op in ["C"]:
@@ -33,11 +36,11 @@ def parse_command(text):
 		DigiROM = digirom.DigitsDigiROM
 	else:
 		raise CommandError("op=" + op)
-	if turn not in "012":
-		raise CommandError("turn=" + turn)
-	return DigiROM(op, int(turn), text_segments=parts[1:])
+	if turn not in [0, 1, 2]:
+		raise CommandError("turn=" + str(turn))
+	return DigiROM(op, turn, text_segments=parts[1:])
 
 class OtherCommand:
-	def __init__(self, op, param):
+	def __init__(self, op):
+		self.signal_type = None
 		self.op = op
-		self.param = param
