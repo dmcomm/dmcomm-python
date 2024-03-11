@@ -5,63 +5,11 @@ import board
 import pulseio
 import time
 import rp2pio
-import adafruit_pioasm
 
 from dmcomm import ReceiveError
 from . import WAIT_REPLY
 from . import misc
 from . import pio_programs
-
-# Connect InfraredOutput to GP4, probe GP5
-# Connect InfraredInputRaw to GP6, probe GP7
-# Won't work with screen on default pins.
-# Requires adafruit_pioasm.
-
-program_xros = adafruit_pioasm.assemble("""
-	pull
-	mov osr ~ osr
-	set pins 1 [4]
-	set pins 0 [3]
-	set x 7
-loop:
-	out pins 1
-	set pins 0 [7]
-	jmp x-- loop
-	set x 24
-delay_x:
-	set y 31
-delay_y:
-	jmp y-- delay_y [1]
-	jmp x-- delay_x
-""")
-
-program_extend_low = adafruit_pioasm.assemble("""
-	set pins 1
-is_high:
-	jmp pin is_high
-	set pins 0
-	set x 31
-delay_x:
-	set y 31
-delay_y:
-	jmp y-- delay_y
-	jmp x-- delay_x
-""")
-
-program_extend_high = adafruit_pioasm.assemble("""
-	set pins 0
-is_low:
-	jmp pin is_high
-	jmp is_low
-is_high:
-	set pins 1
-	set x 31
-delay_x:
-	set y 31
-delay_y:
-	jmp y-- delay_y
-	jmp x-- delay_x
-""")
 
 class XLoaderCommunicator:
 	def __init__(self, ir_output, ir_input_raw):
@@ -69,8 +17,6 @@ class XLoaderCommunicator:
 		self._pin_input = ir_input_raw.pin_input
 		self._output_state_machine = None
 		self._input_pulses = None
-		self._probe_high = None
-		self._probe_low = None
 		self._params = XLoaderParams()
 		self._enabled = False
 	def enable(self, signal_type):
@@ -81,37 +27,23 @@ class XLoaderCommunicator:
 		self._params.set_signal_type(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
-				program_xros,
-				frequency=self._params.pio_clock,
+				pio_programs.xloader_TX,
+				frequency=583430,
 				first_out_pin=self._pin_output,
 				first_set_pin=self._pin_output,
 			)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=100, idle_state=True)
 			self._input_pulses.pause()
-			self._probe_high = rp2pio.StateMachine(
-				program_extend_high,
-				frequency=1_000_000,
-				jmp_pin=board.GP4,
-				first_set_pin=board.GP5,
-			)
-			self._probe_low = rp2pio.StateMachine(
-				program_extend_low,
-				frequency=1_000_000,
-				jmp_pin=board.GP6,
-				first_set_pin=board.GP7,
-			)
 		except:
 			self.disable()
 			raise
 		self._enabled = True
 	def disable(self):
-		for item in [self._output_state_machine, self._input_pulses, self._probe_high, self._probe_low]:
+		for item in [self._output_state_machine, self._input_pulses]:
 			if item is not None:
 				item.deinit()
 		self._ouput_state_machine = None
 		self._input_pulses = None
-		self._probe_high = None
-		self._probe_low = None
 		self._enabled = False
 	def send(self, data):
 		if not self._enabled:
@@ -179,7 +111,6 @@ class XLoaderParams:
 		self.set_signal_type("!XL")
 	def set_signal_type(self, signal_type):
 		if signal_type == "!XL":
-			self.pio_clock = 583430
 			self.reply_timeout_ms = 1000
 			self.byte_gap_min = 800
 			self.byte_timeout_ms = 5

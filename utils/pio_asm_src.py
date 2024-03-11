@@ -42,8 +42,7 @@ release:
 	set pindirs 0
 """
 
-# Outputs the specified bytes to iC or Xros Loader.
-# Run with 100kHz clock for iC, 583430 clock for Xros trade/battle.
+# Outputs the specified bytes to iC. Run with 100kHz clock.
 # 1 out pin and 1 set pin which are the same.
 iC_TX_ASM = """
 	pull
@@ -58,6 +57,27 @@ loop:
 	nop [12]
 """
 
+# Outputs the specified bytes to Xros Loader.
+# Run with 583430 clock for trade/battle. Xroslink not currently supported.
+# 1 out pin and 1 set pin which are the same.
+xloader_TX_ASM = """
+	pull
+	mov osr ~ osr
+	set pins 1 [4]
+	set pins 0 [3]
+	set x 7
+loop:
+	out pins 1
+	set pins 0 [7]
+	jmp x-- loop
+	set x 24
+delay_x:
+	set y 31
+delay_y:
+	jmp y-- delay_y [1]
+	jmp x-- delay_x
+"""
+
 this_file_name = os.path.basename(__file__)
 
 output_text = f"""# This file is part of the DMComm project by BladeSabre. License: MIT.
@@ -68,6 +88,8 @@ from array import array
 prong_TX = {repr(adafruit_pioasm.assemble(prong_TX_ASM))}
 
 iC_TX = {repr(adafruit_pioasm.assemble(iC_TX_ASM))}
+
+xloader_TX = {repr(adafruit_pioasm.assemble(xloader_TX_ASM))}
 """
 
 if __name__ == "__main__":
