@@ -141,19 +141,19 @@ class ClassicCommunicator(BaseProngCommunicator):
 			raise RuntimeError("not enabled")
 		if self._params.idle_state == True:
 			DRIVE_ACTIVE = 0
-			DRIVE_INACTIVE = 1
+			DRIVE_IDLE = 1
 		else:
 			DRIVE_ACTIVE = 1
-			DRIVE_INACTIVE = 0
+			DRIVE_IDLE = 0
 		RELEASE = 2
 		array_to_send = array.array("L", [
-			DRIVE_INACTIVE, self._params.pre_idle_send,
+			DRIVE_IDLE, self._params.pre_idle_send,
 			DRIVE_ACTIVE, self._params.pre_active_send,
-			DRIVE_INACTIVE, self._params.start_idle_send,
+			DRIVE_IDLE, self._params.start_idle_send,
 			DRIVE_ACTIVE, self._params.start_active_send,
 		])
 		for i in range(16):
-			array_to_send.append(DRIVE_INACTIVE)
+			array_to_send.append(DRIVE_IDLE)
 			if bits & 1:
 				array_to_send.append(self._params.bit1_idle_send)
 				array_to_send.append(DRIVE_ACTIVE)
@@ -163,7 +163,7 @@ class ClassicCommunicator(BaseProngCommunicator):
 				array_to_send.append(DRIVE_ACTIVE)
 				array_to_send.append(self._params.bit0_active_send)
 			bits >>= 1
-		array_to_send.append(DRIVE_INACTIVE)
+		array_to_send.append(DRIVE_IDLE)
 		array_to_send.append(self._params.cooldown_send)
 		array_to_send.append(RELEASE)
 		self._output_state_machine.write(array_to_send)
@@ -245,15 +245,15 @@ class ColorCommunicator(BaseProngCommunicator):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
 		DRIVE_ACTIVE = 0
-		DRIVE_INACTIVE = 1
+		DRIVE_IDLE = 1
 		RELEASE = 2
 		array_to_send = array.array("L", [
-			DRIVE_INACTIVE, self._params.pre_idle_send,
+			DRIVE_IDLE, self._params.pre_idle_send,
 			DRIVE_ACTIVE, self._params.pre_active_send,
 		])
 		for bits in data:
 			for i in range(16):
-				array_to_send.append(DRIVE_INACTIVE)
+				array_to_send.append(DRIVE_IDLE)
 				array_to_send.append(self._params.bit_idle_send)
 				array_to_send.append(DRIVE_ACTIVE)
 				if bits & 1:
@@ -261,7 +261,7 @@ class ColorCommunicator(BaseProngCommunicator):
 				else:
 					array_to_send.append(self._params.bit0_active_send)
 				bits >>= 1
-		array_to_send.append(DRIVE_INACTIVE)
+		array_to_send.append(DRIVE_IDLE)
 		array_to_send.append(self._params.cooldown_send)
 		array_to_send.append(RELEASE)
 		self._output_state_machine.write(array_to_send)
