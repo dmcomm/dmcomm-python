@@ -1,6 +1,7 @@
 
 ## Unreleased
 ### Changed
+- Renamed DigiROM `send`/`receive` to `next`/`store` to match Arduino (breaking change to API)
 - Renamed prongs `low`/`high` to `active`/`idle` to match Arduino (generally internal)
 ### Fixed
 - Adjusted Xros Mini timing

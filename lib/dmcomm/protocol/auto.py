@@ -37,7 +37,7 @@ class AutoResponderVX:
 		self._rview = ResultView(self.result, 1)
 		self._type = None
 		self._packet = -1
-	def send(self):
+	def next(self):
 		self._packet += 1
 		if len(self._digirom) > self._packet:
 			pass
@@ -66,6 +66,6 @@ class AutoResponderVX:
 				item = (self._rotation % 13) + 3
 				item_bits = 0x0409 | (item << 4)
 				self._add([item_bits, "@2009"])
-		return self._digirom.send()
-	def receive(self, bits):
-		self._digirom.receive(bits)
+		return self._digirom.next()
+	def store(self, bits):
+		self._digirom.store(bits)

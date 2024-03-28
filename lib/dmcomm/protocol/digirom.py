@@ -125,7 +125,7 @@ class BaseDigiROM:
 		self._data_received = None
 	def _pre_send(self, segment):
 		return segment.data
-	def send(self):
+	def next(self):
 		if self._command_index >= len(self._segments):
 			return None
 		segment = self._segments[self._command_index]
@@ -133,7 +133,7 @@ class BaseDigiROM:
 		data = self._pre_send(segment)
 		self.result.append(self.result_segment_class(True, data))
 		return data
-	def receive(self, data):
+	def store(self, data):
 		self.result.append(self.result_segment_class(False, data))
 		self._data_received = data
 	def __len__(self):
@@ -158,14 +158,14 @@ class BaseHighLevelDigiROM:
 		me = self.view_class(ResultView(self.result, self.turn))
 		you = self.view_class(ResultView(self.result, 3 - self.turn))
 		self.outcome = self.outcome_class(me, you)
-	def send(self):
+	def next(self):
 		i = len(self._digirom)
 		segment = self[i]
 		if segment is not None:
 			self._digirom.append(segment)
-		return self._digirom.send()
-	def receive(self, bits):
-		self._digirom.receive(bits)
+		return self._digirom.next()
+	def store(self, data):
+		self._digirom.store(data)
 
 class ClassicCommandSegment:
 	"""Describes how to carry out one segment of the communication for 16-bit protocols.
