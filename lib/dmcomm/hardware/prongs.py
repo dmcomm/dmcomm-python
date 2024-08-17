@@ -58,75 +58,75 @@ class ClassicParams:
 		if signal_type == "V":
 			self.idle_state = True
 			self.invert_bit_read = False
-			self.pre_high_send = 3000
-			self.pre_low_min = 40000
-			self.pre_low_send = 59000
-			#self.pre_low_max? PulseIn only goes up to 65535
-			self.start_high_min = 1500
-			self.start_high_send = 2083
-			self.start_high_max = 2500
-			self.start_low_min = 600
-			self.start_low_send = 917
-			self.start_low_max = 1400
-			self.bit_high_min = 700
-			self.bit0_high_send = 1000
-			self.bit_high_threshold = 1800
-			self.bit1_high_send = 2667
-			self.bit_high_max = 3400
-			self.bit_low_min = 1000
-			self.bit1_low_send = 1667
-			self.bit0_low_send = 3167
-			self.bit_low_max = 4000
+			self.pre_idle_send = 3000
+			self.pre_active_min = 40000
+			self.pre_active_send = 59000
+			#self.pre_active_max? PulseIn only goes up to 65535
+			self.start_idle_min = 1500
+			self.start_idle_send = 2083
+			self.start_idle_max = 2500
+			self.start_active_min = 600
+			self.start_active_send = 917
+			self.start_active_max = 1400
+			self.bit_idle_min = 700
+			self.bit0_idle_send = 1000
+			self.bit_idle_threshold = 1800
+			self.bit1_idle_send = 2667
+			self.bit_idle_max = 3400
+			self.bit_active_min = 1000
+			self.bit1_active_send = 1667
+			self.bit0_active_send = 3167
+			self.bit_active_max = 4000
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
 		elif signal_type == "X":
 			self.idle_state = True
 			self.invert_bit_read = False
-			self.pre_high_send = 3000
-			self.pre_low_min = 40000
-			self.pre_low_send = 60000
-			#self.pre_low_max? PulseIn only goes up to 65535
-			self.start_high_min = 1500
-			self.start_high_send = 2200
-			self.start_high_max = 3500
-			self.start_low_min = 1000
-			self.start_low_send = 1600
-			self.start_low_max = 2600
-			self.bit_high_min = 800
-			self.bit0_high_send = 1600
-			self.bit_high_threshold = 2600
-			self.bit1_high_send = 4000
-			self.bit_high_max = 5500
-			self.bit_low_min = 1200
-			self.bit1_low_send = 1600
-			self.bit0_low_send = 4000
-			self.bit_low_max = 5500
+			self.pre_idle_send = 3000
+			self.pre_active_min = 40000
+			self.pre_active_send = 60000
+			#self.pre_active_max? PulseIn only goes up to 65535
+			self.start_idle_min = 1500
+			self.start_idle_send = 2200
+			self.start_idle_max = 3500
+			self.start_active_min = 1000
+			self.start_active_send = 1600
+			self.start_active_max = 2600
+			self.bit_idle_min = 800
+			self.bit0_idle_send = 1600
+			self.bit_idle_threshold = 2600
+			self.bit1_idle_send = 4000
+			self.bit_idle_max = 5500
+			self.bit_active_min = 1200
+			self.bit1_active_send = 1600
+			self.bit0_active_send = 4000
+			self.bit_active_max = 5500
 			self.cooldown_send = 400
 			self.reply_timeout_ms = 200
 			self.packet_length_timeout_ms = 300
 		elif signal_type == "Y":
 			self.idle_state = False
 			self.invert_bit_read = True
-			self.pre_high_send = 5000
-			self.pre_low_min = 30000
-			self.pre_low_send = 40000
-			#self.pre_low_max? PulseIn only goes up to 65535
-			self.start_high_min = 9000
-			self.start_high_send = 11000
-			self.start_high_max = 13000
-			self.start_low_min = 4000
-			self.start_low_send = 6000
-			self.start_low_max = 8000
-			self.bit_high_min = 1000
-			self.bit0_high_send = 4000
-			self.bit_high_threshold = 3000
-			self.bit1_high_send = 1400
-			self.bit_high_max = 4500
-			self.bit_low_min = 1200
-			self.bit1_low_send = 4400
-			self.bit0_low_send = 1600
-			self.bit_low_max = 5000
+			self.pre_idle_send = 5000
+			self.pre_active_min = 30000
+			self.pre_active_send = 40000
+			#self.pre_active_max? PulseIn only goes up to 65535
+			self.start_idle_min = 9000
+			self.start_idle_send = 11000
+			self.start_idle_max = 13000
+			self.start_active_min = 4000
+			self.start_active_send = 6000
+			self.start_active_max = 8000
+			self.bit_idle_min = 1000
+			self.bit0_idle_send = 4000
+			self.bit_idle_threshold = 3000
+			self.bit1_idle_send = 1400
+			self.bit_idle_max = 4600
+			self.bit_active_min = 1200
+			self.bit1_active_send = 4400
+			self.bit0_active_send = 1600
+			self.bit_active_max = 5000
 			self.cooldown_send = 200
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
@@ -141,29 +141,29 @@ class ClassicCommunicator(BaseProngCommunicator):
 			raise RuntimeError("not enabled")
 		if self._params.idle_state == True:
 			DRIVE_ACTIVE = 0
-			DRIVE_INACTIVE = 1
+			DRIVE_IDLE = 1
 		else:
 			DRIVE_ACTIVE = 1
-			DRIVE_INACTIVE = 0
+			DRIVE_IDLE = 0
 		RELEASE = 2
 		array_to_send = array.array("L", [
-			DRIVE_INACTIVE, self._params.pre_high_send,
-			DRIVE_ACTIVE, self._params.pre_low_send,
-			DRIVE_INACTIVE, self._params.start_high_send,
-			DRIVE_ACTIVE, self._params.start_low_send,
+			DRIVE_IDLE, self._params.pre_idle_send,
+			DRIVE_ACTIVE, self._params.pre_active_send,
+			DRIVE_IDLE, self._params.start_idle_send,
+			DRIVE_ACTIVE, self._params.start_active_send,
 		])
 		for i in range(16):
-			array_to_send.append(DRIVE_INACTIVE)
+			array_to_send.append(DRIVE_IDLE)
 			if bits & 1:
-				array_to_send.append(self._params.bit1_high_send)
+				array_to_send.append(self._params.bit1_idle_send)
 				array_to_send.append(DRIVE_ACTIVE)
-				array_to_send.append(self._params.bit1_low_send)
+				array_to_send.append(self._params.bit1_active_send)
 			else:
-				array_to_send.append(self._params.bit0_high_send)
+				array_to_send.append(self._params.bit0_idle_send)
 				array_to_send.append(DRIVE_ACTIVE)
-				array_to_send.append(self._params.bit0_low_send)
+				array_to_send.append(self._params.bit0_active_send)
 			bits >>= 1
-		array_to_send.append(DRIVE_INACTIVE)
+		array_to_send.append(DRIVE_IDLE)
 		array_to_send.append(self._params.cooldown_send)
 		array_to_send.append(RELEASE)
 		self._output_state_machine.write(array_to_send)
@@ -188,27 +188,27 @@ class ClassicCommunicator(BaseProngCommunicator):
 			else:
 				raise ReceiveError("incomplete: %d pulses" % len(pulses))
 		t = pulses.popleft()
-		if t < self._params.pre_low_min:
-			raise ReceiveError("pre_low = %d" % t)
+		if t < self._params.pre_active_min:
+			raise ReceiveError("pre_active = %d" % t)
 		t = pulses.popleft()
-		if t < self._params.start_high_min or t > self._params.start_high_max:
-			raise ReceiveError("start_high = %d" % t)
+		if t < self._params.start_idle_min or t > self._params.start_idle_max:
+			raise ReceiveError("start_idle = %d" % t)
 		t = pulses.popleft()
-		if t < self._params.start_low_min or t > self._params.start_low_max:
-			raise ReceiveError("start_low = %d" % t)
+		if t < self._params.start_active_min or t > self._params.start_active_max:
+			raise ReceiveError("start_active = %d" % t)
 		result = 0
 		for i in range(16):
 			t = pulses.popleft()
-			if t < self._params.bit_high_min or t > self._params.bit_high_max:
-				raise ReceiveError("bit_high %d = %d" % (i + 1, t))
+			if t < self._params.bit_idle_min or t > self._params.bit_idle_max:
+				raise ReceiveError("bit_idle %d = %d" % (i + 1, t))
 			result >>= 1
-			if t > self._params.bit_high_threshold:
+			if t > self._params.bit_idle_threshold:
 				result |= 0x8000
 			if ic_bug and i == 15:
 				break
 			t = pulses.popleft()
-			if t < self._params.bit_low_min or t > self._params.bit_low_max:
-				raise ReceiveError("bit_low %d = %d" % (i + 1, t))
+			if t < self._params.bit_active_min or t > self._params.bit_active_max:
+				raise ReceiveError("bit_active %d = %d" % (i + 1, t))
 		if self._params.invert_bit_read:
 			result ^= 0xFFFF
 		return result
@@ -219,18 +219,18 @@ class ColorParams:
 	def set_signal_type(self, signal_type):
 		if signal_type == "C":
 			self.idle_state = True
-			self.pre_high_send = 1000
-			self.pre_low_min = 65535
-			self.pre_low_send = 150000
-			#self.pre_low_max? PulseIn only goes up to 65535
-			self.bit_high_min = 200
-			self.bit_high_send = 500
-			self.bit_high_max = 700
-			self.bit_low_min = 200
-			self.bit1_low_send = 1500
-			self.bit_low_threshold = 1000
-			self.bit0_low_send = 500
-			self.bit_low_max = 1700
+			self.pre_idle_send = 1000
+			self.pre_active_min = 65535
+			self.pre_active_send = 150000
+			#self.pre_active_max? PulseIn only goes up to 65535
+			self.bit_idle_min = 200
+			self.bit_idle_send = 500
+			self.bit_idle_max = 700
+			self.bit_active_min = 200
+			self.bit1_active_send = 1500
+			self.bit_active_threshold = 1000
+			self.bit0_active_send = 500
+			self.bit_active_max = 1700
 			self.cooldown_send = 500
 			self.reply_timeout_ms = 200
 			self.packet_length_timeout_ms = 400
@@ -245,23 +245,23 @@ class ColorCommunicator(BaseProngCommunicator):
 		if not self._enabled:
 			raise RuntimeError("not enabled")
 		DRIVE_ACTIVE = 0
-		DRIVE_INACTIVE = 1
+		DRIVE_IDLE = 1
 		RELEASE = 2
 		array_to_send = array.array("L", [
-			DRIVE_INACTIVE, self._params.pre_high_send,
-			DRIVE_ACTIVE, self._params.pre_low_send,
+			DRIVE_IDLE, self._params.pre_idle_send,
+			DRIVE_ACTIVE, self._params.pre_active_send,
 		])
 		for bits in data:
 			for i in range(16):
-				array_to_send.append(DRIVE_INACTIVE)
-				array_to_send.append(self._params.bit_high_send)
+				array_to_send.append(DRIVE_IDLE)
+				array_to_send.append(self._params.bit_idle_send)
 				array_to_send.append(DRIVE_ACTIVE)
 				if bits & 1:
-					array_to_send.append(self._params.bit1_low_send)
+					array_to_send.append(self._params.bit1_active_send)
 				else:
-					array_to_send.append(self._params.bit0_low_send)
+					array_to_send.append(self._params.bit0_active_send)
 				bits >>= 1
-		array_to_send.append(DRIVE_INACTIVE)
+		array_to_send.append(DRIVE_IDLE)
 		array_to_send.append(self._params.cooldown_send)
 		array_to_send.append(RELEASE)
 		self._output_state_machine.write(array_to_send)
@@ -283,8 +283,8 @@ class ColorCommunicator(BaseProngCommunicator):
 		if len(pulses) < self._params.pulses_expected:
 			raise ReceiveError("incomplete: %d pulses" % len(pulses))
 		t = pulses.popleft()
-		if t < self._params.pre_low_min:
-			raise ReceiveError("pre_low = %d" % t)
+		if t < self._params.pre_active_min:
+			raise ReceiveError("pre_active = %d" % t)
 		pulses = self._input_pulses
 		results = []
 		bit_count = 0
@@ -292,13 +292,13 @@ class ColorCommunicator(BaseProngCommunicator):
 			result = 0
 			for i in range(16):
 				t = pulses.popleft()
-				if t < self._params.bit_high_min or t > self._params.bit_high_max:
-					raise ReceiveError("bit_high %d = %d" % (bit_count + 1, t))
+				if t < self._params.bit_idle_min or t > self._params.bit_idle_max:
+					raise ReceiveError("bit_idle %d = %d" % (bit_count + 1, t))
 				t = pulses.popleft()
-				if t < self._params.bit_low_min or t > self._params.bit_low_max:
-					raise ReceiveError("bit_low %d = %d" % (bit_count + 1, t))
+				if t < self._params.bit_active_min or t > self._params.bit_active_max:
+					raise ReceiveError("bit_active %d = %d" % (bit_count + 1, t))
 				result >>= 1
-				if t > self._params.bit_low_threshold:
+				if t > self._params.bit_active_threshold:
 					result |= 0x8000
 				bit_count += 1
 			results.append(result)

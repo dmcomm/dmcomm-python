@@ -1,4 +1,11 @@
 
+## Unreleased
+### Changed
+- Renamed DigiROM `send`/`receive` to `next`/`store` to match Arduino (breaking change to API)
+- Renamed prongs `low`/`high` to `active`/`idle` to match Arduino (generally internal)
+### Fixed
+- Adjusted Xros Mini timing
+
 ## 0.8.0 - 2024-01-29
 ### Added
 - High-level DigiROM API for DMOG

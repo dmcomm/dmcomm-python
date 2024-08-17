@@ -81,7 +81,7 @@ class Controller:
 						return
 			else:
 				while True:
-					data_to_send = self._digirom.send()
+					data_to_send = self._digirom.next()
 					if data_to_send is None:
 						return
 					self._communicator.send(data_to_send)
@@ -134,7 +134,7 @@ class Controller:
 		self._digirom.prepare()
 	def _received(self, timeout_ms):
 		received_data = self._communicator.receive(timeout_ms)
-		self._digirom.receive(received_data)
+		self._digirom.store(received_data)
 		if received_data is None or received_data == []:
 			return False
 		return True
