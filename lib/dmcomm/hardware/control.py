@@ -21,6 +21,7 @@ class Controller:
 		self._classic_comm = None
 		self._color_comm = None
 		self._ic_comm = None
+		self._xloader_comm = None
 		self._modulated_comm = None
 		self._talis_comm = None
 		self._barcode_comm = None
@@ -50,6 +51,8 @@ class Controller:
 		if self._ic_comm is None and self._ir_output is not None and self._ir_input_raw is not None:
 			from . import ic
 			self._ic_comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
+			from . import xloader
+			self._xloader_comm = xloader.XLoaderCommunicator(self._ir_output, self._ir_input_raw)
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
 			from . import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
@@ -96,12 +99,18 @@ class Controller:
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
 			communicator = self._color_comm if signal_type == "C" else self._classic_comm
-		elif signal_type == "IC":
+		elif signal_type in ["IC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
 			communicator = self._ic_comm
+		elif signal_type in ["!XL"]:
+			if self._ir_output is None:
+				raise CommandError("no infrared output registered")
+			if self._ir_input_raw is None:
+				raise CommandError("no raw infrared input registered")
+			communicator = self._xloader_comm
 		elif signal_type in ["DL", "FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
