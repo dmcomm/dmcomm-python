@@ -18,14 +18,14 @@ class BaseProngCommunicator:
 		self._output_state_machine = None
 		self._output_weak_pull = None
 		self._input_pulses = None
-		self._params = self.params_class()
+		self._params = None
 		self._enabled = False
 	def enable(self, signal_type):
 		if self._enabled:
 			if signal_type == self._params.signal_type:
 				return
 			self.disable()
-		self._params.set_signal_type(signal_type)
+		self._params = self.params_class(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.prong_TX,
@@ -49,12 +49,11 @@ class BaseProngCommunicator:
 		self._ouput_state_machine = None
 		self._output_weak_pull = None
 		self._input_pulses = None
+		self._params = None
 		self._enabled = False
 
 class ClassicParams:
-	def __init__(self):
-		self.set_signal_type("V")
-	def set_signal_type(self, signal_type):
+	def __init__(self, signal_type):
 		if signal_type == "V":
 			self.idle_state = True
 			self.invert_bit_read = False
@@ -214,9 +213,7 @@ class ClassicCommunicator(BaseProngCommunicator):
 		return result
 
 class ColorParams:
-	def __init__(self):
-		self.set_signal_type("C")
-	def set_signal_type(self, signal_type):
+	def __init__(self, signal_type):
 		if signal_type == "C":
 			self.idle_state = True
 			self.pre_idle_send = 1000

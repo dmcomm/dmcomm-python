@@ -17,12 +17,14 @@ class iC_Communicator:
 		self._pin_input = ir_input_raw.pin_input
 		self._output_state_machine = None
 		self._input_pulses = None
-		self._params = iC_Params()
+		self._params = None
 		self._enabled = False
 	def enable(self, signal_type):
-		self._params.set_signal_type(signal_type)
 		if self._enabled:
-			return
+			if signal_type == self._params.signal_type:
+				return
+			self.disable()
+		self._params = iC_Params(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.iC_TX,
@@ -42,6 +44,7 @@ class iC_Communicator:
 				item.deinit()
 		self._ouput_state_machine = None
 		self._input_pulses = None
+		self._params = None
 		self._enabled = False
 	def send(self, bits):
 		if not self._enabled:
@@ -125,9 +128,7 @@ class iC_Communicator:
 		return bytes_received
 
 class iC_Params:
-	def __init__(self):
-		self.set_signal_type("IC")
-	def set_signal_type(self, signal_type):
+	def __init__(self, signal_type):
 		if signal_type == "IC":
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 30

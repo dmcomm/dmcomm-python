@@ -102,12 +102,14 @@ class ModulatedCommunicator:
 		self._pin_input = ir_input_modulated.pin_input
 		self._output_pulses = None
 		self._input_pulses = None
-		self._params = ModulatedParams()
+		self._params = None
 		self._enabled = False
 	def enable(self, signal_type):
-		self._params.set_signal_type(signal_type)
 		if self._enabled:
-			return
+			if signal_type == self._params.signal_type:
+				return
+			self.disable()
+		self._params = ModulatedParams(signal_type)
 		try:
 			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=38000, duty_cycle=0x8000)
 			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=300, idle_state=True)
@@ -122,6 +124,7 @@ class ModulatedCommunicator:
 				item.deinit()
 		self._ouput_pulses = None
 		self._input_pulses = None
+		self._params = None
 		self._enabled = False
 	def reset(self):
 		pass
@@ -137,12 +140,17 @@ class ModulatedCommunicator:
 class TalisCommunicator:
 	def __init__(self, talis_input_output):
 		self._pin = talis_input_output.pin
-		self._params = ModulatedParams()
+		self._params = None
 		self._enabled = False
 	def enable(self, signal_type):
-		self._params.set_signal_type(signal_type)
+		if self._enabled:
+			if signal_type == self._params.signal_type:
+				return
+			self.disable()
+		self._params = ModulatedParams(signal_type)
 		self._enabled = True
 	def disable(self):
+		self._params = None
 		self._enabled = False
 	def reset(self):
 		pass
@@ -166,9 +174,7 @@ class TalisCommunicator:
 		return bytes_received
 
 class ModulatedParams:
-	def __init__(self):
-		self.set_signal_type("DL")
-	def set_signal_type(self, signal_type):
+	def __init__(self, signal_type):
 		if signal_type == "DL":
 			self.low_bit_first = True
 			self.low_byte_first = False

@@ -17,14 +17,14 @@ class XLoaderCommunicator:
 		self._pin_input = ir_input_raw.pin_input
 		self._output_state_machine = None
 		self._input_pulses = None
-		self._params = XLoaderParams()
+		self._params = None
 		self._enabled = False
 	def enable(self, signal_type):
 		if self._enabled:
 			if signal_type == self._params.signal_type:
 				return
 			self.disable()
-		self._params.set_signal_type(signal_type)
+		self._params = XLoaderParams(signal_type)
 		try:
 			self._output_state_machine = rp2pio.StateMachine(
 				pio_programs.xloader_TX,
@@ -44,6 +44,7 @@ class XLoaderCommunicator:
 				item.deinit()
 		self._ouput_state_machine = None
 		self._input_pulses = None
+		self._params = None
 		self._enabled = False
 	def send(self, data):
 		if not self._enabled:
@@ -107,9 +108,7 @@ class XLoaderCommunicator:
 				ticks_into_byte += ticks
 
 class XLoaderParams:
-	def __init__(self):
-		self.set_signal_type("!XL")
-	def set_signal_type(self, signal_type):
+	def __init__(self, signal_type):
 		if signal_type == "!XL":
 			self.reply_timeout_ms = 1000
 			self.byte_gap_min = 800
