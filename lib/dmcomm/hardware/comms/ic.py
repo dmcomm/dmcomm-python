@@ -1,15 +1,25 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-import array
 import pulseio
 import time
 import rp2pio
 
 from dmcomm import ReceiveError
+from dmcomm.hardware import WAIT_REPLY, pio_programs
+from dmcomm.hardware.misc import wait_for_length
 from dmcomm.protocol import ic_encoding
-from . import WAIT_REPLY
-from . import misc
-from . import pio_programs
+
+class iC_Params:
+	def __init__(self, signal_type):
+		if signal_type == "IC":
+			self.reply_timeout_ms = 100
+			self.packet_length_timeout_ms = 30
+			self.pulse_max = 25
+			self.tick_length = 100
+			self.tick_margin = 30
+		else:
+			raise ValueError("signal_type must be IC")
+		self.signal_type = signal_type
 
 class iC_Communicator:
 	def __init__(self, ir_output, ir_input_raw):
@@ -74,7 +84,7 @@ class iC_Communicator:
 		pulses.resume()
 		if timeout_ms == WAIT_REPLY:
 			timeout_ms = self._params.reply_timeout_ms
-		misc.wait_for_length(pulses, 1, timeout_ms)
+		wait_for_length(pulses, 1, timeout_ms)
 		time.sleep(self._params.packet_length_timeout_ms / 1000)
 		pulses.pause()
 		if len(pulses) == pulses.maxlen:
@@ -126,15 +136,3 @@ class iC_Communicator:
 				current_byte >>= 1
 				ticks_into_byte += ticks
 		return bytes_received
-
-class iC_Params:
-	def __init__(self, signal_type):
-		if signal_type == "IC":
-			self.reply_timeout_ms = 100
-			self.packet_length_timeout_ms = 30
-			self.pulse_max = 25
-			self.tick_length = 100
-			self.tick_margin = 30
-		else:
-			raise ValueError("signal_type must be IC")
-		self.signal_type = signal_type

@@ -45,22 +45,23 @@ class Controller:
 		if isinstance(io_object, pins.TalisInputOutput):
 			self._talis_input_output = io_object
 		if self._classic_comm is None and self._prong_output is not None and self._prong_input is not None:
-			from . import prongs
-			self._classic_comm = prongs.ClassicCommunicator(self._prong_output, self._prong_input)
-			self._color_comm = prongs.ColorCommunicator(self._prong_output, self._prong_input)
+			from .comms import classic
+			self._classic_comm = classic.ClassicCommunicator(self._prong_output, self._prong_input)
+			from .comms import color
+			self._color_comm = color.ColorCommunicator(self._prong_output, self._prong_input)
 		if self._ic_comm is None and self._ir_output is not None and self._ir_input_raw is not None:
-			from . import ic
+			from .comms import ic
 			self._ic_comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
-			from . import xloader
+			from .comms import xloader
 			self._xloader_comm = xloader.XLoaderCommunicator(self._ir_output, self._ir_input_raw)
 		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
-			from . import modulated
+			from .comms import modulated
 			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
 		if self._talis_comm is None and self._talis_input_output is not None:
-			from . import modulated
-			self._talis_comm = modulated.TalisCommunicator(self._talis_input_output)
+			from .comms import talis
+			self._talis_comm = talis.TalisCommunicator(self._talis_input_output)
 		if self._barcode_comm is None and self._ir_output is not None:
-			from . import barcode
+			from .comms import barcode
 			self._barcode_comm = barcode.BarcodeCommunicator(self._ir_output)
 	def execute(self, digirom) -> None:
 		"""Carries out the communication specified.

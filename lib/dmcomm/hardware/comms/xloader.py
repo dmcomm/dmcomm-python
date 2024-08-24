@@ -1,15 +1,25 @@
 # This file is part of the DMComm project by BladeSabre. License: MIT.
 
-import array
-import board
 import pulseio
 import time
 import rp2pio
 
 from dmcomm import ReceiveError
-from . import WAIT_REPLY
-from . import misc
-from . import pio_programs
+from dmcomm.hardware import WAIT_REPLY, pio_programs
+from dmcomm.hardware.misc import wait_for_length
+
+class XLoaderParams:
+	def __init__(self, signal_type):
+		if signal_type == "!XL":
+			self.reply_timeout_ms = 1000
+			self.byte_gap_min = 800
+			self.byte_timeout_ms = 5
+			self.pulse_max = 250
+			self.tick_length = 17
+			self.tick_margin = 5
+		else:
+			raise ValueError("signal_type must be !XL")
+		self.signal_type = signal_type
 
 class XLoaderCommunicator:
 	def __init__(self, ir_output, ir_input_raw):
@@ -67,7 +77,7 @@ class XLoaderCommunicator:
 			timeout_ms = self._params.byte_timeout_ms
 	def _receive_byte(self, timeout_ms):
 		pulses = self._input_pulses
-		if not misc.wait_for_length(pulses, 1, timeout_ms):
+		if not wait_for_length(pulses, 1, timeout_ms):
 			return None
 		time.sleep(0.001)
 		if len(pulses) == pulses.maxlen:
@@ -106,16 +116,3 @@ class XLoaderCommunicator:
 					current_byte |= 0x80
 				current_byte >>= 1
 				ticks_into_byte += ticks
-
-class XLoaderParams:
-	def __init__(self, signal_type):
-		if signal_type == "!XL":
-			self.reply_timeout_ms = 1000
-			self.byte_gap_min = 800
-			self.byte_timeout_ms = 5
-			self.pulse_max = 250
-			self.tick_length = 17
-			self.tick_margin = 5
-		else:
-			raise ValueError("signal_type must be !XL")
-		self.signal_type = signal_type
