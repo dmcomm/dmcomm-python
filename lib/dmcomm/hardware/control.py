@@ -18,13 +18,6 @@ class Controller:
 		self._ir_input_modulated = None
 		self._ir_input_raw = None
 		self._talis_input_output = None
-		self._classic_comm = None
-		self._color_comm = None
-		self._ic_comm = None
-		self._xloader_comm = None
-		self._modulated_comm = None
-		self._talis_comm = None
-		self._barcode_comm = None
 	def register(self, io_object) -> None:
 		"""Registers pins for a particular type of input or output.
 
@@ -44,25 +37,6 @@ class Controller:
 			self._ir_input_raw = io_object
 		if isinstance(io_object, pins.TalisInputOutput):
 			self._talis_input_output = io_object
-		if self._classic_comm is None and self._prong_output is not None and self._prong_input is not None:
-			from .comms import classic
-			self._classic_comm = classic.ClassicCommunicator(self._prong_output, self._prong_input)
-			from .comms import color
-			self._color_comm = color.ColorCommunicator(self._prong_output, self._prong_input)
-		if self._ic_comm is None and self._ir_output is not None and self._ir_input_raw is not None:
-			from .comms import ic
-			self._ic_comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
-			from .comms import xloader
-			self._xloader_comm = xloader.XLoaderCommunicator(self._ir_output, self._ir_input_raw)
-		if self._modulated_comm is None and self._ir_output is not None and self._ir_input_modulated is not None:
-			from .comms import modulated
-			self._modulated_comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
-		if self._talis_comm is None and self._talis_input_output is not None:
-			from .comms import talis
-			self._talis_comm = talis.TalisCommunicator(self._talis_input_output)
-		if self._barcode_comm is None and self._ir_output is not None:
-			from .comms import barcode
-			self._barcode_comm = barcode.BarcodeCommunicator(self._ir_output)
 	def execute(self, digirom) -> None:
 		"""Carries out the communication specified.
 
@@ -94,45 +68,59 @@ class Controller:
 		"""Prepares for a single interaction.
 		"""
 		signal_type = self._digirom.signal_type
+		self._digirom.prepare()
+		if self._communicator is not None:
+			try:
+				self._communicator.enable(signal_type)
+				return
+			except ValueError:
+				self._disable()  # going to create a new communicator
 		if signal_type in ["V", "X", "Y", "C"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
 				raise CommandError("no prong input registered")
-			communicator = self._color_comm if signal_type == "C" else self._classic_comm
+			if signal_type == "C":
+				from .comms import color
+				comm = color.ColorCommunicator(self._prong_output, self._prong_input)
+			else:
+				from .comms import classic
+				comm = classic.ClassicCommunicator(self._prong_output, self._prong_input)
 		elif signal_type in ["IC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
-			communicator = self._ic_comm
+			from .comms import ic
+			comm = ic.iC_Communicator(self._ir_output, self._ir_input_raw)
 		elif signal_type in ["!XL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_raw is None:
 				raise CommandError("no raw infrared input registered")
-			communicator = self._xloader_comm
+			from .comms import xloader
+			comm = xloader.XLoaderCommunicator(self._ir_output, self._ir_input_raw)
 		elif signal_type in ["DL", "FL"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:
 				raise CommandError("no modulated infrared input registered")
-			communicator = self._modulated_comm
+			from .comms import modulated
+			comm = modulated.ModulatedCommunicator(self._ir_output, self._ir_input_modulated)
 		elif signal_type in ["LT"]:
 			if self._talis_input_output is None:
 				raise CommandError("no talis pin registered")
-			communicator = self._talis_comm
+			from .comms import talis
+			comm = talis.TalisCommunicator(self._talis_input_output)
 		elif signal_type in ["BC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
-			communicator = self._barcode_comm
+			from .comms import barcode
+			comm = barcode.BarcodeCommunicator(self._ir_output)
 		else:
 			raise CommandError("signal_type=" + signal_type)
-		if communicator != self._communicator:
-			self._disable()
-		communicator.enable(signal_type)
-		self._communicator = communicator
-		self._digirom.prepare()
+		comm.enable(signal_type)
+		self._communicator = comm
 	def _received(self, timeout_ms):
 		received_data = self._communicator.receive(timeout_ms)
 		self._digirom.store(received_data)

@@ -2,7 +2,53 @@
 
 import pulseio
 
-from dmcomm.hardware.comms.modulated_shared import ModulatedParams, send, receive
+from dmcomm.hardware.comms.modulated_shared import send, receive
+
+class ModulatedParams:
+	def __init__(self, signal_type):
+		if signal_type == "DL":
+			self.low_bit_first = True
+			self.low_byte_first = False
+			self.start_pulse_send = 9800
+			self.start_gap_send = 2450
+			self.start_min = 4000  # ?
+			self.start_max = 14000
+			self.bit_pulse_send = 500
+			self.bit_gap_send_short = 700
+			self.bit_gap_send_long = 1300
+			self.bit_min = 900
+			self.bit_threshold = 1500
+			self.bit_max = 2200
+			self.stop_pulse_min = 800  # DL pulse widths most affected by sensor type
+			self.stop_pulse_send = 1300
+			self.stop_pulse_max = 1400
+			self.stop_gap_send = 2000  # Delay start of pulse capture?
+			self.reply_timeout_ms = 40
+			self.packet_length_timeout_ms = 300
+			self.packet_continue_timeout_ms = 10
+		elif signal_type == "FL":
+			self.low_bit_first = False
+			self.low_byte_first = False
+			self.start_pulse_send = 5880
+			self.start_gap_send = 3872
+			self.start_min = 7000
+			self.start_max = 12000
+			self.bit_pulse_send = 480
+			self.bit_gap_send_short = 480
+			self.bit_gap_send_long = 1450
+			self.bit_min = 600
+			self.bit_threshold = 1400
+			self.bit_max = 2000
+			self.stop_pulse_min = 600
+			self.stop_pulse_send = 950
+			self.stop_pulse_max = 1100
+			self.stop_gap_send = 1500
+			self.reply_timeout_ms = 100
+			self.packet_length_timeout_ms = 300
+			self.packet_continue_timeout_ms = 10
+		else:
+			raise ValueError("signal_type must be DL/FL")
+		self.signal_type = signal_type
 
 class ModulatedCommunicator:
 	def __init__(self, ir_output, ir_input_modulated):

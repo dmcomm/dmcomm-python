@@ -12,6 +12,8 @@ class BarcodeCommunicator:
 		self._output_pulses = None
 		self._enabled = False
 	def enable(self, signal_type):
+		if signal_type != "BC":
+			raise ValueError("signal_type must be BC")
 		if self._enabled:
 			return
 		try:

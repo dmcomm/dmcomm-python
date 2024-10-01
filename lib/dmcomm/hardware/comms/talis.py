@@ -2,7 +2,33 @@
 
 import pulseio
 
-from dmcomm.hardware.comms.modulated_shared import ModulatedParams, send, receive
+from dmcomm.hardware.comms.modulated_shared import send, receive
+
+class TalisParams:
+	def __init__(self, signal_type):
+		if signal_type == "LT":
+			self.low_bit_first = False
+			self.low_byte_first = False
+			self.start_pulse_send = 3900
+			self.start_gap_send = 4000
+			self.start_min = 4000  # Start pulse comes out much lower than expected
+			self.start_max = 10000
+			self.bit_pulse_send = 420
+			self.bit_gap_send_short = 560
+			self.bit_gap_send_long = 1530
+			self.bit_min = 600
+			self.bit_threshold = 1400
+			self.bit_max = 2200
+			self.stop_pulse_min = 220
+			self.stop_pulse_send = 420
+			self.stop_pulse_max = 620
+			self.stop_gap_send = 1500
+			self.reply_timeout_ms = 300
+			self.packet_length_timeout_ms = 400
+			self.packet_continue_timeout_ms = 10
+		else:
+			raise ValueError("signal_type must be LT")
+		self.signal_type = signal_type
 
 class TalisCommunicator:
 	def __init__(self, talis_input_output):
@@ -14,7 +40,7 @@ class TalisCommunicator:
 			if signal_type == self._params.signal_type:
 				return
 			self.disable()
-		self._params = ModulatedParams(signal_type)
+		self._params = TalisParams(signal_type)
 		self._enabled = True
 	def disable(self):
 		self._params = None
