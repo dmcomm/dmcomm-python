@@ -42,7 +42,7 @@ class BaseProngCommunicator:
 		for item in [self._output_state_machine, self._output_weak_pull, self._input_pulses]:
 			if item is not None:
 				item.deinit()
-		self._ouput_state_machine = None
+		self._output_state_machine = None
 		self._output_weak_pull = None
 		self._input_pulses = None
 		self._params = None
