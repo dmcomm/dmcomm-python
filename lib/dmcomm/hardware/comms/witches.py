@@ -12,7 +12,7 @@ class WitchesParams:
 		if signal_type == "!MW":
 			self.idle_state = False
 			self.clock = 19520
-			self.reply_timeout_ms = 100
+			self.reply_timeout_ms = 300
 			self.packet_continue_timeout_seconds = 0.25
 			self.slow_input = True
 		else:
@@ -52,7 +52,8 @@ class WitchesCommunicator(BaseProngCommunicator):
 				return []
 		prev_value = not self._params.idle_state
 		prev_time = time.monotonic()
-		input_durations = [0]
+		clocked_pulses = []
+		clock_seconds = self._params.clock / 1000000
 		while True:
 			current_value = digital_input.value
 			current_time = time.monotonic()
@@ -60,39 +61,30 @@ class WitchesCommunicator(BaseProngCommunicator):
 			if dur > self._params.packet_continue_timeout_seconds:
 				break
 			if current_value != prev_value:
-				dur_micros = int(dur * 1000000)
-				input_durations.append(dur_micros)
+				pulse = round(dur / clock_seconds)
+				clocked_pulses.append(pulse)
 				prev_value = current_value
 				prev_time = current_time
-		print(input_durations)  #TODO remove this later
-		return decode(input_durations, self._params.clock)
+		print(clocked_pulses)  #TODO remove this later
+		return decode(clocked_pulses)
 
-def decode(pulses, clock):
+def decode(clocked_pulses):
 	result = []
 	current_byte = 0
 	bit_count = 0
-	level = True
-	for pulse in pulses:
-		if level:
-			# falling edge, round down prev high
-			new_bits = pulse // clock
-			for _ in range(new_bits):
-				current_byte <<= 1
-				current_byte |= 1
-			bit_count += new_bits
-		else:
-			# rising edge, round up prev low
-			new_bits = (pulse + clock // 2) // clock
-			current_byte <<= new_bits
-			bit_count += new_bits
-		level = not level
+	level = 1
+	for new_bits in clocked_pulses:
+		for _ in range(new_bits):
+			current_byte <<= 1
+			current_byte |= level
+		bit_count += new_bits
+		level = 1 - level
 		if bit_count == 10:
 			result.append((current_byte >> 1) & 0xFF)
 			current_byte = 0
 			bit_count = 0
 		if bit_count > 10:
-			result.append(0x1000 + bit_count)
-			return result
+			raise ReceiveError("byte too long")
 	current_byte <<= 10 - bit_count
 	result.append((current_byte >> 1) & 0xFF)
 	return result
