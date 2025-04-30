@@ -86,6 +86,7 @@ class ClassicParams:
 			self.packet_length_timeout_ms = 300
 		else:
 			raise ValueError("signal_type must be V/X/Y")
+		self.slow_input = False
 		self.signal_type = signal_type
 
 class ClassicCommunicator(BaseProngCommunicator):

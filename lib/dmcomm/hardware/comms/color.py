@@ -27,6 +27,7 @@ class ColorParams:
 			self.reply_timeout_ms = 200
 			self.packet_length_timeout_ms = 400
 			self.pulses_expected = 257
+			self.slow_input = False
 		else:
 			raise ValueError("signal_type must be C")
 		self.signal_type = signal_type
