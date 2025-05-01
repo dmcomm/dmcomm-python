@@ -35,7 +35,7 @@ def _sequence_from_hex_string(text, grouplen):
 	data = []
 	for i in range(0, len(text)-1, grouplen):
 		digits = text[i:i+grouplen]
-		if digits in ["++++", "____", "++", "+?", "__", ">>"]:
+		if digits in ["++++", "____", "++", "+?", "__", ">>", "^^"]:
 			item = digits
 		else:
 			try:
@@ -312,6 +312,10 @@ class BytesDigiROM(BaseDigiROM):
 			item = segment.data[i]
 			if item == "++":
 				b = sum(data_to_send[:i]) % 0x100
+			elif item == "^^":
+				b = 0
+				for b2 in data_to_send[:i]:
+					b ^= b2
 			elif item == "+?":
 				b = checksum_datalink(data_to_send[:i])
 			elif item == "__":

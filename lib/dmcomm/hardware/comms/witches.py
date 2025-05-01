@@ -65,7 +65,6 @@ class WitchesCommunicator(BaseProngCommunicator):
 				clocked_pulses.append(pulse)
 				prev_value = current_value
 				prev_time = current_time
-		print(clocked_pulses)  #TODO remove this later
 		return decode(clocked_pulses)
 
 def decode(clocked_pulses):
