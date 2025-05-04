@@ -75,7 +75,7 @@ class Controller:
 				return
 			except ValueError:
 				self._disable()  # going to create a new communicator
-		if signal_type in ["V", "X", "Y", "C", "!MW"]:
+		if signal_type in ["V", "X", "Y", "C", "MW"]:
 			if self._prong_output is None:
 				raise CommandError("no prong output registered")
 			if self._prong_input is None:
@@ -83,7 +83,7 @@ class Controller:
 			if signal_type == "C":
 				from .comms import color
 				comm = color.ColorCommunicator(self._prong_output, self._prong_input)
-			elif signal_type == "!MW":
+			elif signal_type == "MW":
 				from .comms import witches
 				comm = witches.WitchesCommunicator(self._prong_output, self._prong_input)
 			else:

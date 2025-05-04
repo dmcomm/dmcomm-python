@@ -9,14 +9,14 @@ from dmcomm.hardware.comms.classic_shared import BaseProngCommunicator
 
 class WitchesParams:
 	def __init__(self, signal_type):
-		if signal_type == "!MW":
+		if signal_type == "MW":
 			self.idle_state = False
 			self.clock = 19520
 			self.reply_timeout_ms = 300
 			self.packet_continue_timeout_seconds = 0.25
 			self.slow_input = True
 		else:
-			raise ValueError("signal_type must be !MW")
+			raise ValueError("signal_type must be MW")
 		self.signal_type = signal_type
 
 class WitchesCommunicator(BaseProngCommunicator):

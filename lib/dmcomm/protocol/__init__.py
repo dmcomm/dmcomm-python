@@ -30,7 +30,7 @@ def parse_command(text):
 		DigiROM = digirom.ClassicDigiROM
 	elif op in ["C"]:
 		DigiROM = digirom.WordsDigiROM
-	elif op in ["DL", "FL", "LT", "!XL", "!MW"]:
+	elif op in ["DL", "FL", "LT", "MW", "!XL"]:
 		DigiROM = digirom.BytesDigiROM
 	elif op in ["BC"]:
 		DigiROM = digirom.DigitsDigiROM
