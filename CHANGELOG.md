@@ -1,5 +1,5 @@
 
-## Unreleased
+## 0.9.0 - 2025-05-07
 ### Added
 - Magical Witches support ("MW"), with `^^` for XOR byte checksum
 - Experimental Xros Loader support ("!XL")
@@ -11,6 +11,8 @@
 - Communicators delete params when disabled
 ### Fixed
 - Adjusted Xros Mini timing
+### Tested with
+- CircuitPython 9.2.7
 
 ## 0.8.0 - 2024-01-29
 ### Added
@@ -35,6 +37,8 @@
 ### Removed
 - Data serial option
 - Workaround for PIO bug in CircuitPython 8.0.0 alpha versions
+### Tested with
+- CircuitPython 8.2.2
 
 ## 0.7.0 - 2023-05-06
 ### Added
