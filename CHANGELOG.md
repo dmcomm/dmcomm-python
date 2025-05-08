@@ -1,6 +1,7 @@
 
 ## Unreleased
 ### Added
+- Magical Witches support ("MW"), with `^^` for XOR byte checksum
 - Experimental Xros Loader support ("!XL")
 ### Changed
 - Renamed DigiROM `send`/`receive` to `next`/`store` to match Arduino (breaking change to API)

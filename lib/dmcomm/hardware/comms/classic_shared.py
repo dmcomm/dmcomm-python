@@ -32,8 +32,11 @@ class BaseProngCommunicator:
 			)
 			self._output_weak_pull = digitalio.DigitalInOut(self._pin_weak_pull)
 			self._output_weak_pull.switch_to_output(value=self._params.idle_state)
-			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=260, idle_state=self._params.idle_state)
-			self._input_pulses.pause()
+			if self._params.slow_input:
+				self._input_pulses = digitalio.DigitalInOut(self._pin_input)
+			else:
+				self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=260, idle_state=self._params.idle_state)
+				self._input_pulses.pause()
 		except:
 			self.disable()
 			raise
