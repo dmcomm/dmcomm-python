@@ -26,6 +26,7 @@ class ModulatedParams:
 			self.reply_timeout_ms = 40
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
+			self.input_buffer_size = 300
 		elif signal_type == "FL":
 			self.low_bit_first = False
 			self.low_byte_first = False
@@ -46,8 +47,30 @@ class ModulatedParams:
 			self.reply_timeout_ms = 100
 			self.packet_length_timeout_ms = 300
 			self.packet_continue_timeout_ms = 10
+			self.input_buffer_size = 300
+		elif signal_type == "!TC":
+			self.low_bit_first = False
+			self.low_byte_first = False
+			self.start_pulse_send = 9600
+			self.start_gap_send = 6000
+			self.start_min = 500  # Usual problem here?
+			self.start_max = 18000
+			self.bit_pulse_send = 680
+			self.bit_gap_send_short = 620
+			self.bit_gap_send_long = 1200
+			self.bit_min = 800
+			self.bit_threshold = 1600
+			self.bit_max = 2400
+			self.stop_pulse_min = 800
+			self.stop_pulse_send = 1240
+			self.stop_pulse_max = 1600
+			self.stop_gap_send = 1500
+			self.reply_timeout_ms = 200
+			self.packet_length_timeout_ms = 300
+			self.packet_continue_timeout_ms = 10
+			self.input_buffer_size = 1000
 		else:
-			raise ValueError("signal_type must be DL/FL")
+			raise ValueError("signal_type must be DL/FL/!TC")
 		self.signal_type = signal_type
 
 class ModulatedCommunicator:
@@ -66,7 +89,11 @@ class ModulatedCommunicator:
 		self._params = ModulatedParams(signal_type)
 		try:
 			self._output_pulses = pulseio.PulseOut(self._pin_output, frequency=38000, duty_cycle=0x8000)
-			self._input_pulses = pulseio.PulseIn(self._pin_input, maxlen=300, idle_state=True)
+			self._input_pulses = pulseio.PulseIn(
+				self._pin_input,
+				maxlen=self._params.input_buffer_size,
+				idle_state=True,
+			)
 			self._input_pulses.pause()
 		except:
 			self.disable()
