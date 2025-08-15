@@ -103,7 +103,7 @@ class Controller:
 				raise CommandError("no raw infrared input registered")
 			from .comms import xloader
 			comm = xloader.XLoaderCommunicator(self._ir_output, self._ir_input_raw)
-		elif signal_type in ["DL", "FL"]:
+		elif signal_type in ["DL", "FL", "!TC"]:
 			if self._ir_output is None:
 				raise CommandError("no infrared output registered")
 			if self._ir_input_modulated is None:
