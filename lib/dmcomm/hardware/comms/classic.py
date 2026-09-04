@@ -23,7 +23,7 @@ class ClassicParams:
 			self.start_active_send = 917
 			self.start_active_max = 1400
 			self.bit_idle_min = 700
-			self.bit0_idle_send = 1000
+			self.bit0_idle_send = 850
 			self.bit_idle_threshold = 1800
 			self.bit1_idle_send = 2667
 			self.bit_idle_max = 3400

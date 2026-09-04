@@ -14,7 +14,7 @@ import dmcomm.protocol.auto
 import board_config
 
 VERSION = f'''name = "dmcomm-python"\r
-version = "v0.9.0"\r
+version = "v0.9.1"\r
 circuitpython_version = "{os.uname().version}"\r
 circuitpython_board_id = "{board.board_id}"'''
 

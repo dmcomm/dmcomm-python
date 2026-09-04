@@ -1,4 +1,8 @@
 
+## 0.9.1 - 2026-08-04
+### Fixed
+- Adjusted classic 2-prong timing
+
 ## 0.9.0 - 2025-05-07
 ### Added
 - Magical Witches support ("MW"), with `^^` for XOR byte checksum
